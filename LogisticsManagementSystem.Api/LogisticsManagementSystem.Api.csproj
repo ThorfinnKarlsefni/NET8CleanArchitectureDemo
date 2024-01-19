@@ -9,13 +9,17 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.1">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\LogisticsManagementSystem.Application\LogisticsManagementSystem.Application.csproj" />
+    <ProjectReference Include="..\LogisticsManagementSystem.Infrastructure\LogisticsManagementSystem.Infrastructure.csproj" />
     <ProjectReference Include="..\LogisticsManagementSystem.Contract\LogisticsManagementSystem.Contract.csproj" />
-    <ProjectReference Include="..\LogisticsManagementSystem.Infrastucture\LogisticsManagementSystem.Infrastucture.csproj" />
   </ItemGroup>
 
 </Project>
