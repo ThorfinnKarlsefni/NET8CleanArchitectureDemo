@@ -22,6 +22,7 @@ public static class DependencyInjection
     }
     private static IServiceCollection AddServices(this IServiceCollection services)
     {
+        services.AddScoped<IUserServices, UserService>();
         return services;
     }
     private static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
@@ -49,7 +50,6 @@ public static class DependencyInjection
         services.AddIdentity<User, Role>()
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
-
 
         services.Configure<IdentityOptions>(options =>
         {

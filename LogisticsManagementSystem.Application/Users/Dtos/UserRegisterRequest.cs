@@ -9,12 +9,12 @@ public class UserRegisterRequestValidator : AbstractValidator<UserRegisterReques
     public UserRegisterRequestValidator(IUserRepository userRepository)
     {
         RuleFor(x => x.UserName)
-        .NotNull().NotEmpty().WithMessage("用户不能为空")
-        .MustAsync((userName, _) => userRepository.UserExistsAsync(userName)).WithMessage("用户已存在");
+            .NotNull().NotEmpty().WithMessage("用户不能为空")
+            .MustAsync(async (userName, _) => await userRepository.UserExistsAsync(userName)).WithMessage("用户已存在");
         RuleFor(x => x.Password).NotNull().NotEmpty().WithMessage("密码不能为空");
         RuleFor(x => x)
-                .Must(x => x.Password == x.ConfirmPassword)
-                .WithMessage("两次密码不一致");
+            .Must(x => x.Password == x.ConfirmPassword)
+            .WithMessage("两次密码不一致");
     }
 }
 

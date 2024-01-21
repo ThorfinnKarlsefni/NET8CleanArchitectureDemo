@@ -7,5 +7,5 @@ namespace LogisticsManagementSystem.Application;
 public interface IUserRepository
 {
     Task<bool> UserExistsAsync(string UserName);
-    Task<ErrorOr<IdentityResult>> CreateAsync(User user);
+    Task<IdentityResult> CreateAsync(User user);
 }

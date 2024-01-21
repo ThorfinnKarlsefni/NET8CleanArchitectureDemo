@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using ErrorOr;
+using FluentValidation;
 using LogisticsManagementSystem.Application;
 using LogisticsManagementSystem.Domain;
 using Microsoft.AspNetCore.Mvc;
@@ -8,26 +10,28 @@ namespace LogisticsManagementSystem.Api;
 [Route("api/auth")]
 public class AuthController : ApiController
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IUserServices _userServices;
     private readonly IMapper _mapper;
 
-    public AuthController(IUserRepository userRepository, IMapper mapper)
+    public AuthController(IUserServices userServices, IMapper mapper)
     {
-        _userRepository = userRepository;
+        _userServices = userServices;
         _mapper = mapper;
     }
-    // [HttpPost]
-    // public async Task<IActionResult> Login([FromBody] UserLoginRequest request)
-    // {
-    //     return Ok();
-    // }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] UserRegisterRequest request)
+    public async Task<IActionResult> Register([FromBody] UserRegisterRequest request, IValidator<UserRegisterRequest> validator)
     {
+        var validationResult = await validator.ValidateAsync(request);
+        if (!validationResult.IsValid)
+        {
+            return Problem(validationResult.Errors
+            .ConvertAll(error => Error.Validation(
+                code: error.PropertyName,
+                description: error.ErrorMessage)));
+        }
         var user = _mapper.Map<User>(request);
-        var result = await _userRepository.CreateAsync(user);
-
+        var result = await _userServices.RegisterAndCreateAsync(user);
         return result.Match(
             _ => NoContent(),
             Problem);

@@ -1,5 +1,4 @@
-﻿using ErrorOr;
-using LogisticsManagementSystem.Application;
+﻿using LogisticsManagementSystem.Application;
 using LogisticsManagementSystem.Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -20,7 +19,7 @@ public class UserRepository : IUserRepository
         return !await _userManager.Users.AnyAsync(u => u.UserName == userName);
     }
 
-    public async Task<ErrorOr<IdentityResult>> CreateAsync(User user)
+    public async Task<IdentityResult> CreateAsync(User user)
     {
         return await _userManager.CreateAsync(user);
     }
