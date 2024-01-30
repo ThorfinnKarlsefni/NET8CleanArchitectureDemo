@@ -35,11 +35,11 @@ public class ApiController : ControllerBase
             _ => StatusCodes.Status500InternalServerError,
         };
 
-        return Problem(statusCode: statusCode, title: error.Description);
+        return Problem(statusCode: statusCode, detail: error.Description);
     }
 
     private ActionResult ValidationProblem(List<Error> errors)
     {
-        return ValidationProblem(statusCode: StatusCodes.Status400BadRequest, title: errors.FirstOrDefault().Description.ToString());
+        return ValidationProblem(statusCode: StatusCodes.Status400BadRequest, detail: errors.FirstOrDefault().Description.ToString());
     }
 }

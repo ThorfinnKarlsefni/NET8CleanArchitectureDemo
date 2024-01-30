@@ -1,12 +1,10 @@
 ﻿using LogisticsManagementSystem.Application;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LogisticsManagementSystem.Api;
 
 [Route("api/auth")]
-[AllowAnonymous]
 public class AuthController : ApiController
 {
     private readonly ISender _sender;
@@ -26,9 +24,9 @@ public class AuthController : ApiController
     }
 
     [HttpPost("generate/token")]
-    public async Task<IActionResult> GenerateTokens([FromBody] GenerateTokenQuery query)
+    public async Task<IActionResult> GenerateTokens([FromBody] GenerateTokenCommand command)
     {
-        var result = await _sender.Send(query);
+        var result = await _sender.Send(command);
         return result.Match(
             _ => Ok(result.Value),
             Problem);
