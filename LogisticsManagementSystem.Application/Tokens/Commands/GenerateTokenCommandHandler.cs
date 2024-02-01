@@ -19,7 +19,7 @@ public class GenerateTokenQueryHandler : IRequestHandler<GenerateTokenCommand, E
             return Error.Validation(description: "登录失败");
 
         var roles = await _userRepository.GetRolesAsync(request.User);
-        var token = _jwtTokenGenerator.GenerateToken(request.User.Id, request.User.Name, request.User?.Company.ToString(), roles.ToList());
+        var token = _jwtTokenGenerator.GenerateToken(request.User.Id, request.User.Name, request.User?.CompanyId.ToString(), roles.ToList());
 
         return new GenerateTokenResult(
             request.User?.Name,

@@ -38,4 +38,9 @@ public class UserRepository : IUserRepository
     {
         return await _userManager.GetRolesAsync(user);
     }
+
+    public async Task<User?> FindByIdAsync(string userId)
+    {
+        return await _userManager.FindByIdAsync(userId);
+    }
 }

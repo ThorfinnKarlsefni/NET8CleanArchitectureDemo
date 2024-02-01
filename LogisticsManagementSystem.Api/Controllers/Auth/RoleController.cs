@@ -1,12 +1,9 @@
 ﻿using LogisticsManagementSystem.Application;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LogisticsManagementSystem.Api;
 
-[Route("api/auth/role")]
-[AllowAnonymous]
 public class RoleController : ApiController
 {
     private readonly ISender _sender;
@@ -16,7 +13,7 @@ public class RoleController : ApiController
         _sender = sender;
     }
 
-    [HttpPost]
+    [HttpPost("auth")]
     public async Task<IActionResult> CreateRole([FromBody] CreateRoleCommand command)
     {
         var result = await _sender.Send(command);
@@ -25,7 +22,7 @@ public class RoleController : ApiController
             Problem);
     }
 
-    [HttpDelete("{roleId}")]
+    [HttpDelete("auth/role/{roleId}")]
     public async Task<IActionResult> DeleteRole(string roleId)
     {
         if (!Guid.TryParse(roleId, out var id))

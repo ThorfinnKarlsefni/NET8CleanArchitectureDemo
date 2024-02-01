@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LogisticsManagementSystem.Api;
 
-[Route("api/auth")]
 [AllowAnonymous]
 public class LoginController : ApiController
 {
@@ -18,7 +17,7 @@ public class LoginController : ApiController
 
 
 
-    [HttpPost("login")]
+    [HttpPost("auth/login")]
     public async Task<IActionResult> LoginUserByUserName([FromBody] LoginByUserNameCommand query)
     {
         var user = await _sender.Send(query);

@@ -6,7 +6,7 @@ public class User : IdentityUser<Guid>
 {
     public string Name { get; set; } = string.Empty;
     public string? Avatar { get; set; } = string.Empty;
-    public Guid? Company { get; set; }
+    public Guid? CompanyId { get; set; }
     public DateTime CreatedAt { get; private init; }
     public DateTime UpdatedAt { get; private set; }
     public DateTime? DeletedAt { get; private set; }

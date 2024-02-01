@@ -1,10 +1,10 @@
 ﻿using LogisticsManagementSystem.Application;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LogisticsManagementSystem.Api;
 
-[Route("api/auth")]
 public class AuthController : ApiController
 {
     private readonly ISender _sender;
@@ -14,7 +14,8 @@ public class AuthController : ApiController
         _sender = sender;
     }
 
-    [HttpPost("register")]
+    [HttpPost("auth/register")]
+    [AllowAnonymous]
     public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand command)
     {
         var result = await _sender.Send(command);
@@ -23,7 +24,7 @@ public class AuthController : ApiController
             Problem);
     }
 
-    [HttpPost("generate/token")]
+    [HttpPost("auth/generate/token")]
     public async Task<IActionResult> GenerateTokens([FromBody] GenerateTokenCommand command)
     {
         var result = await _sender.Send(command);

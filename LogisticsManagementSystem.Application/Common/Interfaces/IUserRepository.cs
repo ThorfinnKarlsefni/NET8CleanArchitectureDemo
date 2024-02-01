@@ -10,5 +10,6 @@ public interface IUserRepository
     Task<IList<string>> GetRolesAsync(User user);
     Task<IdentityResult> CreateAsync(User user, string password);
     Task<bool> UserExistsAsync(string username);
+    Task<User?> FindByIdAsync(string userId);
 
 }
