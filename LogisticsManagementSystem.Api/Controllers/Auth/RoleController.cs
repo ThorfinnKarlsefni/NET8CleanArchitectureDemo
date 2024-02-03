@@ -13,7 +13,7 @@ public class RoleController : ApiController
         _sender = sender;
     }
 
-    [HttpPost("auth")]
+    [HttpPost("auth/role")]
     public async Task<IActionResult> CreateRole([FromBody] CreateRoleCommand command)
     {
         var result = await _sender.Send(command);
@@ -29,7 +29,7 @@ public class RoleController : ApiController
         {
             return Problem(
                 statusCode: StatusCodes.Status400BadRequest,
-                detail: "无效Id格式"
+                title: "无效Id格式"
             );
         }
         var deleteCommand = new DeleteRoleCommand(roleId);

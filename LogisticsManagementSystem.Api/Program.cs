@@ -22,7 +22,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseExceptionHandler();
+app.UseMiddleware<ErrorHandleMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

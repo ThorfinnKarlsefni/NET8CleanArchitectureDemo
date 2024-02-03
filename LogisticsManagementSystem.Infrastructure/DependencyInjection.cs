@@ -1,7 +1,6 @@
 ﻿using LogisticsManagementSystem.Application;
 using LogisticsManagementSystem.Domain;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +13,7 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services
+            .AddHttpContextAccessor()
             .AddServices()
             .AddPersistence(configuration)
             .AddIdentity()
@@ -56,6 +56,7 @@ public static class DependencyInjection
     }
     private static IServiceCollection AddAuthorization(this IServiceCollection services)
     {
+        services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
         return services;
     }
 

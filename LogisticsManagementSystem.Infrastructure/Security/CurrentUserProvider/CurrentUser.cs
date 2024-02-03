@@ -1,9 +1,9 @@
 ﻿namespace LogisticsManagementSystem.Infrastructure;
 
 public record CurrentUser(
-    Guid Id,
+    string Id,
     string Name,
-    string Company,
-    IReadOnlyList<string> Permissions,
-    IReadOnlyList<string> Roles
+    string? CompanyId,
+    // IReadOnlyList<string>? Permissions,
+    IReadOnlyList<string>? Roles
 );

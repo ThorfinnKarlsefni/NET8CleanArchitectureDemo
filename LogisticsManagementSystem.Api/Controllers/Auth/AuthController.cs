@@ -1,4 +1,5 @@
 ﻿using LogisticsManagementSystem.Application;
+using LogisticsManagementSystem.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,9 +15,9 @@ public class AuthController : ApiController
         _sender = sender;
     }
 
-    [HttpPost("auth/register")]
+    [HttpPost("auth/signup")]
     [AllowAnonymous]
-    public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand command)
+    public async Task<IActionResult> SignUp([FromBody] CreateUserCommand command)
     {
         var result = await _sender.Send(command);
         return result.Match(
@@ -24,12 +25,28 @@ public class AuthController : ApiController
             Problem);
     }
 
-    [HttpPost("auth/generate/token")]
-    public async Task<IActionResult> GenerateTokens([FromBody] GenerateTokenCommand command)
+    [AllowAnonymous]
+    [HttpPost("auth/login")]
+    public async Task<IActionResult> LoginUserByUserName([FromBody] LoginByUserNameCommand query)
     {
-        var result = await _sender.Send(command);
+        var user = await _sender.Send(query);
+        var result = await GenerateTokens(user.Value);
+        return result;
+        // return result.Match(
+        //     token => CreatedAtAction(
+        //         actionName: nameof(GenerateTokens),
+        //         routeValues: new { user = token },
+        //         value: token
+        //     ),
+        //     Problem);
+    }
+
+    private async Task<IActionResult> GenerateTokens(User user)
+    {
+        var result = await _sender.Send(new GenerateTokenCommand(user));
         return result.Match(
             _ => Ok(result.Value),
             Problem);
     }
+
 }

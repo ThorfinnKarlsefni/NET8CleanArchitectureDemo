@@ -16,7 +16,7 @@ public class GenerateTokenQueryHandler : IRequestHandler<GenerateTokenCommand, E
     public async Task<ErrorOr<GenerateTokenResult>> Handle(GenerateTokenCommand request, CancellationToken cancellationToken)
     {
         if (request.User is null)
-            return Error.Validation(description: "登录失败");
+            return Error.Validation(description: "登录失败,用户不存在");
 
         var roles = await _userRepository.GetRolesAsync(request.User);
         var token = _jwtTokenGenerator.GenerateToken(request.User.Id, request.User.Name, request.User?.CompanyId.ToString(), roles.ToList());

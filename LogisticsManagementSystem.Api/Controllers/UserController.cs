@@ -1,4 +1,6 @@
-﻿using LogisticsManagementSystem.Application;
+﻿using System.Security.Claims;
+using LogisticsManagementSystem.Application;
+using LogisticsManagementSystem.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,21 +8,21 @@ namespace LogisticsManagementSystem.Api;
 
 public class UserController : ApiController
 {
-    private ISender _sender;
+    private readonly ISender _sender;
+    private readonly ICurrentUserProvider _currentUserProvider;
 
-    public UserController(ISender sender, IHttpContextAccessor httpContextAccessor)
+    public UserController(ISender sender, ICurrentUserProvider currentUserProvider)
     {
         _sender = sender;
+        _currentUserProvider = currentUserProvider;
     }
 
-    [HttpGet("user/{userId}")]
-    public async Task<IActionResult> GetUserInfo(string userId)
+    [HttpGet("user")]
+    public async Task<IActionResult> GetUserInfo()
     {
-        if (userId is null)
-            return Problem(statusCode: StatusCodes.Status400BadRequest, title: "用户不存在");
-
-        var query = new GetUserInfoQuery(userId);
-        var result = await _sender.Send(query);
+        var user = _currentUserProvider.GetCurrentUser();
+        Console.WriteLine("End");
+        var result = await _sender.Send(new GetUserInfoQuery(user.Id));
         return result.Match(
             _ => Ok(result.Value),
             Problem
