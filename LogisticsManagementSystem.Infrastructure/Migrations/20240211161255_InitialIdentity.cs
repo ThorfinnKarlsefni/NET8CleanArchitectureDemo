@@ -34,12 +34,13 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CompanyId = table.Column<Guid>(type: "uuid", nullable: true),
                     Name = table.Column<string>(type: "varchar(256)", nullable: false),
                     Avatar = table.Column<string>(type: "varchar(256)", nullable: true),
-                    Company = table.Column<Guid>(type: "uuid", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
                     DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    TokenVersion = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),

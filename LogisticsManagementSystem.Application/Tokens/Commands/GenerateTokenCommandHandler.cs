@@ -21,10 +21,6 @@ public class GenerateTokenQueryHandler : IRequestHandler<GenerateTokenCommand, E
         var roles = await _userRepository.GetRolesAsync(request.User);
         var token = _jwtTokenGenerator.GenerateToken(request.User.Id, request.User.Name, request.User?.CompanyId.ToString(), roles.ToList());
 
-        return new GenerateTokenResult(
-            request.User?.Name,
-            request.User?.Avatar,
-            token
-        );
+        return new GenerateTokenResult(token);
     }
 }

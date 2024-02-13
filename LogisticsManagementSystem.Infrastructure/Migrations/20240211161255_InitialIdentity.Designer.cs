@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LogisticsManagementSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240129114610_InitialIdentity")]
+    [Migration("20240211161255_InitialIdentity")]
     partial class InitialIdentity
     {
         /// <inheritdoc />
@@ -97,7 +97,7 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                     b.Property<string>("Avatar")
                         .HasColumnType("varchar(256)");
 
-                    b.Property<Guid?>("Company")
+                    b.Property<Guid?>("CompanyId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -146,6 +146,11 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
+
+                    b.Property<int>("TokenVersion")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("boolean");

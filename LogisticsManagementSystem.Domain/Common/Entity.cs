@@ -1,7 +1,8 @@
 ﻿namespace LogisticsManagementSystem.Domain;
 
-public class Entity
+public class Entity<TKey>
 {
+    public virtual TKey? Id { get; private set; }
     public virtual DateTime CreatedAt { get; private init; }
     public virtual DateTime UpdatedAt { get; private set; }
     public virtual DateTime? DeletedAt { get; private set; }

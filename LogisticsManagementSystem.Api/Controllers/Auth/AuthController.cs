@@ -41,6 +41,12 @@ public class AuthController : ApiController
         //     Problem);
     }
 
+    [HttpPost("auth/logout")]
+    public async Task<IActionResult> Logout()
+    {
+        return NoContent();
+    }
+
     private async Task<IActionResult> GenerateTokens(User user)
     {
         var result = await _sender.Send(new GenerateTokenCommand(user));

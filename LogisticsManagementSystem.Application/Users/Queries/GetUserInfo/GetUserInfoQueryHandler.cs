@@ -16,7 +16,7 @@ public class GetUserInfoQueryHandler : IRequestHandler<GetUserInfoQuery, ErrorOr
     {
         var user = await _userRepository.FindByIdAsync(request.UserId);
         if (user is null)
-            return Error.NotFound();
+            return Error.Validation(description: "用户不存在");
         return new UserInfoResult(user?.Name, user?.Avatar);
     }
 }

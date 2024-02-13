@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using LogisticsManagementSystem.Application;
+﻿using LogisticsManagementSystem.Application;
 using LogisticsManagementSystem.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +16,10 @@ public class UserController : ApiController
         _currentUserProvider = currentUserProvider;
     }
 
-    [HttpGet("user")]
-    public async Task<IActionResult> GetUserInfo()
+    [HttpGet("currentUser")]
+    public async Task<IActionResult> GetCurrentUser()
     {
         var user = _currentUserProvider.GetCurrentUser();
-        Console.WriteLine("End");
         var result = await _sender.Send(new GetUserInfoQuery(user.Id));
         return result.Match(
             _ => Ok(result.Value),

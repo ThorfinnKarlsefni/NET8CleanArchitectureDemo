@@ -14,6 +14,7 @@ public class UserConfigurations : IEntityTypeConfiguration<User>
         builder.Property(u => u.CreatedAt).HasColumnType("timestamp");
         builder.Property(u => u.UpdatedAt).HasColumnType("timestamp");
         builder.Property(u => u.DeletedAt).HasColumnType("timestamp");
+        builder.Property(u => u.TokenVersion).HasDefaultValue(0);
     }
     public class UserRoleConfig : IEntityTypeConfiguration<UserRole>
     {

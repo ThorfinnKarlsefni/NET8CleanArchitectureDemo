@@ -20,7 +20,6 @@ public class CurrentUserProvider : ICurrentUserProvider
         var id = GetSingleClaimValue("id");
         var name = GetSingleClaimValue(JwtRegisteredClaimNames.Name);
         var companyId = GetSingleClaimValue("companyId");
-        Console.WriteLine(companyId);
         var roles = GetClaimValues(ClaimTypes.Role);
 
         return new CurrentUser(id, name, companyId, roles);

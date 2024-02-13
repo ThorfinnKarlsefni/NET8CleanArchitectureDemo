@@ -5,6 +5,10 @@ using Microsoft.EntityFrameworkCore;
 namespace LogisticsManagementSystem.Infrastructure;
 public class AppDbContext : IdentityDbContext<User, Role, Guid, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>
 {
+
+    public DbSet<Menu> Menus { get; set; }
+    public DbSet<Permission> Permissions { get; set; }
+    public DbSet<MenuRole> MenuRoles { get; set; }
     public AppDbContext(DbContextOptions options) : base(options)
     {
     }

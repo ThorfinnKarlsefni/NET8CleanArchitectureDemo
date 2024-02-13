@@ -10,6 +10,7 @@ public class User : IdentityUser<Guid>
     public DateTime CreatedAt { get; private init; }
     public DateTime UpdatedAt { get; private set; }
     public DateTime? DeletedAt { get; private set; }
+    public int TokenVersion { get; private set; }
 
     public User(string userName, string name, string? phoneNumber, string? avatar) : base(userName)
     {
@@ -28,5 +29,10 @@ public class User : IdentityUser<Guid>
     public void SetDeletedAt()
     {
         DeletedAt = DateTime.Now;
+    }
+
+    public void SetTokenVersionIncrement()
+    {
+        TokenVersion = TokenVersion++;
     }
 }

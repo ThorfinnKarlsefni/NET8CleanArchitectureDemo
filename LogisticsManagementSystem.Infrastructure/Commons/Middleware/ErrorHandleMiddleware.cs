@@ -32,7 +32,6 @@ public class ErrorHandleMiddleware
             Type = "https://tools.ietf.org/html/rfc9110#section-15.6.1",
             Detail = $"{context.TraceIdentifier}"
         };
-        Console.WriteLine(exception);
         context.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
         await context.Response.WriteAsJsonAsync(problemDetails);
