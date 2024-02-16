@@ -3,20 +3,20 @@ using MediatR;
 
 namespace LogisticsManagementSystem.Application;
 
-public class GetUserInfoQueryHandler : IRequestHandler<GetUserInfoQuery, ErrorOr<UserInfoResult>>
+public class GetCurrentUserQueryHandler : IRequestHandler<GetCurrentUserQuery, ErrorOr<CurrentUserResult>>
 {
     private readonly IUserRepository _userRepository;
 
-    public GetUserInfoQueryHandler(IUserRepository userRepository)
+    public GetCurrentUserQueryHandler(IUserRepository userRepository)
     {
         _userRepository = userRepository;
     }
 
-    public async Task<ErrorOr<UserInfoResult>> Handle(GetUserInfoQuery request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<CurrentUserResult>> Handle(GetCurrentUserQuery request, CancellationToken cancellationToken)
     {
         var user = await _userRepository.FindByIdAsync(request.UserId);
         if (user is null)
             return Error.Validation(description: "用户不存在");
-        return new UserInfoResult(user?.Name, user?.Avatar);
+        return new CurrentUserResult(user?.Name, user?.Avatar);
     }
 }

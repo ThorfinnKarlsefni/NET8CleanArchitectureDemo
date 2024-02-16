@@ -11,7 +11,7 @@ public class User : IdentityUser<Guid>
     public DateTime UpdatedAt { get; private set; }
     public DateTime? DeletedAt { get; private set; }
     public int TokenVersion { get; private set; }
-
+    public List<UserRole> UserRoles { get; set; } = new List<UserRole>();
     public User(string userName, string name, string? phoneNumber, string? avatar) : base(userName)
     {
         Name = name;

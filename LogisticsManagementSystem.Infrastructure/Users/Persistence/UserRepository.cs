@@ -43,4 +43,18 @@ public class UserRepository : IUserRepository
     {
         return await _userManager.FindByIdAsync(userId);
     }
+
+    public async Task<List<ListUserResponse>?> GetListUserAsync()
+    {
+        return await _userManager.Users
+            .Where(u => u.DeletedAt == null)
+            .Select(u => new ListUserResponse
+            {
+                Name = u.Name,
+                Avatar = u.Avatar,
+                CreatedAt = u.CreatedAt,
+                Roles = u.UserRoles.Select(ur => ur.Role != null ? ur.Role.Name : "Unknown").ToList()
+            })
+            .ToListAsync();
+    }
 }

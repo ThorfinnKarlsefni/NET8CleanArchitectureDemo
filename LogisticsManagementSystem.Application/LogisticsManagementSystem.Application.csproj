@@ -11,7 +11,6 @@
 
   <ItemGroup>
     <Folder Include="Common/Policies/" />
-    <Folder Include="Users/Queries/" />
   </ItemGroup>
 
   <PropertyGroup>

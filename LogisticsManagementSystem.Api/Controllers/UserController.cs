@@ -20,10 +20,18 @@ public class UserController : ApiController
     public async Task<IActionResult> GetCurrentUser()
     {
         var user = _currentUserProvider.GetCurrentUser();
-        var result = await _sender.Send(new GetUserInfoQuery(user.Id));
+        var result = await _sender.Send(new GetCurrentUserQuery(user.Id));
         return result.Match(
             _ => Ok(result.Value),
-            Problem
-        );
+            Problem);
+    }
+
+    [HttpGet("user")]
+    public async Task<IActionResult> List()
+    {
+        var result = await _sender.Send(new GetListUserQuery());
+        return result.Match(
+            _ => Ok(result.Value),
+            Problem);
     }
 }

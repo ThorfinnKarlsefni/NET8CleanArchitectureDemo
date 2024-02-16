@@ -1,4 +1,5 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using System.Text.Json.Serialization;
+using Microsoft.OpenApi.Models;
 
 namespace LogisticsManagementSystem.Api;
 
@@ -7,6 +8,10 @@ public static class DependencyInjection
     public static IServiceCollection AddPresentation(this IServiceCollection services)
     {
         services.AddControllers();
+        // .AddJsonOptions(options =>
+        // {
+        //     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        // });
         services.AddEndpointsApiExplorer();
         services.AddProblemDetails();
         services.AddSwaggerGen(options =>

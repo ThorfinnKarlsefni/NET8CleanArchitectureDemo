@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LogisticsManagementSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240212115527_AddMenuTableAndPermissionTable")]
-    partial class AddMenuTableAndPermissionTable
+    [Migration("20240216132020_InitialIdentity")]
+    partial class InitialIdentity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,7 +34,6 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Component")
-                        .IsRequired()
                         .HasColumnType("varchar(256)");
 
                     b.Property<DateTime>("CreatedAt")
@@ -47,7 +46,6 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("Icon")
-                        .IsRequired()
                         .HasColumnType("varchar(256)");
 
                     b.Property<string>("Name")
@@ -70,6 +68,110 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Menus", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Component = "",
+                            CreatedAt = new DateTime(2024, 2, 16, 21, 20, 20, 595, DateTimeKind.Local).AddTicks(8980),
+                            HideMenu = false,
+                            Icon = "",
+                            Name = "系统",
+                            Path = "/admin",
+                            Rank = 0,
+                            UpdatedAt = new DateTime(2024, 2, 16, 21, 20, 20, 595, DateTimeKind.Local).AddTicks(8980)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Component = "./Admin/Users",
+                            CreatedAt = new DateTime(2024, 2, 16, 21, 20, 20, 595, DateTimeKind.Local).AddTicks(8980),
+                            HideMenu = false,
+                            Icon = "",
+                            Name = "员工列表",
+                            ParentId = 1,
+                            Path = "/admin/users",
+                            Rank = 0,
+                            UpdatedAt = new DateTime(2024, 2, 16, 21, 20, 20, 595, DateTimeKind.Local).AddTicks(8980)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Component = "./Admin/Menu",
+                            CreatedAt = new DateTime(2024, 2, 16, 21, 20, 20, 595, DateTimeKind.Local).AddTicks(8990),
+                            HideMenu = false,
+                            Icon = "",
+                            Name = "菜单管理",
+                            ParentId = 1,
+                            Path = "/admin/menu",
+                            Rank = 0,
+                            UpdatedAt = new DateTime(2024, 2, 16, 21, 20, 20, 595, DateTimeKind.Local).AddTicks(8990)
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Component = "./Admin/Permission",
+                            CreatedAt = new DateTime(2024, 2, 16, 21, 20, 20, 595, DateTimeKind.Local).AddTicks(8990),
+                            HideMenu = false,
+                            Icon = "",
+                            Name = "权限管理",
+                            ParentId = 1,
+                            Path = "/admin/permission",
+                            Rank = 0,
+                            UpdatedAt = new DateTime(2024, 2, 16, 21, 20, 20, 595, DateTimeKind.Local).AddTicks(8990)
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Component = "./Admin/Role",
+                            CreatedAt = new DateTime(2024, 2, 16, 21, 20, 20, 595, DateTimeKind.Local).AddTicks(8990),
+                            HideMenu = false,
+                            Icon = "",
+                            Name = "角色管理",
+                            ParentId = 1,
+                            Path = "/admin/role",
+                            Rank = 0,
+                            UpdatedAt = new DateTime(2024, 2, 16, 21, 20, 20, 595, DateTimeKind.Local).AddTicks(8990)
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Component = "./Admin/Station",
+                            CreatedAt = new DateTime(2024, 2, 16, 21, 20, 20, 595, DateTimeKind.Local).AddTicks(8990),
+                            HideMenu = false,
+                            Icon = "",
+                            Name = "站点管理",
+                            ParentId = 1,
+                            Path = "/admin/station",
+                            Rank = 0,
+                            UpdatedAt = new DateTime(2024, 2, 16, 21, 20, 20, 595, DateTimeKind.Local).AddTicks(8990)
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Component = "",
+                            CreatedAt = new DateTime(2024, 2, 16, 21, 20, 20, 595, DateTimeKind.Local).AddTicks(8990),
+                            HideMenu = false,
+                            Icon = "",
+                            Name = "运输管理",
+                            Path = "/transport",
+                            Rank = 0,
+                            UpdatedAt = new DateTime(2024, 2, 16, 21, 20, 20, 595, DateTimeKind.Local).AddTicks(8990)
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Component = "./Transport/Invoices",
+                            CreatedAt = new DateTime(2024, 2, 16, 21, 20, 20, 595, DateTimeKind.Local).AddTicks(9000),
+                            HideMenu = false,
+                            Icon = "",
+                            Name = "收货开票",
+                            ParentId = 7,
+                            Path = "/transport/invoices",
+                            Rank = 0,
+                            UpdatedAt = new DateTime(2024, 2, 16, 21, 20, 20, 595, DateTimeKind.Local).AddTicks(9000)
+                        });
                 });
 
             modelBuilder.Entity("LogisticsManagementSystem.Domain.MenuRole", b =>
@@ -154,6 +256,16 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("Roles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("f15580fe-3d74-43be-84bf-d6bcf16c88f4"),
+                            CreatedAt = new DateTime(2024, 2, 16, 21, 20, 20, 595, DateTimeKind.Local).AddTicks(8940),
+                            Name = "Admin",
+                            NormalizedName = "ADMIN",
+                            UpdatedAt = new DateTime(2024, 2, 16, 21, 20, 20, 595, DateTimeKind.Local).AddTicks(8940)
+                        });
                 });
 
             modelBuilder.Entity("LogisticsManagementSystem.Domain.RoleClaim", b =>
@@ -267,6 +379,29 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("Users", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("75576367-f3a9-461e-81a6-59f8d76ef1b9"),
+                            AccessFailedCount = 0,
+                            Avatar = "http://avatar.xhwt56.com/ogrwRJqXMXSGHuGIC3JQ52HOdLpyME.avif",
+                            ConcurrencyStamp = "6bcef967-c50a-4573-8575-4f7e75a6c426",
+                            CreatedAt = new DateTime(2024, 2, 16, 21, 20, 20, 595, DateTimeKind.Local).AddTicks(8830),
+                            Email = "402832626@qq.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = true,
+                            Name = "Cheung",
+                            NormalizedUserName = "CHEUNG",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMSuTV5vdkw0LBQICgUF2Rl25Yu9TiFhrhatAn9JCyrSnMe/tjJRRdXj/nkltAGwiQ==",
+                            PhoneNumber = "",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "373BQTFYVCP7RJ3VEPFAOSDBMBDQIEH4",
+                            TokenVersion = 0,
+                            TwoFactorEnabled = false,
+                            UpdatedAt = new DateTime(2024, 2, 16, 21, 20, 20, 595, DateTimeKind.Local).AddTicks(8860),
+                            UserName = "Cheung"
+                        });
                 });
 
             modelBuilder.Entity("LogisticsManagementSystem.Domain.UserClaim", b =>
@@ -327,6 +462,13 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("UserRole", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("75576367-f3a9-461e-81a6-59f8d76ef1b9"),
+                            RoleId = new Guid("f15580fe-3d74-43be-84bf-d6bcf16c88f4")
+                        });
                 });
 
             modelBuilder.Entity("LogisticsManagementSystem.Domain.UserToken", b =>
@@ -377,17 +519,21 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
 
             modelBuilder.Entity("LogisticsManagementSystem.Domain.UserRole", b =>
                 {
-                    b.HasOne("LogisticsManagementSystem.Domain.Role", null)
-                        .WithMany()
+                    b.HasOne("LogisticsManagementSystem.Domain.Role", "Role")
+                        .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LogisticsManagementSystem.Domain.User", null)
-                        .WithMany()
+                    b.HasOne("LogisticsManagementSystem.Domain.User", "User")
+                        .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("LogisticsManagementSystem.Domain.UserToken", b =>
@@ -397,6 +543,16 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("LogisticsManagementSystem.Domain.Role", b =>
+                {
+                    b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("LogisticsManagementSystem.Domain.User", b =>
+                {
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

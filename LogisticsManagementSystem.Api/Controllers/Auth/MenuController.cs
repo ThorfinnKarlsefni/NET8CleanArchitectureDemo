@@ -1,10 +1,10 @@
 ﻿using LogisticsManagementSystem.Application;
+using LogisticsManagementSystem.Contracts;
+using LogisticsManagementSystem.Domain;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LogisticsManagementSystem.Api;
-[AllowAnonymous]
 public class MenuController : ApiController
 {
     private readonly IMediator _mediator;
@@ -47,9 +47,9 @@ public class MenuController : ApiController
     public async Task<IActionResult> List()
     {
         var result = await _mediator.Send(new ListMenusQuery());
-        return result.Match(
-          _ => Ok(result.Value),
-          Problem);
+        return await result.MatchAsync<IActionResult>(
+            async _ => Ok(await ToDtoList(result.Value)),
+            errors => Task.FromResult<IActionResult>(Problem(errors)));
     }
 
     [HttpGet("auth/menu/{id}")]
@@ -60,5 +60,41 @@ public class MenuController : ApiController
         return result.Match(
           _ => Ok(result.Value),
           Problem);
+    }
+
+    private async Task<List<ListMenuResponse>> ToDtoList(List<Menu> allMenus)
+    {
+        var menuDictionary = allMenus
+            .Where(menu => menu.ParentId != null)
+            .GroupBy(menu => menu.ParentId.GetValueOrDefault())
+            .ToDictionary(group => group.Key, group => group.ToList());
+
+        var rootMenus = await Task.WhenAll(allMenus
+            .Where(menu => menu.ParentId == null)
+            .Select(async rootMenu => await BuildMenuTreeAsync(rootMenu, menuDictionary)));
+
+        return rootMenus.ToList();
+    }
+
+    private async Task<ListMenuResponse> BuildMenuTreeAsync(Menu menu, Dictionary<int, List<Menu>> menuDictionary)
+    {
+        var menuResponse = new ListMenuResponse
+        {
+            Id = menu.Id,
+            ParentId = menu.ParentId,
+            Name = menu.Name,
+            Path = menu.Path,
+            Component = menu.Component,
+            Children = new List<ListMenuResponse>()
+        };
+
+        if (menuDictionary.ContainsKey(menu.Id))
+        {
+            var children = await Task.WhenAll(menuDictionary[menu.Id]
+                .Select(async childMenu => await BuildMenuTreeAsync(childMenu, menuDictionary)));
+            menuResponse.Children.AddRange(children);
+        }
+
+        return menuResponse;
     }
 }

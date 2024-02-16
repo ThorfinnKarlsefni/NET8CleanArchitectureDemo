@@ -7,7 +7,7 @@ public class Role : IdentityRole<Guid>
     public DateTime CreatedAt { get; private init; }
     public DateTime UpdatedAt { get; private set; }
     public DateTime? DeletedAt { get; private set; }
-
+    public List<UserRole> UserRoles { get; set; } = new List<UserRole>();
     public Role(string Name) : base(Name)
     {
         CreatedAt = DateTime.Now;
@@ -23,5 +23,4 @@ public class Role : IdentityRole<Guid>
     {
         DeletedAt = DateTime.Now;
     }
-
 }

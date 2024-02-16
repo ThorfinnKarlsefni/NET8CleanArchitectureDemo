@@ -16,7 +16,6 @@ public class AuthController : ApiController
     }
 
     [HttpPost("auth/signup")]
-    [AllowAnonymous]
     public async Task<IActionResult> SignUp([FromBody] CreateUserCommand command)
     {
         var result = await _sender.Send(command);

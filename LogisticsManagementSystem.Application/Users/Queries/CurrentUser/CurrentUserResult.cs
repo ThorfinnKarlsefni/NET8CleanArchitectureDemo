@@ -1,6 +1,6 @@
 ﻿namespace LogisticsManagementSystem.Application;
 
-public record UserInfoResult(
+public record CurrentUserResult(
     string? Name,
     string? Avatar
 );
