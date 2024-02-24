@@ -3,16 +3,16 @@ using MediatR;
 
 namespace LogisticsManagementSystem.Application;
 
-public class GetCurrentUserQueryHandler : IRequestHandler<GetCurrentUserQuery, ErrorOr<CurrentUserResult>>
+public class CurrentUserQueryHandler : IRequestHandler<CurrentUserQuery, ErrorOr<CurrentUserResult>>
 {
     private readonly IUserRepository _userRepository;
 
-    public GetCurrentUserQueryHandler(IUserRepository userRepository)
+    public CurrentUserQueryHandler(IUserRepository userRepository)
     {
         _userRepository = userRepository;
     }
 
-    public async Task<ErrorOr<CurrentUserResult>> Handle(GetCurrentUserQuery request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<CurrentUserResult>> Handle(CurrentUserQuery request, CancellationToken cancellationToken)
     {
         var user = await _userRepository.FindByIdAsync(request.UserId);
         if (user is null)

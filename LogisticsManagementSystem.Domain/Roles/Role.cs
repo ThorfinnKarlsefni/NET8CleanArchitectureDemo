@@ -14,6 +14,11 @@ public class Role : IdentityRole<Guid>
         UpdatedAt = CreatedAt;
     }
 
+    public Role()
+    {
+
+    }
+
     public void SetUpdateAt()
     {
         UpdatedAt = DateTime.Now;

@@ -1,4 +1,5 @@
 ﻿using LogisticsManagementSystem.Application;
+using LogisticsManagementSystem.Contracts;
 using LogisticsManagementSystem.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -15,7 +16,7 @@ public class AuthController : ApiController
         _sender = sender;
     }
 
-    [HttpPost("auth/signup")]
+    [HttpPost("auth/signUp")]
     public async Task<IActionResult> SignUp([FromBody] CreateUserCommand command)
     {
         var result = await _sender.Send(command);

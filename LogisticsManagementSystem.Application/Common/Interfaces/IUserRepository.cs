@@ -11,5 +11,5 @@ public interface IUserRepository
     Task<IdentityResult> CreateAsync(User user, string password);
     Task<bool> UserExistsAsync(string username);
     Task<User?> FindByIdAsync(string userId);
-    Task<List<ListUserResponse>?> GetListUserAsync();
+    Task<ListUserResult?> GetListUserAsync(int pageNumber, int pageSize, string? searchKeyword);
 }

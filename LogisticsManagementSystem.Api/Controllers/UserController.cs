@@ -20,16 +20,25 @@ public class UserController : ApiController
     public async Task<IActionResult> GetCurrentUser()
     {
         var user = _currentUserProvider.GetCurrentUser();
-        var result = await _sender.Send(new GetCurrentUserQuery(user.Id));
+        var result = await _sender.Send(new CurrentUserQuery(user.Id));
         return result.Match(
             _ => Ok(result.Value),
             Problem);
     }
 
-    [HttpGet("user")]
-    public async Task<IActionResult> List()
+    [HttpGet("users")]
+    public async Task<IActionResult> GetUserList([FromQuery] string? searchKeyword, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
     {
-        var result = await _sender.Send(new GetListUserQuery());
+        var result = await _sender.Send(new ListUserQuery(pageNumber, pageSize, searchKeyword));
+        return result.Match(
+            _ => Ok(result.Value),
+            Problem);
+    }
+
+    [HttpGet("users/{id}")]
+    public async Task<IActionResult> GetUser(string id)
+    {
+        var result = await _sender.Send(new GetUserQuery(id));
         return result.Match(
             _ => Ok(result.Value),
             Problem);

@@ -43,6 +43,7 @@ public static class DependencyInjection
     {
         services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<AppDbContext>()
+                .AddErrorDescriber<CustomIdentityErrorDescriber>()
                 .AddDefaultTokenProviders();
 
         services.Configure<IdentityOptions>(options =>

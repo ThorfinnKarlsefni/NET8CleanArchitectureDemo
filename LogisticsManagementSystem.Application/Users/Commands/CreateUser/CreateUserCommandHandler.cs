@@ -1,4 +1,5 @@
-﻿using ErrorOr;
+﻿using System.Linq.Expressions;
+using ErrorOr;
 using LogisticsManagementSystem.Domain;
 using MediatR;
 
@@ -15,10 +16,17 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Error
 
     public async Task<ErrorOr<Created>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        var user = new User(request.Name, request.UserName, request.PhoneNumber, request.Avatar);
+        var user = new User(
+            request.UserName,
+            request.Name,
+            request.companyId,
+            request.PhoneNumber);
+        user.SetAvatar(request.Avatar);
+
         var result = await _userRepository.CreateAsync(user, request.Password);
         if (!result.Succeeded)
             return Error.Conflict(description: result.Errors.First().Description.ToString());
+
         return Result.Created;
     }
 }

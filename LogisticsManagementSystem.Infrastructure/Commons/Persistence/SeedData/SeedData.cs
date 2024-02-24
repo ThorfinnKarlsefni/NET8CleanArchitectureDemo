@@ -20,9 +20,7 @@ public static class SeedData
         var userName = "Cheung";
         var name = "Cheung";
         var phoneNumber = string.Empty;
-        var avatar = "http://avatar.xhwt56.com/ogrwRJqXMXSGHuGIC3JQ52HOdLpyME.avif";
-        builder.Entity<User>().HasData(
-        new User(userName, name, phoneNumber, avatar)
+        var user = new User(userName, name, null, phoneNumber)
         {
             Id = userId,
             NormalizedUserName = "CHEUNG",
@@ -35,7 +33,11 @@ public static class SeedData
             TwoFactorEnabled = false,
             LockoutEnabled = true,
             AccessFailedCount = 0,
-        });
+        };
+        user.SetAvatar("http://avatar.xhwt56.com/ogrwRJqXMXSGHuGIC3JQ52HOdLpyME.avif");
+
+        builder.Entity<User>().HasData(user)
+       ;
     }
     private static void SeedRoles(ModelBuilder builder, Guid roleId)
     {
