@@ -3,4 +3,9 @@ using MediatR;
 
 namespace LogisticsManagementSystem.Application;
 
-public record ListUserQuery(int PageNumber, int PageSize, string? SearchKeyword) : IRequest<ErrorOr<ListUserResult?>>;
+public record ListUserQuery(
+    int PageNumber,
+    int PageSize,
+    string? SearchKeyword,
+    bool? Disable
+    ) : IRequest<ErrorOr<ListUserResult?>>;

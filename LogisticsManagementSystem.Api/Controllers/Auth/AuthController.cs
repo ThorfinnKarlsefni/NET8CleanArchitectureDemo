@@ -1,5 +1,4 @@
 ﻿using LogisticsManagementSystem.Application;
-using LogisticsManagementSystem.Contracts;
 using LogisticsManagementSystem.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -16,8 +15,8 @@ public class AuthController : ApiController
         _sender = sender;
     }
 
-    [HttpPost("auth/signUp")]
-    public async Task<IActionResult> SignUp([FromBody] CreateUserCommand command)
+    [HttpPost("signUp")]
+    public async Task<IActionResult> SignUp(CreateUserCommand command)
     {
         var result = await _sender.Send(command);
         return result.Match(
@@ -26,8 +25,8 @@ public class AuthController : ApiController
     }
 
     [AllowAnonymous]
-    [HttpPost("auth/login")]
-    public async Task<IActionResult> LoginUserByUserName([FromBody] LoginByUserNameCommand query)
+    [HttpPost("login")]
+    public async Task<IActionResult> LoginUserByUserName(LoginByUserNameCommand query)
     {
         var user = await _sender.Send(query);
         var result = await GenerateTokens(user.Value);
@@ -41,7 +40,7 @@ public class AuthController : ApiController
         //     Problem);
     }
 
-    [HttpPost("auth/logout")]
+    [HttpPost("logout")]
     public async Task<IActionResult> Logout()
     {
         return NoContent();

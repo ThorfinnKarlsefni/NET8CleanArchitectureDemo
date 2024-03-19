@@ -33,7 +33,6 @@ public class ErrorHandleMiddleware
             Detail = $"{context.TraceIdentifier}"
         };
         context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-        Console.WriteLine(exception);
         await context.Response.WriteAsJsonAsync(problemDetails);
     }
 }

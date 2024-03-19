@@ -18,6 +18,7 @@ public class UpdateMenuCommandHandler : IRequestHandler<UpdateMenuCommand, Error
         if (menu is null)
             return Error.NotFound();
         menu.UpdateMenu(request.ParentId, request.Name, request.Path, request.Component, request.Icon, request.Rank, request.HideMenu);
+
         await _menuRepository.SaveChangesAsync();
         return Result.Updated;
     }

@@ -7,12 +7,12 @@ namespace LogisticsManagementSystem.Api;
 
 public class UserController : ApiController
 {
-    private readonly ISender _sender;
+    private readonly IMediator _mediator;
     private readonly ICurrentUserProvider _currentUserProvider;
 
-    public UserController(ISender sender, ICurrentUserProvider currentUserProvider)
+    public UserController(IMediator mediator, ICurrentUserProvider currentUserProvider)
     {
-        _sender = sender;
+        _mediator = mediator;
         _currentUserProvider = currentUserProvider;
     }
 
@@ -20,16 +20,21 @@ public class UserController : ApiController
     public async Task<IActionResult> GetCurrentUser()
     {
         var user = _currentUserProvider.GetCurrentUser();
-        var result = await _sender.Send(new CurrentUserQuery(user.Id));
+        var result = await _mediator.Send(new CurrentUserQuery(user.Id));
         return result.Match(
             _ => Ok(result.Value),
             Problem);
     }
 
     [HttpGet("users")]
-    public async Task<IActionResult> GetUserList([FromQuery] string? searchKeyword, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+    public async Task<IActionResult> GetUserListByAdmin(int pageNumber, int pageSize, string? searchKeyword, bool? disable)
     {
-        var result = await _sender.Send(new ListUserQuery(pageNumber, pageSize, searchKeyword));
+        var result = await _mediator.Send(new ListUserQuery(
+            pageNumber,
+            pageSize,
+            searchKeyword,
+            disable
+        ));
         return result.Match(
             _ => Ok(result.Value),
             Problem);
@@ -38,9 +43,37 @@ public class UserController : ApiController
     [HttpGet("users/{id}")]
     public async Task<IActionResult> GetUser(string id)
     {
-        var result = await _sender.Send(new GetUserQuery(id));
+        var result = await _mediator.Send(new GetUserQuery(id));
         return result.Match(
             _ => Ok(result.Value),
+            Problem);
+    }
+
+    [HttpPut("users/{id}")]
+    public async Task<IActionResult> UpdateUser(string id, UpdateUserCommand command)
+    {
+        var updateCommand = command with { Id = id };
+        var result = await _mediator.Send(updateCommand);
+        return result.Match(
+            _ => NoContent(),
+            Problem);
+    }
+
+    [HttpPut("users/disable/{id}")]
+    public async Task<IActionResult> DisableUser(string id)
+    {
+        var result = await _mediator.Send(new DisableUserCommand(id));
+        return result.Match(
+            _ => NoContent(),
+            Problem);
+    }
+
+    [HttpPut("users/recover/{id}")]
+    public async Task<IActionResult> RecoverUser(string id)
+    {
+        var result = await _mediator.Send(new RecoverUserCommand(id));
+        return result.Match(
+            _ => NoContent(),
             Problem);
     }
 }

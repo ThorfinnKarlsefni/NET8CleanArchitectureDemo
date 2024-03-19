@@ -13,6 +13,6 @@ public class ListUserQueryHandler : IRequestHandler<ListUserQuery, ErrorOr<ListU
 
     public async Task<ErrorOr<ListUserResult?>> Handle(ListUserQuery request, CancellationToken cancellationToken)
     {
-        return await _userRepository.GetListUserAsync(request.PageNumber, request.PageSize, request.SearchKeyword);
+        return await _userRepository.GetListUserAsync(request.PageNumber, request.PageSize, request.SearchKeyword, request.Disable);
     }
 }

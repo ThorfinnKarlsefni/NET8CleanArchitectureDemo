@@ -13,8 +13,27 @@ public class RoleController : ApiController
         _sender = sender;
     }
 
-    [HttpPost("auth/role")]
-    public async Task<IActionResult> CreateRole([FromBody] CreateRoleCommand command)
+
+    [HttpGet("roles")]
+    public async Task<IActionResult> GetListRoles(ListRoleQuery query)
+    {
+        var result = await _sender.Send(query);
+        return result.Match(
+            _ => Ok(result.Value),
+            Problem);
+    }
+
+    [HttpGet("roles/all")]
+    public async Task<IActionResult> GetAllRoles()
+    {
+        var result = await _sender.Send(new AllRoleQuery());
+        return result.Match(
+            _ => Ok(result.Value),
+            Problem);
+    }
+
+    [HttpPost("roles")]
+    public async Task<IActionResult> CreateRole(CreateRoleCommand command)
     {
         var result = await _sender.Send(command);
         return result.Match(
@@ -22,7 +41,7 @@ public class RoleController : ApiController
             Problem);
     }
 
-    [HttpDelete("auth/role/{roleId}")]
+    [HttpDelete("role/{roleId}")]
     public async Task<IActionResult> DeleteRole(string roleId)
     {
         if (!Guid.TryParse(roleId, out var id))

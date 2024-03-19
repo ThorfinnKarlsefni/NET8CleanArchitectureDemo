@@ -14,7 +14,7 @@ public class MenuController : ApiController
         _mediator = mediator;
     }
 
-    [HttpPost("auth/menu")]
+    [HttpPost("menu")]
     public async Task<IActionResult> Create(CreateMenuCommand command)
     {
         var result = await _mediator.Send(command);
@@ -23,7 +23,7 @@ public class MenuController : ApiController
             Problem);
     }
 
-    [HttpDelete("auth/menu/{id}")]
+    [HttpDelete("menu/{id}")]
     public async Task<IActionResult> Delete(int id)
     {
         var command = new DeleteMenuCommand(id);
@@ -33,7 +33,7 @@ public class MenuController : ApiController
            Problem);
     }
 
-    [HttpPut("auth/menu/{id}")]
+    [HttpPut("menu/{id}")]
     public async Task<IActionResult> Update(int id, UpdateMenuCommand command)
     {
         var updateCommand = command with { Id = id };
@@ -43,7 +43,7 @@ public class MenuController : ApiController
         Problem);
     }
 
-    [HttpGet("auth/menu")]
+    [HttpGet("menu")]
     public async Task<IActionResult> List()
     {
         var result = await _mediator.Send(new ListMenusQuery());
@@ -52,7 +52,7 @@ public class MenuController : ApiController
             errors => Task.FromResult<IActionResult>(Problem(errors)));
     }
 
-    [HttpGet("auth/menu/{id}")]
+    [HttpGet("menu/{id}")]
     public async Task<IActionResult> Get(int id)
     {
         var query = new GetMenuQuery(id);

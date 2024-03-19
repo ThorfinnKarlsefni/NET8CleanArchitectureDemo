@@ -20,4 +20,8 @@
     <ProjectReference Include="..\LogisticsManagementSystem.Application\LogisticsManagementSystem.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Commons/UnitOfWork/" />
+  </ItemGroup>
+
 </Project>

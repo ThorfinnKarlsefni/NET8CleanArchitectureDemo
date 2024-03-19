@@ -1,4 +1,5 @@
 ﻿using System.Dynamic;
+using ErrorOr;
 using Microsoft.AspNetCore.Identity;
 
 namespace LogisticsManagementSystem.Domain;
@@ -23,6 +24,26 @@ public class User : IdentityUser<Guid>
         UpdatedAt = DateTime.Now;
     }
 
+    public void UpdateUser(Guid? companyId, string name, string? phoneNumber, string? email)
+    {
+        CompanyId = companyId ?? null;
+        Name = name;
+        PhoneNumber = phoneNumber ?? string.Empty;
+        Email = email ?? string.Empty;
+    }
+
+    public void UpdateRoles(Guid userId, List<Guid>? roleIds)
+    {
+        UserRoles.Clear();
+        if (roleIds != null && roleIds.Any())
+        {
+            foreach (var roleId in roleIds)
+            {
+                UserRoles.Add(new UserRole { UserId = userId, RoleId = roleId });
+            }
+        }
+    }
+
     public void SetUpdateAt()
     {
         UpdatedAt = DateTime.Now;
@@ -31,6 +52,11 @@ public class User : IdentityUser<Guid>
     public void SetDeletedAt()
     {
         DeletedAt = DateTime.Now;
+    }
+
+    public void Recover()
+    {
+        DeletedAt = null;
     }
 
     public void SetTokenVersionIncrement()

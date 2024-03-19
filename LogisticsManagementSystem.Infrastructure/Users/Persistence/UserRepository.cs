@@ -2,17 +2,18 @@
 using LogisticsManagementSystem.Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 
 namespace LogisticsManagementSystem.Infrastructure;
 
 public class UserRepository : IUserRepository
 {
     private readonly UserManager<User> _userManager;
+    private readonly AppDbContext _dbContext;
 
-    public UserRepository(UserManager<User> userManager)
+    public UserRepository(UserManager<User> userManager, AppDbContext dbContext)
     {
         _userManager = userManager;
+        _dbContext = dbContext;
     }
 
     public async Task<IdentityResult> CreateAsync(User user, string password)
@@ -22,7 +23,7 @@ public class UserRepository : IUserRepository
 
     public async Task<bool> UserExistsAsync(string username)
     {
-        return !await _userManager.Users.AnyAsync(u => u.NormalizedUserName == username.ToUpper());
+        return !await _userManager.Users.AnyAsync(u => string.Equals(u.NormalizedUserName, username.ToUpper()));
     }
 
     public async Task<User?> FindByNameAsync(string username)
@@ -50,15 +51,20 @@ public class UserRepository : IUserRepository
             .FirstOrDefaultAsync();
     }
 
-    public async Task<ListUserResult?> GetListUserAsync(int pageNumber, int pageSize, string? searchKeyword)
+    public async Task<ListUserResult?> GetListUserAsync(int pageNumber, int pageSize, string? searchKeyword, bool? Disable)
     {
+        IQueryable<User> query = _userManager.Users;
 
-        var totalCount = await GetUserTotalCount(searchKeyword);
+        if (Disable == true)
+        {
+            query = query.Where(u => u.DeletedAt != null);
+        }
+        else
+        {
+            query = query.Where(u => u.DeletedAt == null);
+        }
 
-        IQueryable<User> query = _userManager.Users
-        .Where(u => u.DeletedAt == null);
-
-        if (!string.IsNullOrEmpty(searchKeyword))
+        if (!string.IsNullOrWhiteSpace(searchKeyword))
         {
             var keyword = searchKeyword.Trim();
             query = query.Where(u => u.UserName!.Contains(keyword) || u.Name.Contains(keyword));
@@ -68,7 +74,7 @@ public class UserRepository : IUserRepository
             .OrderBy(u => u.CreatedAt)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .Select(u => new UserList(
+            .Select(u => new ListUser(
                 u.Id,
                 u.UserName,
                 u.Name,
@@ -77,19 +83,33 @@ public class UserRepository : IUserRepository
                 u.UserRoles.Select(ur => new ListUserRoleResult(ur.RoleId, ur.Role.Name))))
             .ToListAsync();
 
+        var totalCount = await query.LongCountAsync();
+
         return new ListUserResult(
             totalCount,
-            pageSize,
             pageNumber,
-            users
-        );
+            pageSize,
+            users);
     }
 
-    private async Task<int> GetUserTotalCount(string? searchKeyword)
+    public async Task<bool> IsInAdminAsync(User user)
     {
-        if (!string.IsNullOrEmpty(searchKeyword))
-            return await _userManager.Users.Where(u => u.UserName!.Contains(searchKeyword.Trim()) || u.Name.Contains(searchKeyword.Trim())).CountAsync();
+        return await _userManager.IsInRoleAsync(user, "admin");
+    }
 
-        return await _userManager.Users.Where(u => u.DeletedAt == null).CountAsync();
+    public async Task<IdentityResult> ResetUserPasswordAsync(User user, string password)
+    {
+        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+        return await _userManager.ResetPasswordAsync(user, token, password);
+    }
+
+    public async Task<IdentityResult> UpdateAsync(User user)
+    {
+        return await _userManager.UpdateAsync(user);
+    }
+
+    public async Task<int> SaveChangeAsync()
+    {
+        return await _dbContext.SaveChangesAsync();
     }
 }

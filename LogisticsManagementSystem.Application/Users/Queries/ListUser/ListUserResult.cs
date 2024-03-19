@@ -1,13 +1,15 @@
 ﻿namespace LogisticsManagementSystem.Application;
 
 public record ListUserResult(
-    int TotalCount,
+    long TotalCount,
+    // int NormalCount,
+    // int ForbiddenCount,
+    int PageNumber,
     int Pagesize,
-    int pageNumber,
-    List<UserList>? Users
+    List<ListUser>? Users
 );
 
-public record UserList(Guid Id, string? UserName, string Name, string? Avatar, DateTime CreatedAt, IEnumerable<ListUserRoleResult> Roles);
+public record ListUser(Guid Id, string? UserName, string Name, string? Avatar, DateTime CreatedAt, IEnumerable<ListUserRoleResult> Roles);
 
 public record ListUserRoleResult(Guid Id, string? Name);
 

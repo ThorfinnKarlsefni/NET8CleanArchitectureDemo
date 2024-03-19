@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using LogisticsManagementSystem.Domain;
 
 namespace LogisticsManagementSystem.Application;
 

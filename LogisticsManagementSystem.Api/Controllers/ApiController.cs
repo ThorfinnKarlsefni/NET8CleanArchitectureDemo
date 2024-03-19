@@ -6,7 +6,7 @@ namespace LogisticsManagementSystem.Api;
 
 [ApiController]
 [Authorize]
-[Route("api")]
+[Route("api/auth")]
 public class ApiController : ControllerBase
 {
     protected ActionResult Problem(List<Error> errors)
