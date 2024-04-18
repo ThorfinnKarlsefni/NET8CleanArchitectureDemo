@@ -19,7 +19,6 @@ public class LoginByUserNameQueryHandler : IRequestHandler<LoginByUserNameComman
         if (user is null)
             return Error.Validation(description: "用户名或密码错误");
 
-
         var ok = await _userRepository.CheckPasswordAsync(user, request.Password);
         if (!ok)
             return Error.Validation(description: "用户名或密码错误");

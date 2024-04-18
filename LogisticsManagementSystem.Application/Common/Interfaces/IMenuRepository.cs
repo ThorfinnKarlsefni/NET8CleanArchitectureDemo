@@ -6,7 +6,7 @@ public interface IMenuRepository
 {
     Task AddAsync(Menu menu);
     Task<Menu?> GetByIdAsync(int id);
-    Task DeleteAsync(Menu menu);
-    Task<List<Menu>?> ListByRoleAsync();
+    Task<List<Menu>> GetMenuListAsync();
+    Task<List<Menu>> GetAllMenuListAsync();
     Task SaveChangesAsync();
 }

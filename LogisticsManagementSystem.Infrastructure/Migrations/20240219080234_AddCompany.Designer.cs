@@ -76,7 +76,7 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp");
 
-                    b.Property<bool>("HideMenu")
+                    b.Property<bool>("Visibility")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Icon")
@@ -93,7 +93,7 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(256)");
 
-                    b.Property<int>("Rank")
+                    b.Property<int>("Sort")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -109,11 +109,11 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                             Id = 1,
                             Component = "",
                             CreatedAt = new DateTime(2024, 2, 19, 16, 2, 33, 794, DateTimeKind.Local).AddTicks(7990),
-                            HideMenu = false,
+                            Visibility = false,
                             Icon = "",
                             Name = "系统",
                             Path = "/admin",
-                            Rank = 0,
+                            Sort = 0,
                             UpdatedAt = new DateTime(2024, 2, 19, 16, 2, 33, 794, DateTimeKind.Local).AddTicks(7990)
                         },
                         new
@@ -121,12 +121,12 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                             Id = 2,
                             Component = "./Admin/Users",
                             CreatedAt = new DateTime(2024, 2, 19, 16, 2, 33, 794, DateTimeKind.Local).AddTicks(7990),
-                            HideMenu = false,
+                            Visibility = false,
                             Icon = "",
                             Name = "员工列表",
                             ParentId = 1,
                             Path = "/admin/users",
-                            Rank = 0,
+                            Sort = 0,
                             UpdatedAt = new DateTime(2024, 2, 19, 16, 2, 33, 794, DateTimeKind.Local).AddTicks(7990)
                         },
                         new
@@ -134,12 +134,12 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                             Id = 3,
                             Component = "./Admin/Menu",
                             CreatedAt = new DateTime(2024, 2, 19, 16, 2, 33, 794, DateTimeKind.Local).AddTicks(8000),
-                            HideMenu = false,
+                            Visibility = false,
                             Icon = "",
                             Name = "菜单管理",
                             ParentId = 1,
                             Path = "/admin/menu",
-                            Rank = 0,
+                            Sort = 0,
                             UpdatedAt = new DateTime(2024, 2, 19, 16, 2, 33, 794, DateTimeKind.Local).AddTicks(8000)
                         },
                         new
@@ -147,12 +147,12 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                             Id = 4,
                             Component = "./Admin/Permission",
                             CreatedAt = new DateTime(2024, 2, 19, 16, 2, 33, 794, DateTimeKind.Local).AddTicks(8000),
-                            HideMenu = false,
+                            Visibility = false,
                             Icon = "",
                             Name = "权限管理",
                             ParentId = 1,
                             Path = "/admin/permission",
-                            Rank = 0,
+                            Sort = 0,
                             UpdatedAt = new DateTime(2024, 2, 19, 16, 2, 33, 794, DateTimeKind.Local).AddTicks(8000)
                         },
                         new
@@ -160,12 +160,12 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                             Id = 5,
                             Component = "./Admin/Role",
                             CreatedAt = new DateTime(2024, 2, 19, 16, 2, 33, 794, DateTimeKind.Local).AddTicks(8000),
-                            HideMenu = false,
+                            Visibility = false,
                             Icon = "",
                             Name = "角色管理",
                             ParentId = 1,
                             Path = "/admin/role",
-                            Rank = 0,
+                            Sort = 0,
                             UpdatedAt = new DateTime(2024, 2, 19, 16, 2, 33, 794, DateTimeKind.Local).AddTicks(8000)
                         },
                         new
@@ -173,12 +173,12 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                             Id = 6,
                             Component = "./Admin/Station",
                             CreatedAt = new DateTime(2024, 2, 19, 16, 2, 33, 794, DateTimeKind.Local).AddTicks(8000),
-                            HideMenu = false,
+                            Visibility = false,
                             Icon = "",
                             Name = "站点管理",
                             ParentId = 1,
                             Path = "/admin/station",
-                            Rank = 0,
+                            Sort = 0,
                             UpdatedAt = new DateTime(2024, 2, 19, 16, 2, 33, 794, DateTimeKind.Local).AddTicks(8000)
                         },
                         new
@@ -186,11 +186,11 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                             Id = 7,
                             Component = "",
                             CreatedAt = new DateTime(2024, 2, 19, 16, 2, 33, 794, DateTimeKind.Local).AddTicks(8000),
-                            HideMenu = false,
+                            Visibility = false,
                             Icon = "",
                             Name = "运输管理",
                             Path = "/transport",
-                            Rank = 0,
+                            Sort = 0,
                             UpdatedAt = new DateTime(2024, 2, 19, 16, 2, 33, 794, DateTimeKind.Local).AddTicks(8000)
                         },
                         new
@@ -198,12 +198,12 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                             Id = 8,
                             Component = "./Transport/Invoices",
                             CreatedAt = new DateTime(2024, 2, 19, 16, 2, 33, 794, DateTimeKind.Local).AddTicks(8010),
-                            HideMenu = false,
+                            Visibility = false,
                             Icon = "",
                             Name = "收货开票",
                             ParentId = 7,
                             Path = "/transport/invoices",
-                            Rank = 0,
+                            Sort = 0,
                             UpdatedAt = new DateTime(2024, 2, 19, 16, 2, 33, 794, DateTimeKind.Local).AddTicks(8010)
                         });
                 });

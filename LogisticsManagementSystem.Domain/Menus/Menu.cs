@@ -8,28 +8,39 @@ public class Menu : Entity<int>
     public string Path { get; set; } = string.Empty;
     public string? Icon { get; set; } = string.Empty;
     public string? Component { get; set; } = string.Empty;
-    public int Rank { get; private set; }
-    public bool HideMenu { get; private set; } = false;
-    public List<Menu>? Children { get; set; } = new List<Menu>();
+    public int Sort { get; private set; }
+    public bool Visibility { get; private set; } = false;
+    public List<Menu?> Children { get; set; } = new List<Menu?>();
 
-    public Menu(int? parentId, string name, string path, string? icon, string? component, bool hideMenu)
+    public Menu(int? parentId, string name, string path, string? icon, string? component, bool visibility)
     {
         ParentId = parentId;
         Name = name;
         Path = path;
         Icon = icon;
         Component = component;
-        HideMenu = hideMenu;
+        Visibility = visibility;
     }
-    public void UpdateMenu(int? parentId, string name, string path, string? component, string? icon, int? rank, bool? hideMenu)
+    public void UpdateMenu(int? parentId, string name, string path, string? component, string? icon, int? sort, bool? visibility)
     {
         ParentId = parentId;
         Name = name;
         Path = path;
-        Component = component ?? string.Empty;
+        Component = component;
         Icon = icon;
-        Rank = rank ?? 0;
-        HideMenu = hideMenu ?? false;
+        Sort = sort ?? 0;
+        Visibility = visibility ?? false;
+    }
+
+    public void UpdateSort(int? parentId, int sort)
+    {
+        ParentId = parentId;
+        Sort = sort;
+    }
+
+    public void HideOrShow(bool visibility)
+    {
+        Visibility = visibility ? false : true;
     }
 
     public Menu()

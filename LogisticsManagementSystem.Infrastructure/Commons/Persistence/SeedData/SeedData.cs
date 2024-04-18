@@ -34,7 +34,7 @@ public static class SeedData
             LockoutEnabled = true,
             AccessFailedCount = 0,
         };
-        user.SetAvatar("http://avatar.xhwt56.com/ogrwRJqXMXSGHuGIC3JQ52HOdLpyME.avif");
+        user.SetAvatar("http://124.222.5.145/avatar/ogrwRJqXMXSGHuGIC3JQ52HOdLpyME.avif");
 
         builder.Entity<User>().HasData(user)
        ;

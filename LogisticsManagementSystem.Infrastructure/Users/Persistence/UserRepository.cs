@@ -79,6 +79,7 @@ public class UserRepository : IUserRepository
                 u.UserName,
                 u.Name,
                 u.Avatar,
+                u.PhoneNumber,
                 u.CreatedAt,
                 u.UserRoles.Select(ur => new ListUserRoleResult(ur.RoleId, ur.Role.Name))))
             .ToListAsync();

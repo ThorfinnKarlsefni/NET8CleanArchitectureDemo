@@ -59,7 +59,7 @@ public class UserController : ApiController
             Problem);
     }
 
-    [HttpPut("users/disable/{id}")]
+    [HttpPut("users/{id}/disable")]
     public async Task<IActionResult> DisableUser(string id)
     {
         var result = await _mediator.Send(new DisableUserCommand(id));
@@ -68,7 +68,7 @@ public class UserController : ApiController
             Problem);
     }
 
-    [HttpPut("users/recover/{id}")]
+    [HttpPut("users/{id}/recover")]
     public async Task<IActionResult> RecoverUser(string id)
     {
         var result = await _mediator.Send(new RecoverUserCommand(id));

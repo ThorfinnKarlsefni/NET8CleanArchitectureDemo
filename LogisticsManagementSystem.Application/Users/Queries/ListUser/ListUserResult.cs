@@ -9,7 +9,7 @@ public record ListUserResult(
     List<ListUser>? Users
 );
 
-public record ListUser(Guid Id, string? UserName, string Name, string? Avatar, DateTime CreatedAt, IEnumerable<ListUserRoleResult> Roles);
+public record ListUser(Guid Id, string? UserName, string Name, string? Avatar, string? PhoneNumber, DateTime CreatedAt, IEnumerable<ListUserRoleResult> Roles);
 
 public record ListUserRoleResult(Guid Id, string? Name);
 

@@ -36,8 +36,8 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                     Path = table.Column<string>(type: "varchar(256)", nullable: false),
                     Icon = table.Column<string>(type: "varchar(256)", nullable: true),
                     Component = table.Column<string>(type: "varchar(256)", nullable: true),
-                    Rank = table.Column<int>(type: "integer", nullable: false),
-                    HideMenu = table.Column<bool>(type: "boolean", nullable: false),
+                    Sort = table.Column<int>(type: "integer", nullable: false),
+                    Visibility = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
                     DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
@@ -223,7 +223,7 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Menus",
-                columns: new[] { "Id", "Component", "CreatedAt", "DeletedAt", "HideMenu", "Icon", "Name", "ParentId", "Path", "Rank", "UpdatedAt" },
+                columns: new[] { "Id", "Component", "CreatedAt", "DeletedAt", "Visibility", "Icon", "Name", "ParentId", "Path", "Sort", "UpdatedAt" },
                 values: new object[,]
                 {
                     { 1, "", new DateTime(2024, 2, 16, 21, 20, 20, 595, DateTimeKind.Local).AddTicks(8980), null, false, "", "系统", null, "/admin", 0, new DateTime(2024, 2, 16, 21, 20, 20, 595, DateTimeKind.Local).AddTicks(8980) },

@@ -1,5 +1,6 @@
 ﻿using LogisticsManagementSystem.Application;
 using LogisticsManagementSystem.Domain;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 
 namespace LogisticsManagementSystem.Infrastructure;
@@ -16,13 +17,13 @@ public class MenuRepository : IMenuRepository
     public async Task AddAsync(Menu menu)
     {
         await _context.Menus.AddAsync(menu);
-        await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(Menu menu)
+    public async Task<List<Menu>> GetAllMenuListAsync()
     {
-        menu.SetDeletedAt();
-        await _context.SaveChangesAsync();
+        return await _context.Menus
+            .Where(x => x.DeletedAt == null)
+            .ToListAsync();
     }
 
     public async Task<Menu?> GetByIdAsync(int id)
@@ -30,9 +31,12 @@ public class MenuRepository : IMenuRepository
         return await _context.Menus.Where(x => x.Id == id && x.DeletedAt == null).FirstOrDefaultAsync();
     }
 
-    public async Task<List<Menu>?> ListByRoleAsync()
+    public async Task<List<Menu>> GetMenuListAsync()
     {
-        return await _context.Menus.Where(x => x.DeletedAt == null).ToListAsync();
+        return await _context.Menus
+            .Where(x => x.DeletedAt == null)
+            .Where(x => x.Visibility == false)
+            .ToListAsync();
     }
 
     public async Task SaveChangesAsync()

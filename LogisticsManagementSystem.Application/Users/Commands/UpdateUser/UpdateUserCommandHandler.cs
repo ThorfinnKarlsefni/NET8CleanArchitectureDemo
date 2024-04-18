@@ -37,7 +37,6 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Error
                 return Error.Conflict(description: resetPasswordResult.Errors.First().Description.ToString());
             }
         }
-        // var updateUserResult = await _userRepository.UpdateAsync(user);
 
         await _userRepository.SaveChangeAsync();
         return Result.Updated;

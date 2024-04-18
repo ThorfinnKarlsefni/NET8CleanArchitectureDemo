@@ -17,7 +17,8 @@ public class DeleteMenuCommandHandler : IRequestHandler<DeleteMenuCommand, Error
         var menu = await _menuRepository.GetByIdAsync(request.Id);
         if (menu is null)
             return Error.NotFound(description: "菜单不存在");
-        await _menuRepository.DeleteAsync(menu);
+        menu.SetDeletedAt();
+        await _menuRepository.SaveChangesAsync();
         return Result.Deleted;
     }
 }
