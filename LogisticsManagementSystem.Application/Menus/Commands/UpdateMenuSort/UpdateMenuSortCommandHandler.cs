@@ -15,12 +15,14 @@ public class UpdateMenuSortCommandHandler : IRequestHandler<UpdateMenuSortComman
 
     public async Task<ErrorOr<Updated>> Handle(UpdateMenuSortCommand request, CancellationToken cancellationToken)
     {
-        foreach (var item in request.Menus)
+
+        var allMenus = await _menuRepository.GetAllMenuListAsync();
+
+        foreach (var item in allMenus)
         {
-            var menu = await _menuRepository.GetByIdAsync(item.Id);
-            if (menu is null)
-                return Error.NotFound();
-            menu.UpdateSort(item.ParentId, item.Sort);
+            var updateItem = request.Menus.FirstOrDefault(x => x.Id == item.Id);
+            if (updateItem is not null)
+                item.UpdateSort(updateItem.ParentId, updateItem.Sort);
         }
 
         await _menuRepository.SaveChangesAsync();

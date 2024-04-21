@@ -1,18 +1,25 @@
 ﻿namespace LogisticsManagementSystem.Domain;
 
-public class Entity<TKey>
+public abstract class Entity<TKey>
 {
     public virtual TKey? Id { get; init; }
     public virtual DateTime CreatedAt { get; private init; }
     public virtual DateTime UpdatedAt { get; private set; }
     public virtual DateTime? DeletedAt { get; private set; }
+    protected readonly List<IDomainEvent> _domainEvents = [];
 
-    public Entity()
+    protected Entity()
     {
         CreatedAt = DateTime.Now;
         UpdatedAt = CreatedAt;
     }
 
+    public List<IDomainEvent> PopDomainEvents()
+    {
+        var copy = _domainEvents.ToList();
+        _domainEvents.Clear();
+        return copy;
+    }
     public void SetUpdateAt()
     {
         UpdatedAt = DateTime.Now;

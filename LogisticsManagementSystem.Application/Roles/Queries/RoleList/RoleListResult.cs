@@ -1,13 +1,13 @@
 ﻿namespace LogisticsManagementSystem.Application;
 
-public record ListRoleResult(
+public record RoleListResult(
     long TotalCount,
     int PageNumber,
     int Pagesize,
-    List<ListRole> Roles
+    List<RoleList> Roles
 );
 
-public record ListRole(
+public record RoleList(
     Guid Id,
     string? Name,
     string? NormalizedName,

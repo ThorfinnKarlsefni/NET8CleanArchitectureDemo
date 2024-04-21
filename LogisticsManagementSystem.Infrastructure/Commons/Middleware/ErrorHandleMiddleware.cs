@@ -25,10 +25,11 @@ public class ErrorHandleMiddleware
 
     private async Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
+        Console.WriteLine(exception.ToString());
         var problemDetails = new ProblemDetails
         {
             Status = StatusCodes.Status500InternalServerError,
-            Title = "Server Error",
+            Title = "服务器内部错误",
             Type = "https://tools.ietf.org/html/rfc9110#section-15.6.1",
             Detail = $"{context.TraceIdentifier}"
         };

@@ -13,20 +13,20 @@ public class RoleController : ApiController
         _sender = sender;
     }
 
-
-    [HttpGet("roles")]
-    public async Task<IActionResult> GetListRoles(ListRoleQuery query)
+    [HttpGet("roles/all")]
+    public async Task<IActionResult> GetAllRoles()
     {
-        var result = await _sender.Send(query);
+        var result = await _sender.Send(new AllRoleQuery());
         return result.Match(
             _ => Ok(result.Value),
             Problem);
     }
 
-    [HttpGet("roles/all")]
-    public async Task<IActionResult> GetAllRoles()
+    [HttpGet("roles/list")]
+    public async Task<IActionResult> GetRoleList(int pageNumber, int pageSize, string? searchKeyword)
     {
-        var result = await _sender.Send(new AllRoleQuery());
+        var result = await _sender.Send(new RoleListQuery
+       (pageNumber, pageSize, searchKeyword));
         return result.Match(
             _ => Ok(result.Value),
             Problem);

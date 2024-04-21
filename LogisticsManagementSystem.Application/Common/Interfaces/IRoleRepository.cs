@@ -8,6 +8,6 @@ public interface IRoleRepository
     Task<IdentityResult> CreateAsync(Role role);
     Task<IdentityResult> DeleteAsync(Role role);
     Task<Role?> FindByIdAsync(string roleId);
-    Task<ListRoleResult> GetListRoleAsync(int pageNumber, int pageSize, string? searchKeyword);
+    Task<RoleListResult> GetRoleListAsync(int pageNumber, int pageSize, string? searchKeyword);
     Task<List<Role>?> GetAllRoleAsync();
 }

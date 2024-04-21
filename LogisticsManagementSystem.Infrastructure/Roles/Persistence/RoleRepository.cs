@@ -34,7 +34,7 @@ public class RoleRepository : IRoleRepository
         return await _roleManager.Roles.Where(r => r.DeletedAt == null).ToListAsync();
     }
 
-    public async Task<ListRoleResult> GetListRoleAsync(int pageNumber, int pageSize, string? searchKeyword)
+    public async Task<RoleListResult> GetRoleListAsync(int pageNumber, int pageSize, string? searchKeyword)
     {
         IQueryable<Role> query = _roleManager.Roles;
 
@@ -46,9 +46,10 @@ public class RoleRepository : IRoleRepository
 
         var roles = await query
             .Where(r => r.DeletedAt == null)
+            .Where(r => r.NormalizedName != "ADMIN")
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .Select(r => new ListRole(
+            .Select(r => new RoleList(
                 r.Id,
                 r.Name,
                 r.NormalizedName,
@@ -56,7 +57,7 @@ public class RoleRepository : IRoleRepository
             ))
             .ToListAsync();
         var totalCount = await query.LongCountAsync();
-        return new ListRoleResult(
+        return new RoleListResult(
             totalCount,
             pageNumber,
             pageSize,

@@ -10,5 +10,4 @@ public class ListMenuResponse
     public int? Sort { get; set; }
     public bool Visibility { get; set; }
     public List<ListMenuResponse>? Children { get; set; }
-
 }

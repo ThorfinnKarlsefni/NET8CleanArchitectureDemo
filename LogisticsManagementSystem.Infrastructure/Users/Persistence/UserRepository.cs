@@ -51,7 +51,7 @@ public class UserRepository : IUserRepository
             .FirstOrDefaultAsync();
     }
 
-    public async Task<ListUserResult?> GetListUserAsync(int pageNumber, int pageSize, string? searchKeyword, bool? Disable)
+    public async Task<UserListResult?> GetUserListAsync(int pageNumber, int pageSize, string? searchKeyword, bool? Disable)
     {
         IQueryable<User> query = _userManager.Users;
 
@@ -74,19 +74,19 @@ public class UserRepository : IUserRepository
             .OrderBy(u => u.CreatedAt)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .Select(u => new ListUser(
+            .Select(u => new UserList(
                 u.Id,
                 u.UserName,
                 u.Name,
                 u.Avatar,
                 u.PhoneNumber,
                 u.CreatedAt,
-                u.UserRoles.Select(ur => new ListUserRoleResult(ur.RoleId, ur.Role.Name))))
+                u.UserRoles.Select(ur => new UserListRoleResult(ur.RoleId, ur.Role.Name))))
             .ToListAsync();
 
         var totalCount = await query.LongCountAsync();
 
-        return new ListUserResult(
+        return new UserListResult(
             totalCount,
             pageNumber,
             pageSize,

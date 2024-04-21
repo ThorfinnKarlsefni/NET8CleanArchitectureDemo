@@ -11,7 +11,7 @@ public interface IUserRepository
     Task<IdentityResult> CreateAsync(User user, string password);
     Task<bool> UserExistsAsync(string username);
     Task<User?> FindByIdAsync(string userId);
-    Task<ListUserResult?> GetListUserAsync(int pageNumber, int pageSize, string? searchKeyword, bool? Disable);
+    Task<UserListResult?> GetUserListAsync(int pageNumber, int pageSize, string? searchKeyword, bool? Disable);
     Task<bool> IsInAdminAsync(User user);
     Task<IdentityResult> ResetUserPasswordAsync(User user, string password);
     Task<IdentityResult> UpdateAsync(User user);

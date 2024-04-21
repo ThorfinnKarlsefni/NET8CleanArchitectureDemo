@@ -29,7 +29,7 @@ public class UserController : ApiController
     [HttpGet("users")]
     public async Task<IActionResult> GetUserListByAdmin(int pageNumber, int pageSize, string? searchKeyword, bool? disable)
     {
-        var result = await _mediator.Send(new ListUserQuery(
+        var result = await _mediator.Send(new UserListQuery(
             pageNumber,
             pageSize,
             searchKeyword,
