@@ -1,4 +1,5 @@
-﻿using LogisticsManagementSystem.Domain;
+﻿using System.Runtime.CompilerServices;
+using LogisticsManagementSystem.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,6 +16,10 @@ public class UserConfigurations : IEntityTypeConfiguration<User>
         builder.Property(u => u.UpdatedAt).HasColumnType("timestamp");
         builder.Property(u => u.DeletedAt).HasColumnType("timestamp");
         builder.Property(u => u.TokenVersion).HasDefaultValue(0);
+
+        builder.HasOne(u => u.Company)
+            .WithMany()
+            .HasForeignKey(u => u.CompanyId);
     }
     public class UserRoleConfig : IEntityTypeConfiguration<UserRole>
     {
@@ -22,14 +27,16 @@ public class UserConfigurations : IEntityTypeConfiguration<User>
         {
             builder.ToTable("UserRole");
             builder.HasKey(ur => new { ur.UserId, ur.RoleId });
+
             builder.HasOne(ur => ur.Role)
                 .WithMany(r => r.UserRoles)
                 .HasForeignKey(ur => ur.RoleId)
-                .IsRequired();
+                .OnDelete(DeleteBehavior.NoAction);
+
             builder.HasOne(ur => ur.User)
                 .WithMany(r => r.UserRoles)
                 .HasForeignKey(ur => ur.UserId)
-                .IsRequired();
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
     public class UserLoginConfig : IEntityTypeConfiguration<UserLogin>

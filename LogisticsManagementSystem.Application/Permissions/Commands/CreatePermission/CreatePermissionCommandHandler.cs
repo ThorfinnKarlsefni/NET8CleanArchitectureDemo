@@ -4,7 +4,7 @@ using MediatR;
 
 namespace LogisticsManagementSystem.Application;
 
-public class CreatePermissionCommandHandler : IRequestHandler<CreatePermissionCommand, ErrorOr<Updated>>
+public class CreatePermissionCommandHandler : IRequestHandler<CreatePermissionCommand, ErrorOr<Created>>
 {
     private readonly IPermissionRepository _permissionRepository;
 
@@ -13,11 +13,12 @@ public class CreatePermissionCommandHandler : IRequestHandler<CreatePermissionCo
         _permissionRepository = permissionRepository;
     }
 
-    public async Task<ErrorOr<Updated>> Handle(CreatePermissionCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Created>> Handle(CreatePermissionCommand request, CancellationToken cancellationToken)
     {
-        var permission = new Permission(request.ParentId, request.Name, request.HttpPath, request.HttpMethod.ToString());
-        await _permissionRepository.AddAsync(permission);
-        await _permissionRepository.SaveChangesAsync();
-        return Result.Updated;
+
+        var permission = new Permission(request.ParentId, request.Name, request.Slug, request.Path, request.Action, request.Method);
+        await _permissionRepository.AddAsync(permission, cancellationToken);
+        await _permissionRepository.SaveChangesAsync(cancellationToken);
+        return Result.Created;
     }
 }

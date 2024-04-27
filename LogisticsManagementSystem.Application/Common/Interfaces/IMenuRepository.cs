@@ -4,9 +4,9 @@ namespace LogisticsManagementSystem.Application;
 
 public interface IMenuRepository
 {
-    Task AddAsync(Menu menu);
-    Task<Menu?> GetByIdAsync(int id);
-    Task<List<Menu>> GetMenuListAsync();
-    Task<List<Menu>> GetAllMenuListAsync();
-    Task SaveChangesAsync();
+    Task AddAsync(Menu menu, CancellationToken cancellationToken);
+    Task<Menu?> GetByIdAsync(int id, CancellationToken cancellationToken);
+    Task<List<Menu>> GetMenuListAsync(CancellationToken cancellationToken);
+    Task<List<Menu>> GetAllMenuListAsync(CancellationToken cancellationToken);
+    Task SaveChangesAsync(CancellationToken cancellationToken);
 }

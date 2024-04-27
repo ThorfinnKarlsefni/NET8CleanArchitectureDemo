@@ -1,4 +1,5 @@
-﻿using LogisticsManagementSystem.Application;
+﻿using System.Text.RegularExpressions;
+using LogisticsManagementSystem.Application;
 using LogisticsManagementSystem.Contracts;
 using LogisticsManagementSystem.Domain;
 using MediatR;
@@ -14,21 +15,21 @@ public class MenuController : ApiController
         _mediator = mediator;
     }
 
-    [HttpGet("menus")]
-    public async Task<IActionResult> Menus()
+    [HttpGet("menus/tree")]
+    public async Task<IActionResult> GetMenuTree()
     {
-        var result = await _mediator.Send(new ListMenusQuery());
+        var result = await _mediator.Send(new GetMenuTreeQuery());
         return await result.MatchAsync<IActionResult>(
-            async _ => Ok(await ToDtoList(result.Value)),
+            async _ => Ok(await ToDtoTree(result.Value)),
             errors => Task.FromResult<IActionResult>(Problem(errors)));
     }
 
-    [HttpGet("menus/all")]
-    public async Task<IActionResult> AllMenus()
+    [HttpGet("menus/tree/all")]
+    public async Task<IActionResult> AllMenuTree()
     {
-        var result = await _mediator.Send(new AllMenuQuery());
+        var result = await _mediator.Send(new GetMenuAllTreeQuery());
         return await result.MatchAsync<IActionResult>(
-            async _ => Ok(await ToDtoList(result.Value)),
+            async _ => Ok(await ToDtoTree(result.Value)),
             errors => Task.FromResult<IActionResult>(Problem(errors)));
     }
 
@@ -89,7 +90,7 @@ public class MenuController : ApiController
            Problem);
     }
 
-    private async Task<List<ListMenuResponse>> ToDtoList(List<Menu> allMenus)
+    private async Task<List<ListMenuResponse>> ToDtoTree(List<Menu> allMenus)
     {
         var menuDictionary = allMenus
             .Where(menu => menu.ParentId != null)

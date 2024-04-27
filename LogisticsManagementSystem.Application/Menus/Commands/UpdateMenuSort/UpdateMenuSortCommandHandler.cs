@@ -16,7 +16,7 @@ public class UpdateMenuSortCommandHandler : IRequestHandler<UpdateMenuSortComman
     public async Task<ErrorOr<Updated>> Handle(UpdateMenuSortCommand request, CancellationToken cancellationToken)
     {
 
-        var allMenus = await _menuRepository.GetAllMenuListAsync();
+        var allMenus = await _menuRepository.GetAllMenuListAsync(cancellationToken);
 
         foreach (var item in allMenus)
         {
@@ -25,7 +25,7 @@ public class UpdateMenuSortCommandHandler : IRequestHandler<UpdateMenuSortComman
                 item.UpdateSort(updateItem.ParentId, updateItem.Sort);
         }
 
-        await _menuRepository.SaveChangesAsync();
+        await _menuRepository.SaveChangesAsync(cancellationToken);
         return Result.Updated;
     }
 }

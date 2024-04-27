@@ -13,6 +13,7 @@ public static class SeedData
         SeedRoles(builder, roleId);
         SeedUserRoles(builder, userId, roleId);
         SeedMenus(builder);
+        SeedPermission(builder);
     }
 
     private static void SeedUsers(ModelBuilder builder, Guid userId)
@@ -70,18 +71,47 @@ public static class SeedData
                 Name = "系统",
             },
              new Menu { Id = 2, ParentId = 1, Path = "/admin/users", Name = "员工列表", Component = "./Admin/Users" },
-            new Menu { Id = 3, ParentId = 1, Path = "/admin/menu", Name = "菜单管理", Component = "./Admin/Menu" },
-            new Menu { Id = 4, ParentId = 1, Path = "/admin/permission", Name = "权限管理", Component = "./Admin/Permission" },
-            new Menu { Id = 5, ParentId = 1, Path = "/admin/role", Name = "角色管理", Component = "./Admin/Role" },
-            new Menu { Id = 6, ParentId = 1, Path = "/admin/station", Name = "站点管理", Component = "./Admin/Station" },
-            new Menu
+            new Menu { Id = 3, ParentId = 1, Path = "/admin/menus", Name = "菜单管理", Component = "./Admin/Menus" },
+            new Menu { Id = 4, ParentId = 1, Path = "/admin/permissions", Name = "权限管理", Component = "./Admin/Permissions" },
+            new Menu { Id = 5, ParentId = 1, Path = "/admin/roles", Name = "角色管理", Component = "./Admin/Roles" }
+            // new Menu { Id = 6, ParentId = 1, Path = "/admin/stations", Name = "站点管理", Component = "./Admin/Stations" },
+            // new Menu
+            // {
+            //     Id = 7,
+            //     Path = "/transport",
+            //     Name = "运输管理",
+            //     // Icon = "car",
+            // },
+            // new Menu { Id = 8, ParentId = 7, Path = "/transport/invoices", Name = "收货开票", Component = "./Transport/Invoices" }
+        );
+    }
+
+    private static void SeedPermission(ModelBuilder builder)
+    {
+        builder.Entity<Permission>().HasData(
+            new Permission(null, "系统", null, null, null, null)
             {
-                Id = 7,
-                Path = "/transport",
-                Name = "运输管理",
-                // Icon = "car",
+                Id = 1,
             },
-            new Menu { Id = 8, ParentId = 7, Path = "/transport/invoices", Name = "收货开票", Component = "./Transport/Invoices" }
+            new Permission(1, "菜单管理", "Menu", "", null, null)
+            {
+                Id = 2,
+            },
+            new Permission(2, "查看", "Menu", "api/auth/menu", null, "GET")
+            {
+                Id = 3,
+            },
+            new Permission(2, "创建", "Menu", "api/auth/menu", null, "CREATE")
+            {
+                Id = 4,
+            }, new Permission(2, "修改", "Menu", "api/auth/menu/{id}", null, "UPDATE")
+            {
+                Id = 5,
+            },
+            new Permission(2, "删除", "Menu", "api/auth/menu/{id}", null, "DELETE")
+            {
+                Id = 6,
+            }
         );
     }
 }

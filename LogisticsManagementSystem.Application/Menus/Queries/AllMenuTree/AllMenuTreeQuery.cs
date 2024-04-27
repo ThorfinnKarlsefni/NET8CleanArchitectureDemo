@@ -4,5 +4,5 @@ using MediatR;
 
 namespace LogisticsManagementSystem.Application;
 
-public record AllMenuQuery() : IRequest<ErrorOr<List<Menu>>>;
+public record GetMenuAllTreeQuery() : IRequest<ErrorOr<List<Menu>>>;
 

@@ -28,16 +28,10 @@ public class AuthController : ApiController
     [HttpPost("login")]
     public async Task<IActionResult> LoginUserByUserName(LoginByUserNameCommand query)
     {
-        var user = await _sender.Send(query);
-        var result = await GenerateTokens(user.Value);
-        return result;
-        // return result.Match(
-        //     token => CreatedAtAction(
-        //         actionName: nameof(GenerateTokens),
-        //         routeValues: new { user = token },
-        //         value: token
-        //     ),
-        //     Problem);
+        var result = await _sender.Send(query);
+        return await result.MatchAsync(
+             async user => await GenerateTokens(user),
+             error => Task.FromResult<IActionResult>(Problem(error)));
     }
 
     [HttpPost("logout")]

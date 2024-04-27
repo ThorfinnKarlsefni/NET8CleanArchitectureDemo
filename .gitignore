@@ -484,3 +484,5 @@ $RECYCLE.BIN/
 *.swp
 
 /LogisticsManagementSystem.Api/appsettings.Development.json
+
+.mono/*

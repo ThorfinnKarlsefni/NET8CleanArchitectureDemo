@@ -60,6 +60,7 @@ public class AppDbContext : IdentityDbContext<User, Role, Guid, UserClaim, UserR
     {
         base.OnModelCreating(builder);
         builder.ApplyConfigurationsFromAssembly(typeof(DependencyInjection).Assembly);
+
         SeedData.Seed(builder);
     }
 }

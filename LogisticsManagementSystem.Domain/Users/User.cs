@@ -26,10 +26,10 @@ public class User : IdentityUser<Guid>
 
     public void UpdateUser(Guid? companyId, string name, string? phoneNumber, string? email)
     {
-        CompanyId = companyId ?? null;
+        CompanyId = companyId;
         Name = name;
-        PhoneNumber = phoneNumber ?? string.Empty;
-        Email = email ?? string.Empty;
+        PhoneNumber = phoneNumber;
+        Email = email;
     }
 
     public void UpdateRoles(Guid userId, List<Guid>? roleIds)

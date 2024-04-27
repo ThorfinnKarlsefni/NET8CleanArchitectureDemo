@@ -14,12 +14,14 @@ public class CompanyConfigurations : IEntityTypeConfiguration<Company>
         builder.Property(r => r.UpdatedAt).HasColumnType("timestamp");
         builder.Property(r => r.DeletedAt).HasColumnType("timestamp");
 
-        builder.HasOne(c => c.CreateUser)
-            .WithMany()
-            .HasForeignKey(c => c.CreateUserId);
+        // builder.HasOne(c => c.CreateUser)
+        //     .WithMany()
+        //     .HasForeignKey(c => c.CreateUserId)
+        //     .OnDelete(DeleteBehavior.NoAction);
 
-        builder.HasOne(c => c.UpdateUser)
-          .WithMany()
-          .HasForeignKey(c => c.UpdateUserId);
+        // builder.HasOne(c => c.UpdateUser)
+        //     .WithMany()
+        //     .HasForeignKey(c => c.UpdateUserId)
+        //     .OnDelete(DeleteBehavior.NoAction);
     }
 }

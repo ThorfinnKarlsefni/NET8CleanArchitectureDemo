@@ -9,7 +9,7 @@ public class Menu : Entity<int>
     public string? Icon { get; set; } = string.Empty;
     public string? Component { get; set; } = string.Empty;
     public int Sort { get; private set; }
-    public bool Visibility { get; private set; } = false;
+    public bool Visibility { get; private set; } = true;
     public List<Menu?> Children { get; set; } = new List<Menu?>();
 
     public Menu(int? parentId, string name, string path, string? icon, string? component, bool visibility)

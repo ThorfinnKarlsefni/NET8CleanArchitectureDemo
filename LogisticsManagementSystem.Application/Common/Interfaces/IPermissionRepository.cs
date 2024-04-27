@@ -4,6 +4,8 @@ namespace LogisticsManagementSystem.Application;
 
 public interface IPermissionRepository
 {
-    Task AddAsync(Permission permission);
-    Task SaveChangesAsync();
+    Task<List<Permission>> GetAllAsync();
+    Task<Permission?> GetByIdAsync(int id);
+    Task AddAsync(Permission permission, CancellationToken cancellationToken);
+    Task SaveChangesAsync(CancellationToken cancellationToken);
 }

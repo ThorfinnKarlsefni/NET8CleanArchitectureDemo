@@ -3,4 +3,4 @@ using MediatR;
 
 namespace LogisticsManagementSystem.Application;
 
-public record CreatePermissionCommand(int? ParentId, string Name, string? Slug, string HttpPath, List<int?> HttpMethod, List<int?> Menu) : IRequest<ErrorOr<Updated>>;
+public record CreatePermissionCommand(int? ParentId, string Name, string? Slug, string? Path, string? Action, string? Method) : IRequest<ErrorOr<Created>>;
