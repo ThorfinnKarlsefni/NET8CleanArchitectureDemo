@@ -12,9 +12,9 @@ public class DeleteRoleCommandHandler : IRequestHandler<DeleteRoleCommand, Error
         _roleRepository = roleRepository;
     }
 
-    public async Task<ErrorOr<Deleted>> Handle(DeleteRoleCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Deleted>> Handle(DeleteRoleCommand command, CancellationToken cancellationToken)
     {
-        var role = await _roleRepository.FindByIdAsync(request.roleId);
+        var role = await _roleRepository.FindByIdAsync(command.roleId);
         if (role is null)
             return Error.Validation(description: "用户不存在");
         var ok = await _roleRepository.DeleteAsync(role);

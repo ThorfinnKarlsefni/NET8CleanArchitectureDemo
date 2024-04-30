@@ -36,6 +36,7 @@ public static class DependencyInjection
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IMenuRepository, MenuRepository>();
         services.AddScoped<IPermissionRepository, PermissionRepository>();
+        services.AddScoped<IMenuRolesRepository, MenuRolesRepository>();
 
         return services;
     }
@@ -59,7 +60,9 @@ public static class DependencyInjection
     }
     private static IServiceCollection AddAuthorization(this IServiceCollection services)
     {
+        services.AddScoped<IAuthorizationService, AuthorizationService>();
         services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
+        services.AddSingleton<IPolicyEnforcer, PolicyEnforcer>();
         return services;
     }
 

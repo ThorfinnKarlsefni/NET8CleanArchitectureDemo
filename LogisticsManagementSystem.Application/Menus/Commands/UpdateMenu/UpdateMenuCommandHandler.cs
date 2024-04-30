@@ -12,12 +12,12 @@ public class UpdateMenuCommandHandler : IRequestHandler<UpdateMenuCommand, Error
         _menuRepository = menuRepository;
     }
 
-    public async Task<ErrorOr<Updated>> Handle(UpdateMenuCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Updated>> Handle(UpdateMenuCommand command, CancellationToken cancellationToken)
     {
-        var menu = await _menuRepository.GetByIdAsync(request.Id, cancellationToken);
+        var menu = await _menuRepository.GetByIdAsync(command.Id, cancellationToken);
         if (menu is null)
             return Error.NotFound();
-        menu.UpdateMenu(request.ParentId, request.Name, request.Path, request.Component, request.Icon, request.Sort, request.Visibility);
+        menu.UpdateMenu(command.ParentId, command.Name, command.Path, command.Component, command.Icon, command.Sort, command.Visibility);
 
         await _menuRepository.SaveChangesAsync(cancellationToken);
         return Result.Updated;

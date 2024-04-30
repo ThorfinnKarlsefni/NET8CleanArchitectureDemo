@@ -10,4 +10,5 @@ public interface IRoleRepository
     Task<Role?> FindByIdAsync(string roleId);
     Task<RoleListResult> GetRoleListAsync(int pageNumber, int pageSize, string? searchKeyword);
     Task<List<Role>?> GetAllRoleAsync();
+    Task SaveChangesAsync(CancellationToken cancellationToken);
 }

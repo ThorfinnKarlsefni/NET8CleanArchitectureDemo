@@ -7,7 +7,7 @@ namespace LogisticsManagementSystem.Application;
 public class AuthorizationBehavior<TRequest, TResponse>(
     IAuthorizationService _authorizationService)
         : IPipelineBehavior<TRequest, TResponse>
-            where TRequest : IAuthorizeableRequest<TResponse>
+            where TRequest : IAuthorizeAbleRequest<TResponse>
             where TResponse : IErrorOr
 
 {

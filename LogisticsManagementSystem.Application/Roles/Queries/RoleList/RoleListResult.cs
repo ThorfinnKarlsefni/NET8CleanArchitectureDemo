@@ -13,3 +13,5 @@ public record RoleList(
     string? NormalizedName,
     DateTime CreatedAt
 );
+
+public record MenusResult(int Id, string Name);

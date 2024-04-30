@@ -2,7 +2,7 @@
 
 namespace LogisticsManagementSystem.Application;
 
-public class IAuthorizeableRequest<T> : IRequest<T>
+public interface IAuthorizeAbleRequest<T> : IRequest<T>
 {
     Guid UserId { get; }
 }

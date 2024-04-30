@@ -1,6 +1,7 @@
 ﻿namespace LogisticsManagementSystem.Application;
 
-public class Policy
+public static class Policy
 {
     public const string SelfOrAdmin = "SelfOrAdminPolicy";
 }
+

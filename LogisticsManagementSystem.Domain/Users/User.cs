@@ -1,6 +1,4 @@
-﻿using System.Dynamic;
-using ErrorOr;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace LogisticsManagementSystem.Domain;
 
@@ -14,7 +12,8 @@ public class User : IdentityUser<Guid>
     public DateTime UpdatedAt { get; private set; }
     public DateTime? DeletedAt { get; private set; }
     public int TokenVersion { get; private set; }
-    public List<UserRole> UserRoles { get; private set; } = new List<UserRole>();
+    public List<UserRole> UserRoles { get; private set; } = [];
+    // public List<Permission> Permissions { get; private set; } = new List<Permission>();
     public User(string userName, string name, Guid? companyId, string? phoneNumber) : base(userName)
     {
         Name = name;

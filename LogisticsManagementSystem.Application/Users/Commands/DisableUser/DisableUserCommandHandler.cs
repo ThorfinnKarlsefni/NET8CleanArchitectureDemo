@@ -12,9 +12,9 @@ public class DisableUserCommandHandler : IRequestHandler<DisableUserCommand, Err
         _userRepository = userRepository;
     }
 
-    public async Task<ErrorOr<Updated>> Handle(DisableUserCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Updated>> Handle(DisableUserCommand command, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.FindByIdAsync(request.Id);
+        var user = await _userRepository.FindByIdAsync(command.Id);
 
         if (user is null)
             return Error.NotFound(description: "用户不存在");

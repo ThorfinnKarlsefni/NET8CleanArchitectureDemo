@@ -8,10 +8,12 @@ namespace LogisticsManagementSystem.Infrastructure;
 public class RoleRepository : IRoleRepository
 {
     private readonly RoleManager<Role> _roleManager;
+    private readonly AppDbContext _dbContext;
 
-    public RoleRepository(RoleManager<Role> roleManager)
+    public RoleRepository(RoleManager<Role> roleManager, AppDbContext dbContext)
     {
         _roleManager = roleManager;
+        _dbContext = dbContext;
     }
 
     public async Task<IdentityResult> CreateAsync(Role role)
@@ -54,8 +56,15 @@ public class RoleRepository : IRoleRepository
                 r.Name,
                 r.NormalizedName,
                 r.CreatedAt
+            // r.
+            // r.Menus.Select(menu => new
+            // {
+            //     Id = menu.MenuId,
+            //     name = menu.MenuId
+            // })
             ))
             .ToListAsync();
+
         var totalCount = await query.LongCountAsync();
         return new RoleListResult(
             totalCount,
@@ -63,5 +72,10 @@ public class RoleRepository : IRoleRepository
             pageSize,
             roles
         );
+    }
+
+    public async Task SaveChangesAsync(CancellationToken cancellationToken)
+    {
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }

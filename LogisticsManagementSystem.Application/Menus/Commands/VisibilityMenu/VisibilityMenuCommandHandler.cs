@@ -12,9 +12,9 @@ public class VisibilityMenuCommandHandler : IRequestHandler<VisibilityMenuComman
         _menuRepository = menuRepository;
     }
 
-    public async Task<ErrorOr<Updated>> Handle(VisibilityMenuCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Updated>> Handle(VisibilityMenuCommand command, CancellationToken cancellationToken)
     {
-        var menu = await _menuRepository.GetByIdAsync(request.Id, cancellationToken);
+        var menu = await _menuRepository.GetByIdAsync(command.Id, cancellationToken);
         if (menu is null)
             return Error.NotFound();
 

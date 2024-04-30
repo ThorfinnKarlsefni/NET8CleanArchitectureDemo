@@ -17,10 +17,24 @@ public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, Error
     {
         if (request.Name is null)
             return Error.Validation(description: "角色名称不能为空");
+
         var role = new Role(request.Name);
+
         var result = await _repository.CreateAsync(role);
         if (!result.Succeeded)
             return Error.Conflict(description: result.Errors.First().Description.ToString());
+
+        if (request.menuIds != null && request.menuIds.Any())
+        {
+            var setMenuRoleResult = role.SetMenuRoleRelation(role.Id, request.menuIds);
+
+            if (setMenuRoleResult.IsError)
+            {
+                return setMenuRoleResult.Errors;
+            }
+        }
+
+        await _repository.SaveChangesAsync(cancellationToken);
         return Result.Created;
     }
 }

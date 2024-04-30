@@ -12,9 +12,9 @@ public class RecoverUserCommandHandler : IRequestHandler<RecoverUserCommand, Err
         _userRepository = userRepository;
     }
 
-    public async Task<ErrorOr<Updated>> Handle(RecoverUserCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Updated>> Handle(RecoverUserCommand command, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.FindByIdAsync(request.Id);
+        var user = await _userRepository.FindByIdAsync(command.Id);
         if (user is null)
             return Error.NotFound(description: "用户不存在");
         user.Recover();

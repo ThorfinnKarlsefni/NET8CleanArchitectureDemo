@@ -26,6 +26,6 @@ public class GetUserQueryHandler : IRequestHandler<GetUserQuery, ErrorOr<GetUser
             user.PhoneNumber,
             user.Email,
             user.CreatedAt,
-            user.UserRoles.Select(ur => new GetUserRoleList(ur.Role.Id, ur.Role.Name)));
+            user.UserRoles.Select(x => new GetUserRoleList(x.RoleId, x.Role.Name)));
     }
 }

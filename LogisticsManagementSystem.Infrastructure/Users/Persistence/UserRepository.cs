@@ -45,8 +45,8 @@ public class UserRepository : IUserRepository
     {
         return await _userManager.Users
             .Where(u => u.Id == Guid.Parse(userId))
-            .Include(u => u.UserRoles)
-            .ThenInclude(ur => ur.Role)
+            .Include(ur => ur.UserRoles)
+            .ThenInclude(r => r.Role)
             .Include(u => u.Company)
             .FirstOrDefaultAsync();
     }
@@ -81,7 +81,7 @@ public class UserRepository : IUserRepository
                 u.Avatar,
                 u.PhoneNumber,
                 u.CreatedAt,
-                u.UserRoles.Select(ur => new UserListRoleResult(ur.RoleId, ur.Role.Name))))
+                u.UserRoles.Select(x => new UserListRoleResult(x.Role.Id, x.Role.Name))))
             .ToListAsync();
 
         var totalCount = await query.LongCountAsync();

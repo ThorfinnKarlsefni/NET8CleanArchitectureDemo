@@ -12,9 +12,9 @@ public class DeleteMenuCommandHandler : IRequestHandler<DeleteMenuCommand, Error
         _menuRepository = menuRepository;
     }
 
-    public async Task<ErrorOr<Deleted>> Handle(DeleteMenuCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Deleted>> Handle(DeleteMenuCommand command, CancellationToken cancellationToken)
     {
-        var menu = await _menuRepository.GetByIdAsync(request.Id, cancellationToken);
+        var menu = await _menuRepository.GetByIdAsync(command.Id, cancellationToken);
         if (menu is null)
             return Error.NotFound(description: "菜单不存在");
         menu.SetDeletedAt();

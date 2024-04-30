@@ -21,7 +21,7 @@ public class PermissionController : ApiController
     {
         var result = await _sender.Send(new AllPermissionQuery());
         return result.Match(
-            permissionList => Ok(permissionList),
+            permissions => Ok(permissions),
             Problem);
     }
 

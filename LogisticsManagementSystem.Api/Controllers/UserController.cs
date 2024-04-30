@@ -20,14 +20,14 @@ public class UserController : ApiController
     public async Task<IActionResult> GetCurrentUser()
     {
         var user = _currentUserProvider.GetCurrentUser();
-        var result = await _mediator.Send(new CurrentUserQuery(user.Id));
+        var result = await _mediator.Send(new CurrentUserQuery(user.Id.ToString()));
         return result.Match(
             _ => Ok(result.Value),
             Problem);
     }
 
     [HttpGet("users")]
-    public async Task<IActionResult> GetUserListByAdmin(int pageNumber, int pageSize, string? searchKeyword, bool? disable)
+    public async Task<IActionResult> GetUserList(int pageNumber, int pageSize, string? searchKeyword, bool? disable)
     {
         var result = await _mediator.Send(new UserListQuery(
             pageNumber,
@@ -36,7 +36,7 @@ public class UserController : ApiController
             disable
         ));
         return result.Match(
-            _ => Ok(result.Value),
+            userList => Ok(userList),
             Problem);
     }
 
@@ -45,7 +45,7 @@ public class UserController : ApiController
     {
         var result = await _mediator.Send(new GetUserQuery(id));
         return result.Match(
-            _ => Ok(result.Value),
+            user => Ok(user),
             Problem);
     }
 

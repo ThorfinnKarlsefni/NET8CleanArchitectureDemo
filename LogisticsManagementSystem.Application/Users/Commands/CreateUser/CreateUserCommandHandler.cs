@@ -13,16 +13,16 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Error
         _userRepository = userRepository;
     }
 
-    public async Task<ErrorOr<Created>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Created>> Handle(CreateUserCommand command, CancellationToken cancellationToken)
     {
         var user = new User(
-            request.UserName,
-            request.Name,
-            request.companyId,
-            request.PhoneNumber);
-        user.SetAvatar(request.Avatar);
+            command.UserName,
+            command.Name,
+            command.companyId,
+            command.PhoneNumber);
+        user.SetAvatar(command.Avatar);
 
-        var result = await _userRepository.CreateAsync(user, request.Password);
+        var result = await _userRepository.CreateAsync(user, command.Password);
         if (!result.Succeeded)
             return Error.Conflict(description: result.Errors.First().Description.ToString());
 

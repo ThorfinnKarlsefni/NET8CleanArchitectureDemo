@@ -1,8 +1,8 @@
-﻿namespace LogisticsManagementSystem.Domain;
+﻿
+namespace LogisticsManagementSystem.Domain;
 
-public abstract class Entity<TKey>
+public abstract class Entity : IEntity
 {
-    public virtual TKey? Id { get; init; }
     public virtual DateTime CreatedAt { get; private init; }
     public virtual DateTime UpdatedAt { get; private set; }
     public virtual DateTime? DeletedAt { get; private set; }

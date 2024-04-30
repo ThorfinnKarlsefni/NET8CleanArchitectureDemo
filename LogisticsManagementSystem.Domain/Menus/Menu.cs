@@ -1,8 +1,9 @@
 ﻿
 namespace LogisticsManagementSystem.Domain;
 
-public class Menu : Entity<int>
+public class Menu : Entity
 {
+    public int Id { get; set; }
     public int? ParentId { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Path { get; set; } = string.Empty;
@@ -10,8 +11,6 @@ public class Menu : Entity<int>
     public string? Component { get; set; } = string.Empty;
     public int Sort { get; private set; }
     public bool Visibility { get; private set; } = true;
-    public List<Menu?> Children { get; set; } = new List<Menu?>();
-
     public Menu(int? parentId, string name, string path, string? icon, string? component, bool visibility)
     {
         ParentId = parentId;

@@ -13,13 +13,18 @@ public class GenerateTokenQueryHandler : IRequestHandler<GenerateTokenCommand, E
         _jwtTokenGenerator = jwtTokenGenerator;
     }
 
-    public async Task<ErrorOr<GenerateTokenResult>> Handle(GenerateTokenCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<GenerateTokenResult>> Handle(GenerateTokenCommand command, CancellationToken cancellationToken)
     {
-        if (request.User is null)
+        if (command.User is null)
             return Error.Validation(description: "登录失败,用户不存在");
 
-        var roles = await _userRepository.GetRolesAsync(request.User);
-        var token = _jwtTokenGenerator.GenerateToken(request.User.Id, request.User.Name, request.User?.CompanyId.ToString(), roles.ToList());
+        var roles = await _userRepository.GetRolesAsync(command.User);
+        List<string> permissions = new List<string>();
+
+        // Add strings to the list
+        permissions.Add("123");
+        permissions.Add("12312");
+        var token = _jwtTokenGenerator.GenerateToken(command.User.Id, command.User.Name, command.User?.CompanyId.ToString(), permissions, roles.ToList());
 
         return new GenerateTokenResult(token);
     }

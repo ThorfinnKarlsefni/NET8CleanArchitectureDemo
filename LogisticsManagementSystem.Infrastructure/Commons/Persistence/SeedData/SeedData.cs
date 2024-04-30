@@ -102,6 +102,7 @@ public static class SeedData
                 Id = 3,
             },
             new Permission(2, "创建", "Menu", "api/auth/menu", null, "CREATE")
+
             {
                 Id = 4,
             }, new Permission(2, "修改", "Menu", "api/auth/menu/{id}", null, "UPDATE")
@@ -111,6 +112,44 @@ public static class SeedData
             new Permission(2, "删除", "Menu", "api/auth/menu/{id}", null, "DELETE")
             {
                 Id = 6,
+            },
+            new Permission(1, "权限管理", "Permission", "", null, null)
+            {
+                Id = 7,
+            },
+            new Permission(7, "查看", "Permission", "api/auth/permission", null, "GET")
+            {
+                Id = 8,
+            },
+            new Permission(7, "创建", "Permission", "api/auth/permission", null, "CREATE")
+            {
+                Id = 9,
+            }, new Permission(7, "修改", "Permission", "api/auth/permission/{id}", null, "UPDATE")
+            {
+                Id = 10,
+            },
+            new Permission(7, "删除", "Permission", "api/auth/permission/{id}", null, "DELETE")
+            {
+                Id = 11,
+            },
+            new Permission(1, "角色管理", "Role", "", null, null)
+            {
+                Id = 12,
+            },
+            new Permission(12, "查看", "Role", "api/auth/roles", null, "GET")
+            {
+                Id = 13,
+            },
+            new Permission(12, "创建", "Role", "api/auth/role", null, "CREATE")
+            {
+                Id = 14,
+            }, new Permission(12, "修改", "Role", "api/auth/role/{id}", null, "UPDATE")
+            {
+                Id = 15,
+            },
+            new Permission(12, "删除", "Role", "api/auth/role/{id}", null, "DELETE")
+            {
+                Id = 16,
             }
         );
     }

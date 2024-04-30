@@ -12,9 +12,9 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Error
         _userRepository = userRepository;
     }
 
-    public async Task<ErrorOr<Updated>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Updated>> Handle(UpdateUserCommand command, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.FindByIdAsync(request.Id);
+        var user = await _userRepository.FindByIdAsync(command.Id);
         if (user == null)
             return Error.NotFound(description: "用户不在");
         // var isAdmin = await _userRepository.IsInAdminAsync(user);
@@ -22,16 +22,16 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Error
         //     return Error.Validation(description: "没有权限修改公司");
 
         user.UpdateUser(
-            request.CompanyId,
-            request.Name,
-            request.PhoneNumber,
-            request.Email);
+            command.CompanyId,
+            command.Name,
+            command.PhoneNumber,
+            command.Email);
 
-        user.UpdateRoles(user.Id, request.Roles);
+        user.UpdateRoles(user.Id, command.Roles);
 
-        if (request.Password != null)
+        if (command.Password != null)
         {
-            var resetPasswordResult = await _userRepository.ResetUserPasswordAsync(user, request.Password);
+            var resetPasswordResult = await _userRepository.ResetUserPasswordAsync(user, command.Password);
             if (!resetPasswordResult.Succeeded)
             {
                 return Error.Conflict(description: resetPasswordResult.Errors.First().Description.ToString());

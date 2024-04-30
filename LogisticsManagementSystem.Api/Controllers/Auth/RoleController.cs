@@ -6,17 +6,17 @@ namespace LogisticsManagementSystem.Api;
 
 public class RoleController : ApiController
 {
-    private readonly ISender _sender;
+    private readonly IMediator _mediator;
 
-    public RoleController(ISender sender)
+    public RoleController(IMediator mediator)
     {
-        _sender = sender;
+        _mediator = mediator;
     }
 
     [HttpGet("roles/all")]
     public async Task<IActionResult> GetAllRoles()
     {
-        var result = await _sender.Send(new AllRoleQuery());
+        var result = await _mediator.Send(new AllRoleQuery());
         return result.Match(
             _ => Ok(result.Value),
             Problem);
@@ -25,17 +25,17 @@ public class RoleController : ApiController
     [HttpGet("roles/list")]
     public async Task<IActionResult> GetRoleList(int pageNumber, int pageSize, string? searchKeyword)
     {
-        var result = await _sender.Send(new RoleListQuery
+        var result = await _mediator.Send(new RoleListQuery
        (pageNumber, pageSize, searchKeyword));
         return result.Match(
             _ => Ok(result.Value),
             Problem);
     }
 
-    [HttpPost("roles")]
+    [HttpPost("role")]
     public async Task<IActionResult> CreateRole(CreateRoleCommand command)
     {
-        var result = await _sender.Send(command);
+        var result = await _mediator.Send(command);
         return result.Match(
             _ => NoContent(),
             Problem);
@@ -52,7 +52,7 @@ public class RoleController : ApiController
             );
         }
         var deleteCommand = new DeleteRoleCommand(roleId);
-        var result = await _sender.Send(deleteCommand);
+        var result = await _mediator.Send(deleteCommand);
         return result.Match(
             _ => NoContent(),
             Problem);

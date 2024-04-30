@@ -1,12 +1,13 @@
-﻿using ErrorOr;
+﻿using CleanArchitecture.Application.Common.Security.Roles;
+using ErrorOr;
 using LogisticsManagementSystem.Application;
 
 namespace LogisticsManagementSystem.Infrastructure;
 
-public class PolicyEnforcer
+public class PolicyEnforcer : IPolicyEnforcer
 {
     public ErrorOr<Success> Authorize<T>(
-        IAuthorizeableRequest<T> request,
+        IAuthorizeAbleRequest<T> request,
         CurrentUser currentUser,
         string policy)
     {
@@ -17,8 +18,8 @@ public class PolicyEnforcer
         };
     }
 
-    private Error SelfOrAdminPolicy<T>(IAuthorizeableRequest<T> request, CurrentUser currentUser)
-    {
-        throw new NotImplementedException();
-    }
+    private static ErrorOr<Success> SelfOrAdminPolicy<T>(IAuthorizeAbleRequest<T> request, CurrentUser currentUser) =>
+       request.UserId == currentUser.Id || currentUser.Roles.Contains(Role.Admin)
+           ? Result.Success
+           : Error.Unauthorized(description: "Requesting user failed policy requirement");
 }
