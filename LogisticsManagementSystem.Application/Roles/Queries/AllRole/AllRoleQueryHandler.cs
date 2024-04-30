@@ -12,10 +12,11 @@ public class AllRoleQueryHandler : IRequestHandler<AllRoleQuery, ErrorOr<List<Al
         _roleRepository = roleRepository;
     }
 
-    public async Task<ErrorOr<List<AllRoleResult>?>> Handle(AllRoleQuery request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<List<AllRoleResult>>> Handle(AllRoleQuery request, CancellationToken cancellationToken)
     {
         var roles = await _roleRepository.GetAllRoleAsync();
-        var result = roles?.Select(r => new AllRoleResult(
+
+        var result = roles.Select(r => new AllRoleResult(
             r.Id,
             r.Name,
             r.NormalizedName

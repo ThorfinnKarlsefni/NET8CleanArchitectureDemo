@@ -31,9 +31,11 @@ public class RoleRepository : IRoleRepository
         return await _roleManager.FindByIdAsync(roleId);
     }
 
-    public async Task<List<Role>?> GetAllRoleAsync()
+    public async Task<List<Role>> GetAllRoleAsync()
     {
-        return await _roleManager.Roles.Where(r => r.DeletedAt == null).ToListAsync();
+        return await _roleManager.Roles
+            .Where(x => x.DeletedAt == null)
+            .ToListAsync();
     }
 
     public async Task<RoleListResult> GetRoleListAsync(int pageNumber, int pageSize, string? searchKeyword)
@@ -47,6 +49,8 @@ public class RoleRepository : IRoleRepository
         }
 
         var roles = await query
+            .Include(r => r.MenuRoles)
+            .ThenInclude(r => r.Menu)
             .Where(r => r.DeletedAt == null)
             .Where(r => r.NormalizedName != "ADMIN")
             .Skip((pageNumber - 1) * pageSize)
@@ -55,13 +59,8 @@ public class RoleRepository : IRoleRepository
                 r.Id,
                 r.Name,
                 r.NormalizedName,
-                r.CreatedAt
-            // r.
-            // r.Menus.Select(menu => new
-            // {
-            //     Id = menu.MenuId,
-            //     name = menu.MenuId
-            // })
+                r.CreatedAt,
+                r.MenuRoles.Select(ur => new RoleMenuRelation(ur.Menu.Id, ur.Menu.Name)).ToList()
             ))
             .ToListAsync();
 

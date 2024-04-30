@@ -3,4 +3,4 @@ using MediatR;
 
 namespace LogisticsManagementSystem.Application;
 
-public record AllRoleQuery() : IRequest<ErrorOr<List<AllRoleResult>?>>;
+public record AllRoleQuery() : IRequest<ErrorOr<List<AllRoleResult>>>;
