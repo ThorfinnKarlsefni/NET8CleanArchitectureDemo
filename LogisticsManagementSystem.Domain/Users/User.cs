@@ -31,16 +31,15 @@ public class User : IdentityUser<Guid>
         Email = email;
     }
 
-    public void UpdateRoles(Guid userId, List<Guid>? roleIds)
+    public void UpdateRole(Guid userId, Guid? roleId)
     {
         UserRoles.Clear();
-        if (roleIds != null && roleIds.Any())
+        if (roleId.HasValue)
         {
-            foreach (var roleId in roleIds)
-            {
-                UserRoles.Add(new UserRole { UserId = userId, RoleId = roleId });
-            }
+            UserRoles.Add(new UserRole { UserId = userId, RoleId = roleId.Value });
+
         }
+
     }
 
     public void SetUpdateAt()

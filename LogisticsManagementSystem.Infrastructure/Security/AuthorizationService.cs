@@ -6,9 +6,14 @@ namespace LogisticsManagementSystem.Infrastructure;
 
 public class AuthorizationService(
     IPolicyEnforcer _policyEnforcer,
-    ICurrentUserProvider _currentUserProvider) : IAuthorizationService
+    ICurrentUserProvider _currentUserProvider)
+        : IAuthorizationService
 {
-    public ErrorOr<Success> AuthorizeCurrentUser<T>(IAuthorizeAbleRequest<T> request, List<string> requiredRoles, List<string> requiredPermissions, List<string> requiredPolicies)
+    public ErrorOr<Success> AuthorizeCurrentUser<T>(
+        IAuthorizeAbleRequest<T> request,
+        List<string> requiredRoles,
+        List<string> requiredPermissions,
+        List<string> requiredPolicies)
     {
         var currentUser = _currentUserProvider.GetCurrentUser();
 
@@ -19,7 +24,7 @@ public class AuthorizationService(
 
         if (requiredRoles.Except(currentUser.Roles).Any())
         {
-            return Error.Unauthorized(description: "User is missing required roles form taking this action");
+            return Error.Unauthorized(description: "User is missing required roles for taking this action");
         }
 
         foreach (var policy in requiredPolicies)

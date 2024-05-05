@@ -12,7 +12,5 @@ public record RoleList(
     string? Name,
     string? NormalizedName,
     DateTime CreatedAt,
-    List<RoleMenuRelation> Menus
+    List<int> Menus
 );
-
-public record RoleMenuRelation(int Id, string Name);

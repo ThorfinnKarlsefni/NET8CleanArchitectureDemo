@@ -15,10 +15,10 @@ public static class DependencyInjection
         services
             .AddHttpContextAccessor()
             .AddServices()
-            .AddPersistence(configuration)
-            .AddIdentity()
+            .AddAuthorization()
             .AddAuthentication(configuration)
-            .AddAuthorization();
+            .AddIdentity()
+            .AddPersistence(configuration);
 
         return services;
     }

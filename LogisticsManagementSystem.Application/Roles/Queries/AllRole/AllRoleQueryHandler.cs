@@ -3,7 +3,7 @@ using MediatR;
 
 namespace LogisticsManagementSystem.Application;
 
-public class AllRoleQueryHandler : IRequestHandler<AllRoleQuery, ErrorOr<List<AllRoleResult>?>>
+public class AllRoleQueryHandler : IRequestHandler<AllRoleQuery, ErrorOr<List<AllRoleResult>>>
 {
     private IRoleRepository _roleRepository;
 

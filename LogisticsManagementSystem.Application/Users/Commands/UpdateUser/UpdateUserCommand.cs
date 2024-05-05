@@ -11,5 +11,5 @@ public record UpdateUserCommand(
     string? Email,
     string? Password,
     string? ConfirmPassword,
-    List<Guid>? Roles
+    Guid? Role
 ) : IRequest<ErrorOr<Updated>>;

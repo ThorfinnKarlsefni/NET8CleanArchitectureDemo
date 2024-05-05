@@ -27,7 +27,7 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Error
             command.PhoneNumber,
             command.Email);
 
-        user.UpdateRoles(user.Id, command.Roles);
+        user.UpdateRole(user.Id, command.Role);
 
         if (command.Password != null)
         {

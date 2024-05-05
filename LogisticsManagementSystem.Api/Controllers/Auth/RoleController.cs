@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LogisticsManagementSystem.Api;
 
+[Authorize]
 public class RoleController : ApiController
 {
     private readonly IMediator _mediator;
@@ -41,17 +42,27 @@ public class RoleController : ApiController
             Problem);
     }
 
-    [HttpDelete("role/{roleId}")]
-    public async Task<IActionResult> DeleteRole(string roleId)
+    [HttpPut("role/{id}")]
+    public async Task<IActionResult> UpdateRole(string id, UpdateRoleCommand command)
     {
-        if (!Guid.TryParse(roleId, out var id))
+        var updateCommand = command with { Id = id };
+        var result = await _mediator.Send(updateCommand);
+        return result.Match(
+            _ => NoContent(),
+            Problem);
+    }
+
+    [HttpDelete("role/{id}")]
+    public async Task<IActionResult> DeleteRole(string id)
+    {
+        if (!Guid.TryParse(id, out var roleId))
         {
             return Problem(
                 statusCode: StatusCodes.Status400BadRequest,
                 title: "无效Id格式"
             );
         }
-        var deleteCommand = new DeleteRoleCommand(roleId);
+        var deleteCommand = new DeleteRoleCommand(id);
         var result = await _mediator.Send(deleteCommand);
         return result.Match(
             _ => NoContent(),

@@ -16,7 +16,7 @@ public class DeleteRoleCommandHandler : IRequestHandler<DeleteRoleCommand, Error
     {
         var role = await _roleRepository.FindByIdAsync(command.roleId);
         if (role is null)
-            return Error.Validation(description: "用户不存在");
+            return Error.NotFound(description: "用户不存在");
         var ok = await _roleRepository.DeleteAsync(role);
         if (!ok.Succeeded)
             return Error.Conflict(description: "删除失败");

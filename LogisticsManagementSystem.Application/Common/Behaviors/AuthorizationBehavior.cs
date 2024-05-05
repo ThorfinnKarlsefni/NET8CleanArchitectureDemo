@@ -9,10 +9,14 @@ public class AuthorizationBehavior<TRequest, TResponse>(
         : IPipelineBehavior<TRequest, TResponse>
             where TRequest : IAuthorizeAbleRequest<TResponse>
             where TResponse : IErrorOr
-
 {
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(
+        TRequest request,
+        RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken)
     {
+
+        Console.WriteLine("正在加速处理了");
         var authorizationAttributes = request.GetType()
             .GetCustomAttributes<AuthorizeAttribute>()
             .ToList();
@@ -38,8 +42,7 @@ public class AuthorizationBehavior<TRequest, TResponse>(
             request,
             requiredRoles,
             requiredPermissions,
-            requiredPolicies
-        );
+            requiredPolicies);
 
         return authorizationResult.IsError
             ? (dynamic)authorizationResult.Errors

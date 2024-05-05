@@ -70,19 +70,20 @@ public static class SeedData
                 Path = "/admin",
                 Name = "系统",
             },
-             new Menu { Id = 2, ParentId = 1, Path = "/admin/users", Name = "员工列表", Component = "./Admin/Users" },
-            new Menu { Id = 3, ParentId = 1, Path = "/admin/menus", Name = "菜单管理", Component = "./Admin/Menus" },
-            new Menu { Id = 4, ParentId = 1, Path = "/admin/permissions", Name = "权限管理", Component = "./Admin/Permissions" },
-            new Menu { Id = 5, ParentId = 1, Path = "/admin/roles", Name = "角色管理", Component = "./Admin/Roles" }
-            // new Menu { Id = 6, ParentId = 1, Path = "/admin/stations", Name = "站点管理", Component = "./Admin/Stations" },
-            // new Menu
-            // {
-            //     Id = 7,
-            //     Path = "/transport",
-            //     Name = "运输管理",
-            //     // Icon = "car",
-            // },
-            // new Menu { Id = 8, ParentId = 7, Path = "/transport/invoices", Name = "收货开票", Component = "./Transport/Invoices" }
+
+            new Menu { Id = 2, ParentId = 1, Path = "/admin/menus", Name = "菜单管理", Component = "./Admin/Menus" },
+            new Menu { Id = 3, ParentId = 1, Path = "/admin/permissions", Name = "权限管理", Component = "./Admin/Permissions" },
+            new Menu { Id = 4, ParentId = 1, Path = "/admin/roles", Name = "角色管理", Component = "./Admin/Roles" },
+             new Menu { Id = 5, ParentId = 1, Path = "/admin/users", Name = "员工列表", Component = "./Admin/Users" }
+        // new Menu { Id = 6, ParentId = 1, Path = "/admin/stations", Name = "站点管理", Component = "./Admin/Stations" },
+        // new Menu
+        // {
+        //     Id = 7,
+        //     Path = "/transport",
+        //     Name = "运输管理",
+        //     // Icon = "car",
+        // },
+        // new Menu { Id = 8, ParentId = 7, Path = "/transport/invoices", Name = "收货开票", Component = "./Transport/Invoices" }
         );
     }
 

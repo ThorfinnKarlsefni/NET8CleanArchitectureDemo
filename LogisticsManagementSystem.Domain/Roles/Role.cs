@@ -27,6 +27,13 @@ public class Role : IdentityRole<Guid>, IEntity
         return copy;
     }
 
+    public void Update(string name, string? normalizedName)
+    {
+        Name = name;
+        NormalizedName = normalizedName;
+        SetUpdateAt();
+    }
+
     public ErrorOr<Success> SetMenuRoleRelation(Guid roleId, List<int> menuIds)
     {
         var menuRoleRelations = menuIds.Select(menuId => new MenuRole

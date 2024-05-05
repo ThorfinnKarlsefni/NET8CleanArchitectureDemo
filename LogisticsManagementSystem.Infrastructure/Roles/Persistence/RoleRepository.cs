@@ -53,6 +53,7 @@ public class RoleRepository : IRoleRepository
             .ThenInclude(r => r.Menu)
             .Where(r => r.DeletedAt == null)
             .Where(r => r.NormalizedName != "ADMIN")
+            .OrderBy(r => r.Id)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .Select(r => new RoleList(
@@ -60,7 +61,7 @@ public class RoleRepository : IRoleRepository
                 r.Name,
                 r.NormalizedName,
                 r.CreatedAt,
-                r.MenuRoles.Select(ur => new RoleMenuRelation(ur.Menu.Id, ur.Menu.Name)).ToList()
+                r.MenuRoles.Select(ur => ur.Menu.Id).ToList()
             ))
             .ToListAsync();
 
@@ -76,5 +77,10 @@ public class RoleRepository : IRoleRepository
     public async Task SaveChangesAsync(CancellationToken cancellationToken)
     {
         await _dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task<IdentityResult> UpdateAsync(Role role)
+    {
+        return await _roleManager.UpdateAsync(role);
     }
 }
