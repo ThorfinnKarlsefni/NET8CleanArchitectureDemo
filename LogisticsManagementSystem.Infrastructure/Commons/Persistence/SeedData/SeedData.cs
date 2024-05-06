@@ -21,34 +21,34 @@ public static class SeedData
         var userName = "Cheung";
         var name = "Cheung";
         var phoneNumber = string.Empty;
-        var user = new User(userName, name, null, phoneNumber)
-        {
-            Id = userId,
-            NormalizedUserName = "CHEUNG",
-            EmailConfirmed = false,
-            Email = "402832626@qq.com",
-            PasswordHash = "AQAAAAIAAYagAAAAEMSuTV5vdkw0LBQICgUF2Rl25Yu9TiFhrhatAn9JCyrSnMe/tjJRRdXj/nkltAGwiQ==",
-            SecurityStamp = "373BQTFYVCP7RJ3VEPFAOSDBMBDQIEH4",
-            ConcurrencyStamp = "6bcef967-c50a-4573-8575-4f7e75a6c426",
-            PhoneNumberConfirmed = false,
-            TwoFactorEnabled = false,
-            LockoutEnabled = true,
-            AccessFailedCount = 0,
-        };
-        user.SetAvatar("http://124.222.5.145/avatar/ogrwRJqXMXSGHuGIC3JQ52HOdLpyME.avif");
+        // var user = new User(userName, name, null, phoneNumber)
+        // {
+        //     Id = userId,
+        //     NormalizedUserName = "CHEUNG",
+        //     EmailConfirmed = false,
+        //     Email = "402832626@qq.com",
+        //     PasswordHash = "AQAAAAIAAYagAAAAEMSuTV5vdkw0LBQICgUF2Rl25Yu9TiFhrhatAn9JCyrSnMe/tjJRRdXj/nkltAGwiQ==",
+        //     SecurityStamp = "373BQTFYVCP7RJ3VEPFAOSDBMBDQIEH4",
+        //     ConcurrencyStamp = "6bcef967-c50a-4573-8575-4f7e75a6c426",
+        //     PhoneNumberConfirmed = false,
+        //     TwoFactorEnabled = false,
+        //     LockoutEnabled = true,
+        //     AccessFailedCount = 0,
+        // };
+        // user.SetAvatar("http://124.222.5.145/avatar/ogrwRJqXMXSGHuGIC3JQ52HOdLpyME.avif");
 
-        builder.Entity<User>().HasData(user)
-       ;
+        // builder.Entity<User>().HasData(user)
+        ;
     }
     private static void SeedRoles(ModelBuilder builder, Guid roleId)
     {
         var name = "Admin";
-        builder.Entity<Role>().HasData(
-          new Role(name)
-          {
-              Id = roleId,
-              NormalizedName = "ADMIN",
-          });
+        // builder.Entity<Role>().HasData(
+        //   new Role(name)
+        //   {
+        //       Id = roleId,
+        //       NormalizedName = "ADMIN",
+        //   });
     }
 
     private static void SeedUserRoles(ModelBuilder builder, Guid userId, Guid roleId)

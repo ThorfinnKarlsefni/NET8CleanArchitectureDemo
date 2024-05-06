@@ -4,24 +4,15 @@ using Microsoft.AspNetCore.Http;
 
 namespace LogisticsManagementSystem.Infrastructure;
 
-public class CurrentUserProvider : ICurrentUserProvider
+public class CurrentUserProvider(IHttpContextAccessor _httpContextAccessor) : ICurrentUserProvider
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
-
-    public CurrentUserProvider(IHttpContextAccessor httpContextAccessor)
-    {
-        _httpContextAccessor = httpContextAccessor;
-    }
-
     public CurrentUser GetCurrentUser()
     {
-        if (_httpContextAccessor.HttpContext is null)
-            throw new InvalidOperationException("HTTP context is not available.");
         var id = Guid.Parse(GetSingleClaimValue("userId"));
         var name = GetSingleClaimValue(JwtRegisteredClaimNames.Name);
         var companyId = GetSingleClaimValue("companyId");
         var permissions = GetClaimValues("permissions");
-        var roles = GetClaimValues(ClaimTypes.Role);
+        var roles = GetClaimValues("role");
         return new CurrentUser(id, name, companyId, permissions, roles);
     }
 

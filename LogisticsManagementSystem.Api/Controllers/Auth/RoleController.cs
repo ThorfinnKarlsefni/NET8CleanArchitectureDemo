@@ -43,9 +43,9 @@ public class RoleController : ApiController
     }
 
     [HttpPut("role/{id}")]
-    public async Task<IActionResult> UpdateRole(string id, UpdateRoleCommand command)
+    public async Task<IActionResult> UpdateRole(Guid id, UpdateRoleCommand command)
     {
-        var updateCommand = command with { Id = id };
+        var updateCommand = command with { RoleId = id };
         var result = await _mediator.Send(updateCommand);
         return result.Match(
             _ => NoContent(),
@@ -53,15 +53,8 @@ public class RoleController : ApiController
     }
 
     [HttpDelete("role/{id}")]
-    public async Task<IActionResult> DeleteRole(string id)
+    public async Task<IActionResult> DeleteRole(Guid id)
     {
-        if (!Guid.TryParse(id, out var roleId))
-        {
-            return Problem(
-                statusCode: StatusCodes.Status400BadRequest,
-                title: "无效Id格式"
-            );
-        }
         var deleteCommand = new DeleteRoleCommand(id);
         var result = await _mediator.Send(deleteCommand);
         return result.Match(

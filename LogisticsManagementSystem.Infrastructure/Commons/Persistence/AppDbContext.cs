@@ -1,26 +1,18 @@
 ﻿using LogisticsManagementSystem.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace LogisticsManagementSystem.Infrastructure;
-public class AppDbContext : IdentityDbContext<User, Role, Guid, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>
+public class AppDbContext(DbContextOptions options, IHttpContextAccessor _httpContextAccessor, IPublisher _publisher) : DbContext(options)
 {
+    public DbSet<User> Users { get; set; }
+    public DbSet<Role> Roles { get; set; }
+    public DbSet<UserRole> UserRoles { get; set; }
     public DbSet<Menu> Menus { get; set; }
-    public DbSet<Permission> Permissions { get; set; }
     public DbSet<MenuRole> MenuRoles { get; set; }
+    public DbSet<Permission> Permissions { get; set; }
     public DbSet<Company> Companies { get; set; }
-
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IPublisher _publisher;
-
-    public AppDbContext(DbContextOptions<AppDbContext> options, IHttpContextAccessor httpContextAccessor, IPublisher publisher)
-        : base(options)
-    {
-        _httpContextAccessor = httpContextAccessor;
-        _publisher = publisher;
-    }
 
     public async override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

@@ -1,26 +1,30 @@
-﻿using Microsoft.AspNetCore.Identity;
-
+﻿
 namespace LogisticsManagementSystem.Domain;
 
-public class User : IdentityUser<Guid>
+public class User : Entity
 {
+    public Guid Id { get; private set; }
+    public string UserName { get; private set; }
+    public string Name { get; private set; }
     public Company? Company { get; private set; }
     public Guid? CompanyId { get; private set; }
-    public string Name { get; set; } = string.Empty;
+    public string? PhoneNumber { get; private set; } = string.Empty;
+    public string? Email { get; private set; } = string.Empty;
     public string? Avatar { get; private set; } = string.Empty;
-    public DateTime CreatedAt { get; private init; }
-    public DateTime UpdatedAt { get; private set; }
-    public DateTime? DeletedAt { get; private set; }
+    public string PasswordHash { get; private set; }
+    public string SecurityStamp { get; private set; }
+    public bool PhoneNumberConfirmed { get; private set; } = false;
+    public bool LockoutEnabled { get; private set; } = false;
+    public DateTime? LockoutEnd { get; private set; }
     public int TokenVersion { get; private set; }
     public List<UserRole> UserRoles { get; private set; } = [];
-    // public List<Permission> Permissions { get; private set; } = new List<Permission>();
-    public User(string userName, string name, Guid? companyId, string? phoneNumber) : base(userName)
+
+    public User(string userName, string name, Guid? companyId, string? phoneNumber)
     {
+        UserName = userName;
         Name = name;
         CompanyId = companyId;
         PhoneNumber = phoneNumber;
-        CreatedAt = DateTime.Now;
-        UpdatedAt = DateTime.Now;
     }
 
     public void UpdateUser(Guid? companyId, string name, string? phoneNumber, string? email)
@@ -39,17 +43,6 @@ public class User : IdentityUser<Guid>
             UserRoles.Add(new UserRole { UserId = userId, RoleId = roleId.Value });
 
         }
-
-    }
-
-    public void SetUpdateAt()
-    {
-        UpdatedAt = DateTime.Now;
-    }
-
-    public void SetDeletedAt()
-    {
-        DeletedAt = DateTime.Now;
     }
 
     public void Recover()

@@ -11,6 +11,11 @@ public class UserConfigurations : IEntityTypeConfiguration<User>
         builder.ToTable("Users");
         builder.Property(u => u.Name).HasColumnType("varchar(256)");
         builder.Property(u => u.Avatar).HasColumnType("varchar(256)");
+        builder.Property(u => u.PasswordHash).HasColumnType("varchar(256)");
+        builder.Property(u => u.Email).HasColumnType("varchar(256)");
+        builder.Property(u => u.PhoneNumber).HasColumnType("varchar(256)");
+        builder.Property(u => u.SecurityStamp).HasColumnType("varchar(256)");
+        builder.Property(u => u.LockoutEnd).HasColumnType("timestamp");
         builder.Property(u => u.CreatedAt).HasColumnType("timestamp");
         builder.Property(u => u.UpdatedAt).HasColumnType("timestamp");
         builder.Property(u => u.DeletedAt).HasColumnType("timestamp");
@@ -31,29 +36,6 @@ public class UserConfigurations : IEntityTypeConfiguration<User>
             builder.HasOne(ur => ur.Role)
             .WithMany(r => r.UserRoles)
             .HasForeignKey(ur => ur.RoleId);
-        }
-    }
-    public class UserLoginConfig : IEntityTypeConfiguration<UserLogin>
-    {
-        public void Configure(EntityTypeBuilder<UserLogin> builder)
-        {
-            builder.ToTable("UserLogin");
-        }
-    }
-
-    public class UserClaimConfig : IEntityTypeConfiguration<UserClaim>
-    {
-        public void Configure(EntityTypeBuilder<UserClaim> builder)
-        {
-            builder.ToTable("UserClaim");
-        }
-    }
-
-    public class UserTokenConfig : IEntityTypeConfiguration<UserToken>
-    {
-        public void Configure(EntityTypeBuilder<UserToken> builder)
-        {
-            builder.ToTable("UserToken");
         }
     }
 }

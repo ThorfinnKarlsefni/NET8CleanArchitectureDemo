@@ -18,7 +18,7 @@ public class GenerateTokenQueryHandler : IRequestHandler<GenerateTokenCommand, E
         if (command.User is null)
             return Error.NotFound(description: "登录失败,用户不存在");
 
-        var roles = await _userRepository.GetRolesAsync(command.User);
+        var roles = await _userRepository.GetRolesAsync(command.User, cancellationToken);
         List<string> permissions = new List<string>();
 
         // Add strings to the list

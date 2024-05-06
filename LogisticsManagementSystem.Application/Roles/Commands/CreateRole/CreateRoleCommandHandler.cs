@@ -20,9 +20,9 @@ public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, Error
 
         var role = new Role(request.Name);
 
-        var result = await _repository.CreateAsync(role);
-        if (!result.Succeeded)
-            return Error.Conflict(description: result.Errors.First().Description.ToString());
+        await _repository.CreateAsync(role, cancellationToken);
+        // if (!result.Succeeded)
+        //     return Error.Conflict(description: result.Errors.First().Description.ToString());
 
         if (request.menuIds != null && request.menuIds.Any())
         {
@@ -33,8 +33,6 @@ public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, Error
                 return setMenuRoleResult.Errors;
             }
         }
-
-        await _repository.SaveChangesAsync(cancellationToken);
         return Result.Created;
     }
 }

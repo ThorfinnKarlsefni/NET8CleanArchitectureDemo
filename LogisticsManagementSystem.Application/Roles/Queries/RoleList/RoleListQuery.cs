@@ -1,11 +1,13 @@
 ﻿using ErrorOr;
+using LogisticsManagementSystem.Application.Common.Security.Permissions;
 using MediatR;
 
 namespace LogisticsManagementSystem.Application;
 
-[Authorize(Permissions = Common.Security.Permissions.Permission.Role.Get, Policies = Policy.SelfOrAdmin)]
+[Authorize(Permissions = Permission.Role.Get, Policies = Policy.SelfOrAdmin)]
 public record RoleListQuery(
     int PageNumber,
     int PageSize,
-    string? SearchKeyword
-) : IRequest<ErrorOr<RoleListResult>>;
+    string? SearchKeyword,
+    Guid UserId
+) : IAuthorizeAbleRequest<ErrorOr<RoleListResult>>;

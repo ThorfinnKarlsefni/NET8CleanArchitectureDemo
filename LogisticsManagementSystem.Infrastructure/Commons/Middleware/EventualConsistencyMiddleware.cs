@@ -11,7 +11,6 @@ public class EventualConsistencyMiddleware(RequestDelegate _next)
     public async Task InvokeAsync(HttpContext context, IPublisher publisher, AppDbContext dbContext)
     {
         var transaction = await dbContext.Database.BeginTransactionAsync();
-
         context.Response.OnCompleted(async () =>
         {
             try
@@ -28,7 +27,6 @@ public class EventualConsistencyMiddleware(RequestDelegate _next)
             }
             catch (Exception)
             {
-
             }
             finally
             {

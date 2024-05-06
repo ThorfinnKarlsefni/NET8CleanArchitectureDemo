@@ -1,59 +1,56 @@
 ﻿using LogisticsManagementSystem.Application;
 using LogisticsManagementSystem.Domain;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace LogisticsManagementSystem.Infrastructure;
 
-public class UserRepository : IUserRepository
+public class UserRepository(AppDbContext _dbContext) : IUserRepository
 {
-    private readonly UserManager<User> _userManager;
-    private readonly AppDbContext _dbContext;
-
-    public UserRepository(UserManager<User> userManager, AppDbContext dbContext)
+    public async Task CreateAsync(User user, CancellationToken cancellationToken)
     {
-        _userManager = userManager;
-        _dbContext = dbContext;
-    }
-
-    public async Task<IdentityResult> CreateAsync(User user, string password)
-    {
-        return await _userManager.CreateAsync(user, password);
+        await _dbContext.Users.AddAsync(user);
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
     public async Task<bool> UserExistsAsync(string username)
     {
-        return !await _userManager.Users.AnyAsync(u => string.Equals(u.NormalizedUserName, username.ToUpper()));
+        return !await _dbContext.Users.AnyAsync(u => string.Equals(u.UserName, username.Trim()));
     }
 
-    public async Task<User?> FindByNameAsync(string username)
+    public async Task<User?> FindByNameAsync(string username, CancellationToken cancellationToken)
     {
-        return await _userManager.FindByNameAsync(username);
+        return await _dbContext.Users
+            .Where(x => x.UserName == username.Trim())
+            .FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<bool> CheckPasswordAsync(User user, string password)
+    // public async Task<bool> CheckPasswordAsync(User user, string password)
+    // {
+
+    // }
+
+    public async Task<List<string>> GetRolesAsync(User user, CancellationToken cancellationToken)
     {
-        return await _userManager.CheckPasswordAsync(user, password);
+        return await _dbContext.Users
+            .Where(u => u.Id == user.Id)
+            .SelectMany(u => u.UserRoles)
+            .Select(ur => ur.Role.Name)
+            .ToListAsync(cancellationToken);
     }
 
-    public async Task<IList<string>> GetRolesAsync(User user)
+    public async Task<User?> FindByIdAsync(string userId, CancellationToken cancellationToken)
     {
-        return await _userManager.GetRolesAsync(user);
-    }
-
-    public async Task<User?> FindByIdAsync(string userId)
-    {
-        return await _userManager.Users
+        return await _dbContext.Users
             .Where(u => u.Id == Guid.Parse(userId))
             .Include(ur => ur.UserRoles)
             .ThenInclude(r => r.Role)
             .Include(u => u.Company)
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<UserListResult?> GetUserListAsync(int pageNumber, int pageSize, string? searchKeyword, bool? Disable)
+    public async Task<UserListResult?> GetUserListAsync(int pageNumber, int pageSize, string? searchKeyword, bool? Disable, CancellationToken cancellationToken)
     {
-        IQueryable<User> query = _userManager.Users;
+        IQueryable<User> query = _dbContext.Users;
 
         if (Disable == true)
         {
@@ -82,7 +79,7 @@ public class UserRepository : IUserRepository
                 u.PhoneNumber,
                 u.CreatedAt,
                 u.UserRoles.Select(x => new UserListRoleResult(x.Role.Id, x.Role.Name))))
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
 
         var totalCount = await query.LongCountAsync();
 
@@ -93,24 +90,21 @@ public class UserRepository : IUserRepository
             users);
     }
 
-    public async Task<bool> IsInAdminAsync(User user)
+    // public async Task<bool> IsInAdminAsync(User user)
+    // {
+    //     return await _userManager.IsInRoleAsync(user, "admin");
+    // }
+
+    // public async Task ResetUserPasswordAsync(User user, string password)
+    // {
+    //     var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+    //     return await _userManager.ResetPasswordAsync(user, token, password);
+    // }
+
+    public async Task UpdateAsync(User user, CancellationToken cancellationToken)
     {
-        return await _userManager.IsInRoleAsync(user, "admin");
+        _dbContext.Update(user);
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<IdentityResult> ResetUserPasswordAsync(User user, string password)
-    {
-        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-        return await _userManager.ResetPasswordAsync(user, token, password);
-    }
-
-    public async Task<IdentityResult> UpdateAsync(User user)
-    {
-        return await _userManager.UpdateAsync(user);
-    }
-
-    public async Task<int> SaveChangeAsync()
-    {
-        return await _dbContext.SaveChangesAsync();
-    }
 }

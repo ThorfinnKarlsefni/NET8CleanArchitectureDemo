@@ -14,7 +14,7 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Error
 
     public async Task<ErrorOr<Updated>> Handle(UpdateUserCommand command, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.FindByIdAsync(command.Id);
+        var user = await _userRepository.FindByIdAsync(command.Id, cancellationToken);
         if (user == null)
             return Error.NotFound(description: "用户不在");
         // var isAdmin = await _userRepository.IsInAdminAsync(user);
@@ -29,16 +29,15 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Error
 
         user.UpdateRole(user.Id, command.Role);
 
-        if (command.Password != null)
-        {
-            var resetPasswordResult = await _userRepository.ResetUserPasswordAsync(user, command.Password);
-            if (!resetPasswordResult.Succeeded)
-            {
-                return Error.Conflict(description: resetPasswordResult.Errors.First().Description.ToString());
-            }
-        }
+        // if (command.Password != null)
+        // {
+        //     var resetPasswordResult = await _userRepository.ResetUserPasswordAsync(user, command.Password);
+        //     if (!resetPasswordResult.Succeeded)
+        //     {
+        //         return Error.Conflict(description: resetPasswordResult.Errors.First().Description.ToString());
+        //     }
+        // }
 
-        await _userRepository.SaveChangeAsync();
         return Result.Updated;
     }
 }

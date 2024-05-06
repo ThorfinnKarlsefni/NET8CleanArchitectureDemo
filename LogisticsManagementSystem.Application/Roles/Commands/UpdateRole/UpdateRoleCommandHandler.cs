@@ -8,20 +8,20 @@ public class UpdateRoleCommandHandler(IRoleRepository _roleRepository, IMenuRole
 {
     public async Task<ErrorOr<Updated>> Handle(UpdateRoleCommand command, CancellationToken cancellationToken)
     {
-        var role = await _roleRepository.FindByIdAsync(command.Id.ToString());
+        var role = await _roleRepository.FindByIdAsync(command.RoleId, cancellationToken);
         if (role is null)
             return Error.NotFound(description: "用户不存在");
 
-        role.Update(command.Name, command.NormalizedName);
+        role.Update(command.Name);
 
         await _menuRolesRepository.DeleteAsync(role.Id, cancellationToken);
 
-        var res = await _roleRepository.UpdateAsync(role);
+        await _roleRepository.UpdateAsync(role, cancellationToken);
 
-        if (!res.Succeeded)
-        {
-            return Error.Conflict(description: res.Errors.First().Description.ToString());
-        }
+        // if (!res.Succeeded)
+        // {
+        //     return Error.Conflict(description: res.Errors.First().Description.ToString());
+        // }
 
         var menuRoleRelations = command.Menus.Select(
             menuId => new MenuRole

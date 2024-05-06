@@ -14,7 +14,7 @@ public class DisableUserCommandHandler : IRequestHandler<DisableUserCommand, Err
 
     public async Task<ErrorOr<Updated>> Handle(DisableUserCommand command, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.FindByIdAsync(command.Id);
+        var user = await _userRepository.FindByIdAsync(command.Id, cancellationToken);
 
         if (user is null)
             return Error.NotFound(description: "用户不存在");
@@ -23,7 +23,8 @@ public class DisableUserCommandHandler : IRequestHandler<DisableUserCommand, Err
             return Error.Validation(description: "管理员角色无法禁用");
 
         user.SetDeletedAt();
-        await _userRepository.SaveChangeAsync();
+        await _userRepository.UpdateAsync(user, cancellationToken);
+
         return Result.Updated;
     }
 }

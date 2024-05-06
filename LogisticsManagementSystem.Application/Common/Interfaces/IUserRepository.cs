@@ -1,19 +1,17 @@
 ﻿using LogisticsManagementSystem.Domain;
-using Microsoft.AspNetCore.Identity;
 
 namespace LogisticsManagementSystem.Application;
 
 public interface IUserRepository
 {
-    Task<User?> FindByNameAsync(string username);
-    Task<bool> CheckPasswordAsync(User user, string password);
-    Task<IList<string>> GetRolesAsync(User user);
-    Task<IdentityResult> CreateAsync(User user, string password);
+    Task<User?> FindByNameAsync(string username, CancellationToken cancellationToken);
+    // Task<bool> CheckPasswordAsync(User user, string password);
+    Task<List<string>> GetRolesAsync(User user, CancellationToken cancellationToken);
+    Task CreateAsync(User user, CancellationToken CancellationToken);
     Task<bool> UserExistsAsync(string username);
-    Task<User?> FindByIdAsync(string userId);
-    Task<UserListResult?> GetUserListAsync(int pageNumber, int pageSize, string? searchKeyword, bool? Disable);
-    Task<bool> IsInAdminAsync(User user);
-    Task<IdentityResult> ResetUserPasswordAsync(User user, string password);
-    Task<IdentityResult> UpdateAsync(User user);
-    Task<int> SaveChangeAsync();
+    Task<User?> FindByIdAsync(string userId, CancellationToken cancellationToken);
+    Task<UserListResult?> GetUserListAsync(int pageNumber, int pageSize, string? searchKeyword, bool? Disable, CancellationToken cancellationToken);
+    // Task<bool> IsInAdminAsync(User user);
+    // Task ResetUserPasswordAsync(User user, string password);
+    Task UpdateAsync(User user, CancellationToken cancellationToken);
 }

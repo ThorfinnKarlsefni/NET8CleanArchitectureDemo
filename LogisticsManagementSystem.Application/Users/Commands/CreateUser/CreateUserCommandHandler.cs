@@ -20,11 +20,12 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Error
             command.Name,
             command.companyId,
             command.PhoneNumber);
+
         user.SetAvatar(command.Avatar);
 
-        var result = await _userRepository.CreateAsync(user, command.Password);
-        if (!result.Succeeded)
-            return Error.Conflict(description: result.Errors.First().Description.ToString());
+        await _userRepository.CreateAsync(user, cancellationToken);
+        // if (!result.Succeeded)
+        //     return Error.Conflict(description: result.Errors.First().Description.ToString());
 
         return Result.Created;
     }

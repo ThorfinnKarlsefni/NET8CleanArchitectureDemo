@@ -6,7 +6,7 @@ public static partial class Permission
     {
         public const string Create = "create:role";
         public const string Delete = "delete:role";
-        public const string Update = "delete:update";
+        public const string Update = "update:role";
         public const string Get = "get:role";
     }
 }

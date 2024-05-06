@@ -1,7 +1,6 @@
-﻿using LogisticsManagementSystem.Application;
-using LogisticsManagementSystem.Domain;
+﻿
+using LogisticsManagementSystem.Application;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,12 +12,10 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services
-            .AddHttpContextAccessor()
-            .AddServices()
-            .AddAuthorization()
-            .AddAuthentication(configuration)
-            .AddIdentity()
-            .AddPersistence(configuration);
+             .AddHttpContextAccessor()
+             .AddServices()
+             .AddAuthentication(configuration)
+             .AddPersistence(configuration);
 
         return services;
     }
@@ -41,28 +38,12 @@ public static class DependencyInjection
         return services;
     }
 
-    private static IServiceCollection AddIdentity(this IServiceCollection services)
-    {
-        services.AddIdentity<User, Role>()
-                .AddEntityFrameworkStores<AppDbContext>()
-                .AddErrorDescriber<CustomIdentityErrorDescriber>()
-                .AddDefaultTokenProviders();
-
-        services.Configure<IdentityOptions>(options =>
-        {
-            options.Password.RequiredLength = 6;
-            options.Password.RequireDigit = false;
-            options.Password.RequireUppercase = false;
-            options.Password.RequireLowercase = false;
-            options.Password.RequireNonAlphanumeric = false;
-        });
-        return services;
-    }
     private static IServiceCollection AddAuthorization(this IServiceCollection services)
     {
         services.AddScoped<IAuthorizationService, AuthorizationService>();
         services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
         services.AddSingleton<IPolicyEnforcer, PolicyEnforcer>();
+
         return services;
     }
 
@@ -74,14 +55,8 @@ public static class DependencyInjection
 
         services
             .ConfigureOptions<JwtBearerTokenValidationConfiguration>()
-            .AddAuthentication(options =>
-                {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
+            .AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer();
-
 
         return services;
     }

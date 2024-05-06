@@ -14,6 +14,6 @@ public class UserListQueryHandler : IRequestHandler<UserListQuery, ErrorOr<UserL
 
     public async Task<ErrorOr<UserListResult?>> Handle(UserListQuery request, CancellationToken cancellationToken)
     {
-        return await _userRepository.GetUserListAsync(request.PageNumber, request.PageSize, request.SearchKeyword, request.Disable);
+        return await _userRepository.GetUserListAsync(request.PageNumber, request.PageSize, request.SearchKeyword, request.Disable, cancellationToken);
     }
 }

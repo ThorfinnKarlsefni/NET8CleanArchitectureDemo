@@ -14,7 +14,7 @@ public class AllRoleQueryHandler : IRequestHandler<AllRoleQuery, ErrorOr<List<Al
 
     public async Task<ErrorOr<List<AllRoleResult>>> Handle(AllRoleQuery request, CancellationToken cancellationToken)
     {
-        var roles = await _roleRepository.GetAllRoleAsync();
+        var roles = await _roleRepository.GetAllRoleAsync(cancellationToken);
 
         var result = roles.Select(r => new AllRoleResult(
             r.Id,

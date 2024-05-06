@@ -14,12 +14,4 @@ public class RoleConfigurations : IEntityTypeConfiguration<Role>
         builder.Property(r => r.UpdatedAt).HasColumnType("timestamp");
         builder.Property(r => r.DeletedAt).HasColumnType("timestamp");
     }
-
-    public class RoleClaimConfig : IEntityTypeConfiguration<RoleClaim>
-    {
-        public void Configure(EntityTypeBuilder<RoleClaim> builder)
-        {
-            builder.ToTable("RoleClaim");
-        }
-    }
 }

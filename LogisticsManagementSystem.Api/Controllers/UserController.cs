@@ -8,23 +8,22 @@ namespace LogisticsManagementSystem.Api;
 public class UserController : ApiController
 {
     private readonly IMediator _mediator;
-    private readonly ICurrentUserProvider _currentUserProvider;
 
-    public UserController(IMediator mediator, ICurrentUserProvider currentUserProvider)
+    public UserController(IMediator mediator)
     {
         _mediator = mediator;
-        _currentUserProvider = currentUserProvider;
+
     }
 
-    [HttpGet("currentUser")]
-    public async Task<IActionResult> GetCurrentUser()
-    {
-        var user = _currentUserProvider.GetCurrentUser();
-        var result = await _mediator.Send(new CurrentUserQuery(user.Id.ToString()));
-        return result.Match(
-            _ => Ok(result.Value),
-            Problem);
-    }
+    // [HttpGet("currentUser")]
+    // public async Task<IActionResult> GetCurrentUser()
+    // {
+    //     var user = _currentUserProvider.GetCurrentUser();
+    //     var result = await _mediator.Send(new CurrentUserQuery(user.Id.ToString()));
+    //     return result.Match(
+    //         _ => Ok(result.Value),
+    //         Problem);
+    // }
 
     [HttpGet("users")]
     public async Task<IActionResult> GetUserList(int pageNumber, int pageSize, string? searchKeyword, bool? disable)

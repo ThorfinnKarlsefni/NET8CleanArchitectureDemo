@@ -15,8 +15,6 @@ public class AuthorizationBehavior<TRequest, TResponse>(
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-
-        Console.WriteLine("正在加速处理了");
         var authorizationAttributes = request.GetType()
             .GetCustomAttributes<AuthorizeAttribute>()
             .ToList();

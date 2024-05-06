@@ -14,6 +14,6 @@ public class RoleListQueryHandler : IRequestHandler<RoleListQuery, ErrorOr<RoleL
 
     public async Task<ErrorOr<RoleListResult>> Handle(RoleListQuery request, CancellationToken cancellationToken)
     {
-        return await _roleRepository.GetRoleListAsync(request.PageNumber, request.PageSize, request.SearchKeyword);
+        return await _roleRepository.GetRoleListAsync(request.PageNumber, request.PageSize, request.SearchKeyword, cancellationToken);
     }
 }

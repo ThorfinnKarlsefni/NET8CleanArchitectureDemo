@@ -1,4 +1,5 @@
-﻿using ErrorOr;
+﻿using System.Globalization;
+using ErrorOr;
 using MediatR;
 
 namespace LogisticsManagementSystem.Application;
@@ -14,7 +15,7 @@ public class GetUserQueryHandler : IRequestHandler<GetUserQuery, ErrorOr<GetUser
 
     public async Task<ErrorOr<GetUserResult>> Handle(GetUserQuery request, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.FindByIdAsync(request.Id);
+        var user = await _userRepository.FindByIdAsync(request.Id, cancellationToken);
         if (user is null)
             return Error.NotFound(description: "用户不存在");
 

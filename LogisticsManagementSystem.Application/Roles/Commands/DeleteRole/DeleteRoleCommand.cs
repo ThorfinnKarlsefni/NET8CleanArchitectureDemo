@@ -3,4 +3,4 @@ using MediatR;
 
 namespace LogisticsManagementSystem.Application;
 
-public record DeleteRoleCommand(string roleId) : IRequest<ErrorOr<Deleted>>;
+public record DeleteRoleCommand(Guid RoleId) : IRequest<ErrorOr<Deleted>>;
