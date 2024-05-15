@@ -1,26 +1,34 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿
+using ErrorOr;
 
 namespace LogisticsManagementSystem.Domain;
 
-public class User : IdentityUser<Guid>
+public class User : Entity
 {
-    public Company? Company { get; private set; }
-    public Guid? CompanyId { get; private set; }
+    public Guid Id { get; set; }
+    public Company? Company { get; set; }
+    public Guid? CompanyId { get; set; }
+    public string UserName { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
-    public string? Avatar { get; private set; } = string.Empty;
-    public DateTime CreatedAt { get; private init; }
-    public DateTime UpdatedAt { get; private set; }
-    public DateTime? DeletedAt { get; private set; }
-    public int TokenVersion { get; private set; }
-    public List<UserRole> UserRoles { get; private set; } = [];
-    // public List<Permission> Permissions { get; private set; } = new List<Permission>();
-    public User(string userName, string name, Guid? companyId, string? phoneNumber) : base(userName)
+    public string NormalizedUserName { get; set; } = string.Empty;
+    public string? PhoneNumber { get; set; }
+    public string? Email { get; set; }
+    public string? Avatar { get; set; }
+    public string PasswordHash { get; set; } = string.Empty;
+    public string SecurityStamp { get; set; } = string.Empty;
+    public bool PhoneNumberConfirmed { get; set; } = false;
+    public bool LockoutEnabled { get; set; } = false;
+    public DateTime? LockoutEnd { get; set; }
+    public List<UserRole> UserRoles { get; set; } = [];
+
+    public User(string userName, string name, Guid? companyId, string? phoneNumber)
     {
+        Id = Guid.NewGuid();
+        UserName = userName.Trim();
+        NormalizedUserName = userName.ToUpper().Trim();
         Name = name;
         CompanyId = companyId;
         PhoneNumber = phoneNumber;
-        CreatedAt = DateTime.Now;
-        UpdatedAt = DateTime.Now;
     }
 
     public void UpdateUser(Guid? companyId, string name, string? phoneNumber, string? email)
@@ -31,26 +39,26 @@ public class User : IdentityUser<Guid>
         Email = email;
     }
 
-    public void UpdateRoles(Guid userId, List<Guid>? roleIds)
+    public void UpdateRole(Guid userId, Guid? roleId)
     {
         UserRoles.Clear();
-        if (roleIds != null && roleIds.Any())
+        if (roleId.HasValue)
         {
-            foreach (var roleId in roleIds)
-            {
-                UserRoles.Add(new UserRole { UserId = userId, RoleId = roleId });
-            }
+            // UserRoles.Add(new UserRole { UserId = userId, RoleId = roleId.Value });
         }
     }
 
-    public void SetUpdateAt()
+    public ErrorOr<Success> SetRole(List<Role> roles, Guid userId, Guid roleId)
     {
-        UpdatedAt = DateTime.Now;
-    }
+        if (!roles.Any(x => x.Id == roleId))
+        {
+            return Error.Validation(description: "角色不存在");
+        }
 
-    public void SetDeletedAt()
-    {
-        DeletedAt = DateTime.Now;
+        var userRole = new UserRole(userId, roleId);
+        _domainEvents.Add(new RoleSetEvent(userRole));
+
+        return Result.Success;
     }
 
     public void Recover()
@@ -58,13 +66,13 @@ public class User : IdentityUser<Guid>
         DeletedAt = null;
     }
 
-    public void SetTokenVersionIncrement()
-    {
-        TokenVersion = TokenVersion++;
-    }
-
     public void SetAvatar(string? avatar)
     {
         Avatar = avatar == null ? new RandomAvatar().GetRandomAvatar() : avatar;
+    }
+
+    public User()
+    {
+
     }
 }

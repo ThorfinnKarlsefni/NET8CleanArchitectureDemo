@@ -5,8 +5,7 @@ namespace LogisticsManagementSystem.Infrastructure;
 
 public interface IPolicyEnforcer
 {
-    public ErrorOr<Success> Authorize<T>(
-        IAuthorizeAbleRequest<T> request,
+    public ErrorOr<Success> Authorize(
         CurrentUser currentUser,
         string policy
     );

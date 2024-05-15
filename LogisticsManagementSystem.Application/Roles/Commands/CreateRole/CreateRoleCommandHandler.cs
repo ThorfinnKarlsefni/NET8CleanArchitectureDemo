@@ -4,15 +4,8 @@ using MediatR;
 
 namespace LogisticsManagementSystem.Application;
 
-public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, ErrorOr<Created>>
+public class CreateRoleCommandHandler(IRoleRepository _roleRepository) : IRequestHandler<CreateRoleCommand, ErrorOr<Created>>
 {
-    private readonly IRoleRepository _repository;
-
-    public CreateRoleCommandHandler(IRoleRepository repository)
-    {
-        _repository = repository;
-    }
-
     public async Task<ErrorOr<Created>> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
     {
         if (request.Name is null)
@@ -20,21 +13,19 @@ public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, Error
 
         var role = new Role(request.Name);
 
-        var result = await _repository.CreateAsync(role);
-        if (!result.Succeeded)
-            return Error.Conflict(description: result.Errors.First().Description.ToString());
+        await _roleRepository.CreateAsync(role, cancellationToken);
+        // if (!result.Succeeded)
+        //     return Error.Conflict(description: result.Errors.First().Description.ToString());
 
-        if (request.menuIds != null && request.menuIds.Any())
+        if (request.MenuIds != null && request.MenuIds.Any())
         {
-            var setMenuRoleResult = role.SetMenuRoleRelation(role.Id, request.menuIds);
+            var setMenuRoleResult = role.SetMenuRoleRelation(role.Id, request.MenuIds);
 
             if (setMenuRoleResult.IsError)
             {
                 return setMenuRoleResult.Errors;
             }
         }
-
-        await _repository.SaveChangesAsync(cancellationToken);
         return Result.Created;
     }
 }

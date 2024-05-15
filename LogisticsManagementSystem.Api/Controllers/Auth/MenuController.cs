@@ -3,32 +3,29 @@ using LogisticsManagementSystem.Contracts;
 using LogisticsManagementSystem.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace LogisticsManagementSystem.Api;
-public class MenuController : ApiController
+public class MenuController(
+    IMediator _mediator, IActionDescriptorCollectionProvider _actionDescriptorCollectionProvider) : ApiController
 {
-    private readonly IMediator _mediator;
 
-    public MenuController(IMediator mediator)
+    [HttpGet("menus")]
+    public async Task<IActionResult> GetMenus()
     {
-        _mediator = mediator;
-    }
-
-    [HttpGet("menus/tree")]
-    public async Task<IActionResult> GetMenuTree()
-    {
-        var result = await _mediator.Send(new GetMenuTreeQuery());
+        var result = await _mediator.Send(new GetMenusQuery());
+        // Actually, you don't have to convert it to a tree
         return await result.MatchAsync<IActionResult>(
-            async _ => Ok(await ToDtoTree(result.Value)),
+            async menus => Ok(await ToDtoTree(menus)),
             errors => Task.FromResult<IActionResult>(Problem(errors)));
     }
 
-    [HttpGet("menus/tree/all")]
-    public async Task<IActionResult> AllMenuTree()
+    [HttpGet("menu/list")]
+    public async Task<IActionResult> ListMenu()
     {
-        var result = await _mediator.Send(new GetMenuAllTreeQuery());
+        var result = await _mediator.Send(new ListMenusQuery());
         return await result.MatchAsync<IActionResult>(
-            async _ => Ok(await ToDtoTree(result.Value)),
+            async menus => Ok(await ToDtoTree(menus)),
             errors => Task.FromResult<IActionResult>(Problem(errors)));
     }
 
@@ -38,8 +35,30 @@ public class MenuController : ApiController
         var query = new GetMenuQuery(id);
         var result = await _mediator.Send(query);
         return result.Match(
-          _ => Ok(result.Value),
+          menu => Ok(menu),
           Problem);
+    }
+
+
+    [HttpGet("menu/controllers")]
+    public IActionResult GetControllers()
+    {
+        var controllers = _actionDescriptorCollectionProvider.ActionDescriptors.Items
+        .Where(x => !string.Equals(x.RouteValues["Controller"], "Auth", StringComparison.OrdinalIgnoreCase))
+        .Select(x => x.RouteValues["Controller"])
+        .Distinct(StringComparer.OrdinalIgnoreCase)
+        .ToList();
+
+        return Ok(controllers);
+    }
+
+    [HttpGet("menu/permissions")]
+    public async Task<IActionResult> GetPermissonMenu()
+    {
+        var result = await _mediator.Send(new GetPermissionMenuQuery());
+        return result.Match(
+            permissionMenus => Ok(permissionMenus),
+            Problem);
     }
 
     [HttpPost("menu")]

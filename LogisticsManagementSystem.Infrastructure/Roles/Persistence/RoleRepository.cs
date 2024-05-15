@@ -1,46 +1,47 @@
 ﻿using LogisticsManagementSystem.Application;
 using LogisticsManagementSystem.Domain;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace LogisticsManagementSystem.Infrastructure;
 
-public class RoleRepository : IRoleRepository
+public class RoleRepository(AppDbContext _dbContext) : IRoleRepository
 {
-    private readonly RoleManager<Role> _roleManager;
-    private readonly AppDbContext _dbContext;
-
-    public RoleRepository(RoleManager<Role> roleManager, AppDbContext dbContext)
+    public async Task CreateAsync(Role role, CancellationToken cancellationToken)
     {
-        _roleManager = roleManager;
-        _dbContext = dbContext;
+        await _dbContext.Roles.AddAsync(role);
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<IdentityResult> CreateAsync(Role role)
+    public async Task DeleteAsync(Role role, CancellationToken cancellationToken)
     {
-        return await _roleManager.CreateAsync(role);
+        _dbContext.Roles.Remove(role);
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<IdentityResult> DeleteAsync(Role role)
+    public async Task UpdateAsync(Role role, CancellationToken cancellationToken)
     {
-        return await _roleManager.DeleteAsync(role);
+        _dbContext.Roles.Update(role);
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<Role?> FindByIdAsync(string roleId)
+    public async Task<Role?> FindByIdAsync(Guid roleId, CancellationToken cancellationToken)
     {
-        return await _roleManager.FindByIdAsync(roleId);
+        return await _dbContext.Roles
+            .Where(x => x.Id == roleId && x.DeletedAt == null)
+            .FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<List<Role>> GetAllRoleAsync()
+    public async Task<List<Role>> GetAllRoleAsync(CancellationToken cancellationToken)
     {
-        return await _roleManager.Roles
+        return await _dbContext.Roles
+            .Where(x => x.NormalizedName != "ADMIN")
             .Where(x => x.DeletedAt == null)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
 
-    public async Task<RoleListResult> GetRoleListAsync(int pageNumber, int pageSize, string? searchKeyword)
+    public async Task<(List<Role>, long)> GetListRoleAsync(int pageNumber, int pageSize, string? searchKeyword, CancellationToken cancellationToken)
     {
-        IQueryable<Role> query = _roleManager.Roles;
+        IQueryable<Role> query = _dbContext.Roles;
 
         if (!string.IsNullOrWhiteSpace(searchKeyword))
         {
@@ -49,32 +50,19 @@ public class RoleRepository : IRoleRepository
         }
 
         var roles = await query
-            .Include(r => r.MenuRoles)
+            .Include(r => r.RoleMenus)
             .ThenInclude(r => r.Menu)
             .Where(r => r.DeletedAt == null)
             .Where(r => r.NormalizedName != "ADMIN")
+            .OrderBy(r => r.CreatedAt)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .Select(r => new RoleList(
-                r.Id,
-                r.Name,
-                r.NormalizedName,
-                r.CreatedAt,
-                r.MenuRoles.Select(ur => new RoleMenuRelation(ur.Menu.Id, ur.Menu.Name)).ToList()
-            ))
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
 
         var totalCount = await query.LongCountAsync();
-        return new RoleListResult(
-            totalCount,
-            pageNumber,
-            pageSize,
-            roles
-        );
+
+        return (roles, totalCount);
     }
 
-    public async Task SaveChangesAsync(CancellationToken cancellationToken)
-    {
-        await _dbContext.SaveChangesAsync(cancellationToken);
-    }
+
 }

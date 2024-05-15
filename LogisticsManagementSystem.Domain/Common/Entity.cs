@@ -1,11 +1,11 @@
 ﻿
 namespace LogisticsManagementSystem.Domain;
 
-public abstract class Entity : IEntity
+public abstract class Entity
 {
-    public virtual DateTime CreatedAt { get; private init; }
-    public virtual DateTime UpdatedAt { get; private set; }
-    public virtual DateTime? DeletedAt { get; private set; }
+    public virtual DateTime CreatedAt { get; init; }
+    public virtual DateTime UpdatedAt { get; set; }
+    public virtual DateTime? DeletedAt { get; set; }
     protected readonly List<IDomainEvent> _domainEvents = [];
 
     protected Entity()

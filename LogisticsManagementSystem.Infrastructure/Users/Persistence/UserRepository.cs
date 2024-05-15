@@ -1,59 +1,54 @@
 ﻿using LogisticsManagementSystem.Application;
 using LogisticsManagementSystem.Domain;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace LogisticsManagementSystem.Infrastructure;
 
-public class UserRepository : IUserRepository
+public class UserRepository(AppDbContext _dbContext, IPasswordEncryption _passwordEncryption) : IUserRepository
 {
-    private readonly UserManager<User> _userManager;
-    private readonly AppDbContext _dbContext;
-
-    public UserRepository(UserManager<User> userManager, AppDbContext dbContext)
+    public async Task CreateAsync(User user, CancellationToken cancellationToken)
     {
-        _userManager = userManager;
-        _dbContext = dbContext;
+        await _dbContext.Users.AddAsync(user);
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<IdentityResult> CreateAsync(User user, string password)
+    public async Task<bool> IsExistsAsync(string username)
     {
-        return await _userManager.CreateAsync(user, password);
+        return await _dbContext.Users.AnyAsync(u => string.Equals(u.NormalizedUserName, username));
     }
 
-    public async Task<bool> UserExistsAsync(string username)
+    public async Task<User?> FindByNameAsync(string username, CancellationToken cancellationToken)
     {
-        return !await _userManager.Users.AnyAsync(u => string.Equals(u.NormalizedUserName, username.ToUpper()));
+        return await _dbContext.Users
+            .Where(x => x.NormalizedUserName == username.Trim().ToUpper())
+            .Where(x => x.DeletedAt == null)
+            .Include(ur => ur.UserRoles)
+            .ThenInclude(x => x.Role)
+            .FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<User?> FindByNameAsync(string username)
+    public async Task<List<string>> GetRolesAsync(User user, CancellationToken cancellationToken)
     {
-        return await _userManager.FindByNameAsync(username);
+        return await _dbContext.Users
+            .Where(u => u.Id == user.Id)
+            .SelectMany(u => u.UserRoles)
+            .Select(ur => ur.Role.Name)
+            .ToListAsync(cancellationToken);
     }
 
-    public async Task<bool> CheckPasswordAsync(User user, string password)
+    public async Task<User?> FindByIdAsync(Guid userId, CancellationToken cancellationToken)
     {
-        return await _userManager.CheckPasswordAsync(user, password);
-    }
-
-    public async Task<IList<string>> GetRolesAsync(User user)
-    {
-        return await _userManager.GetRolesAsync(user);
-    }
-
-    public async Task<User?> FindByIdAsync(string userId)
-    {
-        return await _userManager.Users
-            .Where(u => u.Id == Guid.Parse(userId))
+        return await _dbContext.Users
+            .Where(u => u.Id == userId)
             .Include(ur => ur.UserRoles)
             .ThenInclude(r => r.Role)
             .Include(u => u.Company)
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<UserListResult?> GetUserListAsync(int pageNumber, int pageSize, string? searchKeyword, bool? Disable)
+    public async Task<(List<User>, long)> GetListUserAsync(int pageNumber, int pageSize, string? searchKeyword, bool? Disable, CancellationToken cancellationToken)
     {
-        IQueryable<User> query = _userManager.Users;
+        IQueryable<User> query = _dbContext.Users;
 
         if (Disable == true)
         {
@@ -71,46 +66,53 @@ public class UserRepository : IUserRepository
         }
 
         var users = await query
+            .Where(u => !u.UserRoles.Any(x => x.Role.NormalizedName == "ADMIN"))
+            .Include(ur => ur.UserRoles)
+            .ThenInclude(x => x.Role)
+            .Include(x => x.Company)
             .OrderBy(u => u.CreatedAt)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .Select(u => new UserList(
-                u.Id,
-                u.UserName,
-                u.Name,
-                u.Avatar,
-                u.PhoneNumber,
-                u.CreatedAt,
-                u.UserRoles.Select(x => new UserListRoleResult(x.Role.Id, x.Role.Name))))
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
 
         var totalCount = await query.LongCountAsync();
-
-        return new UserListResult(
-            totalCount,
-            pageNumber,
-            pageSize,
-            users);
+        return (users, totalCount);
     }
 
-    public async Task<bool> IsInAdminAsync(User user)
+    // public async Task ResetUserPasswordAsync(User user, string password)
+    // {
+    //     var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+    //     return await _userManager.ResetPasswordAsync(user, token, password);
+    // }
+
+    public async Task UpdateAsync(User user, CancellationToken cancellationToken)
     {
-        return await _userManager.IsInRoleAsync(user, "admin");
+        _dbContext.Update(user);
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<IdentityResult> ResetUserPasswordAsync(User user, string password)
+    public bool CheckPassword(string hashedPassword, string providedPassword)
     {
-        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-        return await _userManager.ResetPasswordAsync(user, token, password);
+        return _passwordEncryption.VerifyHashedPassword(hashedPassword, providedPassword);
     }
 
-    public async Task<IdentityResult> UpdateAsync(User user)
+    public string EncryptPassword(string password)
     {
-        return await _userManager.UpdateAsync(user);
+        return _passwordEncryption.HashPassword(password);
     }
 
-    public async Task<int> SaveChangeAsync()
+    public string GenerateSecurityStamp()
     {
-        return await _dbContext.SaveChangesAsync();
+        return _passwordEncryption.GenerateSecurityStamp();
+    }
+
+    public bool CheckSecurityStampAsync(Guid userId, string SecurityStamp)
+    {
+        var user = _dbContext.Users.Where(x => x.Id == userId && x.SecurityStamp == SecurityStamp).FirstOrDefault();
+
+        if (user is null)
+            return false;
+
+        return true;
     }
 }

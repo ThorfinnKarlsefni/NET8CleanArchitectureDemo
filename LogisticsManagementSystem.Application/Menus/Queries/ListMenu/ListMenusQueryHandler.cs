@@ -4,17 +4,10 @@ using MediatR;
 
 namespace LogisticsManagementSystem.Application;
 
-public class GetMenuTreeQueryHandler : IRequestHandler<GetMenuTreeQuery, ErrorOr<List<Menu>>>
+public class ListMenusQueryHandler(IMenuRepository _menuRepository) : IRequestHandler<ListMenusQuery, ErrorOr<List<Menu>>>
 {
-    private readonly IMenuRepository _menuRepository;
-
-    public GetMenuTreeQueryHandler(IMenuRepository menuRepository)
+    public async Task<ErrorOr<List<Menu>>> Handle(ListMenusQuery request, CancellationToken cancellationToken)
     {
-        _menuRepository = menuRepository;
-    }
-
-    public async Task<ErrorOr<List<Menu>>> Handle(GetMenuTreeQuery request, CancellationToken cancellationToken)
-    {
-        return await _menuRepository.GetMenuListAsync(cancellationToken);
+        return await _menuRepository.GetListMenuAsync(onlyVisible: false, cancellationToken);
     }
 }

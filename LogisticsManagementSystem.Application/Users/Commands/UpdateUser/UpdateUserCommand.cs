@@ -4,12 +4,12 @@ using MediatR;
 namespace LogisticsManagementSystem.Application;
 
 public record UpdateUserCommand(
-    string Id,
+    Guid UserId,
     Guid? CompanyId,
     string Name,
     string? PhoneNumber,
     string? Email,
     string? Password,
     string? ConfirmPassword,
-    List<Guid>? Roles
+    Guid? Role
 ) : IRequest<ErrorOr<Updated>>;

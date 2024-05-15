@@ -3,5 +3,5 @@ using MediatR;
 
 namespace LogisticsManagementSystem.Application;
 
-public record UpdatePermissionCommand(int Id, int? ParentId, string Name, string? Slug, string? Path, string? Action, string? Method) : IRequest<ErrorOr<Updated>>;
+public record UpdatePermissionCommand(int PermissionId, int? ParentId, string Name, string? Controller, string? Action, string? Method) : IRequest<ErrorOr<Updated>>;
 

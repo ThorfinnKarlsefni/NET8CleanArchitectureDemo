@@ -3,18 +3,12 @@ using MediatR;
 
 namespace LogisticsManagementSystem.Application;
 
-public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, ErrorOr<Updated>>
+public class UpdateUserCommandHandler(
+    IUserRepository _userRepository) : IRequestHandler<UpdateUserCommand, ErrorOr<Updated>>
 {
-    private readonly IUserRepository _userRepository;
-
-    public UpdateUserCommandHandler(IUserRepository userRepository)
-    {
-        _userRepository = userRepository;
-    }
-
     public async Task<ErrorOr<Updated>> Handle(UpdateUserCommand command, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.FindByIdAsync(command.Id);
+        var user = await _userRepository.FindByIdAsync(command.UserId, cancellationToken);
         if (user == null)
             return Error.NotFound(description: "用户不在");
         // var isAdmin = await _userRepository.IsInAdminAsync(user);
@@ -27,18 +21,17 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Error
             command.PhoneNumber,
             command.Email);
 
-        user.UpdateRoles(user.Id, command.Roles);
+        user.UpdateRole(user.Id, command.Role);
 
-        if (command.Password != null)
-        {
-            var resetPasswordResult = await _userRepository.ResetUserPasswordAsync(user, command.Password);
-            if (!resetPasswordResult.Succeeded)
-            {
-                return Error.Conflict(description: resetPasswordResult.Errors.First().Description.ToString());
-            }
-        }
+        // if (command.Password != null)
+        // {
+        //     var resetPasswordResult = await _userRepository.ResetUserPasswordAsync(user, command.Password);
+        //     if (!resetPasswordResult.Succeeded)
+        //     {
+        //         return Error.Conflict(description: resetPasswordResult.Errors.First().Description.ToString());
+        //     }
+        // }
 
-        await _userRepository.SaveChangeAsync();
         return Result.Updated;
     }
 }

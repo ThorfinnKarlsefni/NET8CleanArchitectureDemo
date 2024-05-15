@@ -1,22 +1,14 @@
 ﻿using ErrorOr;
-using LogisticsManagementSystem.Domain;
 using MediatR;
 
 namespace LogisticsManagementSystem.Application;
 
-public class UpdateMenuSortCommandHandler : IRequestHandler<UpdateMenuSortCommand, ErrorOr<Updated>>
+public class UpdateMenuSortCommandHandler(IMenuRepository _menuRepository) : IRequestHandler<UpdateMenuSortCommand, ErrorOr<Updated>>
 {
-    private readonly IMenuRepository _menuRepository;
-
-    public UpdateMenuSortCommandHandler(IMenuRepository menuRepository)
-    {
-        _menuRepository = menuRepository;
-    }
-
     public async Task<ErrorOr<Updated>> Handle(UpdateMenuSortCommand command, CancellationToken cancellationToken)
     {
 
-        var allMenus = await _menuRepository.GetAllMenuListAsync(cancellationToken);
+        var allMenus = await _menuRepository.GetListMenuAsync(onlyVisible: false, cancellationToken);
 
         foreach (var item in allMenus)
         {
@@ -25,7 +17,8 @@ public class UpdateMenuSortCommandHandler : IRequestHandler<UpdateMenuSortComman
                 item.UpdateSort(updateItem.ParentId, updateItem.Sort);
         }
 
-        await _menuRepository.SaveChangesAsync(cancellationToken);
+        await _menuRepository.UpdateRangeAsync(allMenus, cancellationToken);
+
         return Result.Updated;
     }
 }

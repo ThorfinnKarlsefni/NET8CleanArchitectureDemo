@@ -4,21 +4,23 @@ using MediatR;
 
 namespace LogisticsManagementSystem.Application;
 
-public class CreatePermissionCommandHandler : IRequestHandler<CreatePermissionCommand, ErrorOr<Created>>
+public class CreatePermissionCommandHandler(IPermissionRepository _permissionRepository) : IRequestHandler<CreatePermissionCommand, ErrorOr<Created>>
 {
-    private readonly IPermissionRepository _permissionRepository;
-
-    public CreatePermissionCommandHandler(IPermissionRepository permissionRepository)
-    {
-        _permissionRepository = permissionRepository;
-    }
-
-    public async Task<ErrorOr<Created>> Handle(CreatePermissionCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Created>> Handle(CreatePermissionCommand command, CancellationToken cancellationToken)
     {
 
-        var permission = new Permission(request.ParentId, request.Name, request.Slug, request.Path, request.Action, request.Method);
+        if (command.Controller != null && command.Method != null)
+        {
+            var permissionItem = await _permissionRepository.IsExistAsync(command.Controller.Trim(), command.Method.Trim(), cancellationToken);
+            if (permissionItem)
+            {
+                return Error.Conflict(description: "权限已设置");
+            }
+        }
+
+        var permission = new Permission(command.ParentId, command.Name, command.Controller, command.Action, command.Method);
+
         await _permissionRepository.AddAsync(permission, cancellationToken);
-        await _permissionRepository.SaveChangesAsync(cancellationToken);
         return Result.Created;
     }
 }

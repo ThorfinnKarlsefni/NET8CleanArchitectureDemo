@@ -1,52 +1,33 @@
 ﻿using ErrorOr;
-using Microsoft.AspNetCore.Identity;
 
 namespace LogisticsManagementSystem.Domain;
 
-public class Role : IdentityRole<Guid>, IEntity
+public class Role : Entity
 {
-    public string? Slug { get; private set; }
-    public DateTime CreatedAt { get; private init; }
-    public DateTime UpdatedAt { get; private set; }
-    public DateTime? DeletedAt { get; private set; }
+    public Guid Id { get; set; }
+    public string Name { get; private set; }
+    public string NormalizedName { get; private set; }
     public List<UserRole> UserRoles { get; private set; } = [];
-    public List<MenuRole> MenuRoles { get; set; } = [];
-
-    protected readonly List<IDomainEvent> _domainEvents = [];
-
-    public Role(string Name) : base(Name)
+    public List<RoleMenus> RoleMenus { get; set; } = [];
+    public Role(string name)
     {
-        CreatedAt = DateTime.Now;
-        UpdatedAt = CreatedAt;
+        Name = name;
+        NormalizedName = name.ToUpper();
     }
 
-    public List<IDomainEvent> PopDomainEvents()
+    public void Update(string name)
     {
-        var copy = _domainEvents.ToList();
-        _domainEvents.Clear();
-        return copy;
+        Name = name;
+        NormalizedName = name.ToUpper();
+        SetUpdateAt();
     }
 
     public ErrorOr<Success> SetMenuRoleRelation(Guid roleId, List<int> menuIds)
     {
-        var menuRoleRelations = menuIds.Select(menuId => new MenuRole
-        {
-            RoleId = roleId,
-            MenuId = menuId
-        }).ToList();
+        var menuRoleRelations = menuIds.Select(menuId => new RoleMenus(menuId, roleId)).ToList();
 
-        _domainEvents.Add(new RoleMenuSetEvent(menuRoleRelations));
+        _domainEvents.Add(new RoleSetMenusEvent(menuRoleRelations));
 
         return Result.Success;
-    }
-
-    public void SetUpdateAt()
-    {
-        UpdatedAt = DateTime.Now;
-    }
-
-    public void SetDeletedAt()
-    {
-        DeletedAt = DateTime.Now;
     }
 }

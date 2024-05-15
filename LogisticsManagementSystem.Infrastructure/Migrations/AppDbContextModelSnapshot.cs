@@ -57,6 +57,9 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                     b.Property<string>("Component")
                         .HasColumnType("varchar(256)");
 
+                    b.Property<string>("Controller")
+                        .HasColumnType("varchar(256)");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp");
 
@@ -95,81 +98,71 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                         {
                             Id = 1,
                             Component = "",
-                            CreatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9840),
+                            Controller = "",
+                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6180),
                             Icon = "",
                             Name = "系统",
                             Path = "/admin",
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9840),
+                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6180),
                             Visibility = true
                         },
                         new
                         {
                             Id = 2,
-                            Component = "./Admin/Users",
-                            CreatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9850),
-                            Icon = "",
-                            Name = "员工列表",
-                            ParentId = 1,
-                            Path = "/admin/users",
-                            Sort = 0,
-                            UpdatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9850),
-                            Visibility = true
-                        },
-                        new
-                        {
-                            Id = 3,
                             Component = "./Admin/Menus",
-                            CreatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9850),
+                            Controller = "Menu",
+                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6180),
                             Icon = "",
                             Name = "菜单管理",
                             ParentId = 1,
                             Path = "/admin/menus",
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9850),
+                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6180),
                             Visibility = true
                         },
                         new
                         {
-                            Id = 4,
+                            Id = 3,
                             Component = "./Admin/Permissions",
-                            CreatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9850),
+                            Controller = "Permission",
+                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6190),
                             Icon = "",
                             Name = "权限管理",
                             ParentId = 1,
                             Path = "/admin/permissions",
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9850),
+                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6190),
                             Visibility = true
                         },
                         new
                         {
-                            Id = 5,
+                            Id = 4,
                             Component = "./Admin/Roles",
-                            CreatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9850),
+                            Controller = "Role",
+                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6190),
                             Icon = "",
                             Name = "角色管理",
                             ParentId = 1,
                             Path = "/admin/roles",
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9850),
+                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6190),
+                            Visibility = true
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Component = "./Admin/Users",
+                            Controller = "User",
+                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6190),
+                            Icon = "",
+                            Name = "员工列表",
+                            ParentId = 1,
+                            Path = "/admin/users",
+                            Sort = 0,
+                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6190),
                             Visibility = true
                         });
-                });
-
-            modelBuilder.Entity("LogisticsManagementSystem.Domain.MenuRole", b =>
-                {
-                    b.Property<int>("MenuId")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("MenuId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("MenuRole", (string)null);
                 });
 
             modelBuilder.Entity("LogisticsManagementSystem.Domain.Permission", b =>
@@ -202,9 +195,6 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                     b.Property<int?>("ParentId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Path")
-                        .HasColumnType("varchar(256)");
-
                     b.Property<int>("Sort")
                         .HasColumnType("integer");
 
@@ -219,187 +209,184 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9870),
+                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6210),
                             Name = "系统",
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9870)
+                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6210)
                         },
                         new
                         {
                             Id = 2,
                             Controller = "Menu",
-                            CreatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9880),
+                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6210),
                             Name = "菜单管理",
                             ParentId = 1,
-                            Path = "",
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9880)
+                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6210)
                         },
                         new
                         {
                             Id = 3,
+                            Action = "menu:get",
                             Controller = "Menu",
-                            CreatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9880),
+                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6210),
                             Method = "GET",
                             Name = "查看",
                             ParentId = 2,
-                            Path = "api/auth/menu",
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9880)
+                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6210)
                         },
                         new
                         {
                             Id = 4,
+                            Action = "menu:create",
                             Controller = "Menu",
-                            CreatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9880),
+                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220),
                             Method = "CREATE",
                             Name = "创建",
                             ParentId = 2,
-                            Path = "api/auth/menu",
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9880)
+                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220)
                         },
                         new
                         {
                             Id = 5,
+                            Action = "menu:update",
                             Controller = "Menu",
-                            CreatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9880),
+                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220),
                             Method = "UPDATE",
                             Name = "修改",
                             ParentId = 2,
-                            Path = "api/auth/menu/{id}",
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9880)
+                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220)
                         },
                         new
                         {
                             Id = 6,
+                            Action = "menu:delete",
                             Controller = "Menu",
-                            CreatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9890),
+                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220),
                             Method = "DELETE",
                             Name = "删除",
                             ParentId = 2,
-                            Path = "api/auth/menu/{id}",
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9890)
+                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220)
                         },
                         new
                         {
                             Id = 7,
                             Controller = "Permission",
-                            CreatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9890),
+                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220),
                             Name = "权限管理",
                             ParentId = 1,
-                            Path = "",
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9890)
+                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220)
                         },
                         new
                         {
                             Id = 8,
+                            Action = "permission:get",
                             Controller = "Permission",
-                            CreatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9890),
+                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220),
                             Method = "GET",
                             Name = "查看",
                             ParentId = 7,
-                            Path = "api/auth/permission",
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9890)
+                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220)
                         },
                         new
                         {
                             Id = 9,
+                            Action = "permission:create",
                             Controller = "Permission",
-                            CreatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9890),
+                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220),
                             Method = "CREATE",
                             Name = "创建",
                             ParentId = 7,
-                            Path = "api/auth/permission",
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9890)
+                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220)
                         },
                         new
                         {
                             Id = 10,
+                            Action = "permission:update",
                             Controller = "Permission",
-                            CreatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9890),
+                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220),
                             Method = "UPDATE",
                             Name = "修改",
                             ParentId = 7,
-                            Path = "api/auth/permission/{id}",
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9890)
+                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220)
                         },
                         new
                         {
                             Id = 11,
+                            Action = "permission:delete",
                             Controller = "Permission",
-                            CreatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9890),
+                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230),
                             Method = "DELETE",
                             Name = "删除",
                             ParentId = 7,
-                            Path = "api/auth/permission/{id}",
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9890)
+                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230)
                         },
                         new
                         {
                             Id = 12,
                             Controller = "Role",
-                            CreatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9890),
+                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230),
                             Name = "角色管理",
                             ParentId = 1,
-                            Path = "",
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9890)
+                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230)
                         },
                         new
                         {
                             Id = 13,
+                            Action = "role:get",
                             Controller = "Role",
-                            CreatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9900),
+                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230),
                             Method = "GET",
                             Name = "查看",
                             ParentId = 12,
-                            Path = "api/auth/roles",
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9900)
+                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230)
                         },
                         new
                         {
                             Id = 14,
+                            Action = "role:create",
                             Controller = "Role",
-                            CreatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9900),
+                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230),
                             Method = "CREATE",
                             Name = "创建",
                             ParentId = 12,
-                            Path = "api/auth/role",
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9900)
+                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230)
                         },
                         new
                         {
                             Id = 15,
+                            Action = "role:update",
                             Controller = "Role",
-                            CreatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9900),
+                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230),
                             Method = "UPDATE",
                             Name = "修改",
                             ParentId = 12,
-                            Path = "api/auth/role/{id}",
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9900)
+                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230)
                         },
                         new
                         {
                             Id = 16,
+                            Action = "role:delete",
                             Controller = "Role",
-                            CreatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9900),
+                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230),
                             Method = "DELETE",
                             Name = "删除",
                             ParentId = 12,
-                            Path = "api/auth/role/{id}",
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9900)
+                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230)
                         });
                 });
 
@@ -409,10 +396,6 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("text");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp");
 
@@ -420,14 +403,11 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                         .HasColumnType("timestamp");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("Slug")
+                        .IsRequired()
                         .HasColumnType("varchar(256)");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -435,45 +415,47 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex");
-
                     b.ToTable("Roles", (string)null);
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("10bd099e-9753-4962-b4e8-9ecb6965677a"),
-                            CreatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9810),
+                            Id = new Guid("d083f2ee-b17a-488b-a26e-43931453f719"),
+                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6110),
                             Name = "Admin",
                             NormalizedName = "ADMIN",
-                            UpdatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9810)
+                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6110)
                         });
                 });
 
-            modelBuilder.Entity("LogisticsManagementSystem.Domain.RoleClaim", b =>
+            modelBuilder.Entity("LogisticsManagementSystem.Domain.RoleMenus", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("MenuId")
                         .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("text");
 
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("Id");
+                    b.HasKey("MenuId", "RoleId");
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RoleClaim", (string)null);
+                    b.ToTable("RoleMenus", (string)null);
+                });
+
+            modelBuilder.Entity("LogisticsManagementSystem.Domain.RolePermissions", b =>
+                {
+                    b.Property<int>("PermissionId")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("PermissionId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("RolePermissions", (string)null);
                 });
 
             modelBuilder.Entity("LogisticsManagementSystem.Domain.User", b =>
@@ -482,18 +464,11 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Avatar")
                         .HasColumnType("varchar(256)");
 
                     b.Property<Guid?>("CompanyId")
                         .HasColumnType("uuid");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp");
@@ -502,137 +477,66 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                         .HasColumnType("timestamp");
 
                     b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("boolean");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
 
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime?>("LockoutEnd")
+                        .HasColumnType("timestamp");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(256)");
 
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
                     b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("text");
-
-                    b.Property<int>("TokenVersion")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasDefaultValue(0);
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("boolean");
+                        .IsRequired()
+                        .HasColumnType("varchar(256)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp");
 
                     b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyId");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex");
+                    b.HasIndex("CompanyId")
+                        .IsUnique();
 
                     b.ToTable("Users", (string)null);
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b1882f2a-2473-413c-9563-ac900741c8f0"),
-                            AccessFailedCount = 0,
-                            Avatar = "http://124.222.5.145/avatar/ogrwRJqXMXSGHuGIC3JQ52HOdLpyME.avif",
-                            ConcurrencyStamp = "6bcef967-c50a-4573-8575-4f7e75a6c426",
-                            CreatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9690),
+                            Id = new Guid("43d9e2b7-12ba-436d-aa00-6ce2851a2f5d"),
+                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(5890),
                             Email = "402832626@qq.com",
-                            EmailConfirmed = false,
                             LockoutEnabled = true,
                             Name = "Cheung",
                             NormalizedUserName = "CHEUNG",
                             PasswordHash = "AQAAAAIAAYagAAAAEMSuTV5vdkw0LBQICgUF2Rl25Yu9TiFhrhatAn9JCyrSnMe/tjJRRdXj/nkltAGwiQ==",
-                            PhoneNumber = "",
+                            PhoneNumber = "15563239095",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "373BQTFYVCP7RJ3VEPFAOSDBMBDQIEH4",
-                            TokenVersion = 0,
-                            TwoFactorEnabled = false,
-                            UpdatedAt = new DateTime(2024, 4, 30, 18, 16, 5, 395, DateTimeKind.Local).AddTicks(9720),
+                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(5890),
                             UserName = "Cheung"
                         });
-                });
-
-            modelBuilder.Entity("LogisticsManagementSystem.Domain.UserClaim", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserClaim", (string)null);
-                });
-
-            modelBuilder.Entity("LogisticsManagementSystem.Domain.UserLogin", b =>
-                {
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ProviderKey")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("LoginProvider", "ProviderKey");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserLogin", (string)null);
                 });
 
             modelBuilder.Entity("LogisticsManagementSystem.Domain.UserRole", b =>
@@ -652,31 +556,12 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("b1882f2a-2473-413c-9563-ac900741c8f0"),
-                            RoleId = new Guid("10bd099e-9753-4962-b4e8-9ecb6965677a")
+                            UserId = new Guid("43d9e2b7-12ba-436d-aa00-6ce2851a2f5d"),
+                            RoleId = new Guid("d083f2ee-b17a-488b-a26e-43931453f719")
                         });
                 });
 
-            modelBuilder.Entity("LogisticsManagementSystem.Domain.UserToken", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("text");
-
-                    b.HasKey("UserId", "LoginProvider", "Name");
-
-                    b.ToTable("UserToken", (string)null);
-                });
-
-            modelBuilder.Entity("LogisticsManagementSystem.Domain.MenuRole", b =>
+            modelBuilder.Entity("LogisticsManagementSystem.Domain.RoleMenus", b =>
                 {
                     b.HasOne("LogisticsManagementSystem.Domain.Menu", "Menu")
                         .WithMany()
@@ -685,7 +570,7 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("LogisticsManagementSystem.Domain.Role", "Role")
-                        .WithMany("MenuRoles")
+                        .WithMany("RoleMenus")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -695,40 +580,32 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("LogisticsManagementSystem.Domain.RoleClaim", b =>
+            modelBuilder.Entity("LogisticsManagementSystem.Domain.RolePermissions", b =>
                 {
-                    b.HasOne("LogisticsManagementSystem.Domain.Role", null)
+                    b.HasOne("LogisticsManagementSystem.Domain.Permission", "Permission")
+                        .WithMany()
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LogisticsManagementSystem.Domain.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Permission");
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("LogisticsManagementSystem.Domain.User", b =>
                 {
                     b.HasOne("LogisticsManagementSystem.Domain.Company", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId");
+                        .WithOne("User")
+                        .HasForeignKey("LogisticsManagementSystem.Domain.User", "CompanyId");
 
                     b.Navigation("Company");
-                });
-
-            modelBuilder.Entity("LogisticsManagementSystem.Domain.UserClaim", b =>
-                {
-                    b.HasOne("LogisticsManagementSystem.Domain.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("LogisticsManagementSystem.Domain.UserLogin", b =>
-                {
-                    b.HasOne("LogisticsManagementSystem.Domain.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("LogisticsManagementSystem.Domain.UserRole", b =>
@@ -750,18 +627,14 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("LogisticsManagementSystem.Domain.UserToken", b =>
+            modelBuilder.Entity("LogisticsManagementSystem.Domain.Company", b =>
                 {
-                    b.HasOne("LogisticsManagementSystem.Domain.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("LogisticsManagementSystem.Domain.Role", b =>
                 {
-                    b.Navigation("MenuRoles");
+                    b.Navigation("RoleMenus");
 
                     b.Navigation("UserRoles");
                 });

@@ -3,4 +3,4 @@ using MediatR;
 
 namespace LogisticsManagementSystem.Application;
 
-public record DisableUserCommand(string Id) : IRequest<ErrorOr<Updated>>;
+public record DisableUserCommand(Guid UserId) : IRequest<ErrorOr<Updated>>;

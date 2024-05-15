@@ -3,4 +3,4 @@ using MediatR;
 
 namespace LogisticsManagementSystem.Application;
 
-public record GetUserQuery(string Id) : IRequest<ErrorOr<GetUserResult>>;
+public record GetUserQuery(Guid Id) : IRequest<ErrorOr<GetUserResult>>;

@@ -18,27 +18,21 @@ public static class SeedData
 
     private static void SeedUsers(ModelBuilder builder, Guid userId)
     {
-        var userName = "Cheung";
-        var name = "Cheung";
-        var phoneNumber = string.Empty;
-        var user = new User(userName, name, null, phoneNumber)
+        var user = new User()
         {
             Id = userId,
+            UserName = "Cheung",
+            Name = "Cheung",
             NormalizedUserName = "CHEUNG",
-            EmailConfirmed = false,
+            PhoneNumber = "15563239095",
             Email = "402832626@qq.com",
             PasswordHash = "AQAAAAIAAYagAAAAEMSuTV5vdkw0LBQICgUF2Rl25Yu9TiFhrhatAn9JCyrSnMe/tjJRRdXj/nkltAGwiQ==",
             SecurityStamp = "373BQTFYVCP7RJ3VEPFAOSDBMBDQIEH4",
-            ConcurrencyStamp = "6bcef967-c50a-4573-8575-4f7e75a6c426",
             PhoneNumberConfirmed = false,
-            TwoFactorEnabled = false,
             LockoutEnabled = true,
-            AccessFailedCount = 0,
         };
-        user.SetAvatar("http://124.222.5.145/avatar/ogrwRJqXMXSGHuGIC3JQ52HOdLpyME.avif");
 
-        builder.Entity<User>().HasData(user)
-       ;
+        builder.Entity<User>().HasData(user);
     }
     private static void SeedRoles(ModelBuilder builder, Guid roleId)
     {
@@ -47,18 +41,14 @@ public static class SeedData
           new Role(name)
           {
               Id = roleId,
-              NormalizedName = "ADMIN",
           });
     }
 
     private static void SeedUserRoles(ModelBuilder builder, Guid userId, Guid roleId)
     {
         builder.Entity<UserRole>().HasData(
-           new UserRole()
-           {
-               UserId = userId,
-               RoleId = roleId
-           });
+           new UserRole(userId, roleId)
+        );
     }
 
     private static void SeedMenus(ModelBuilder builder)
@@ -70,84 +60,109 @@ public static class SeedData
                 Path = "/admin",
                 Name = "系统",
             },
-             new Menu { Id = 2, ParentId = 1, Path = "/admin/users", Name = "员工列表", Component = "./Admin/Users" },
-            new Menu { Id = 3, ParentId = 1, Path = "/admin/menus", Name = "菜单管理", Component = "./Admin/Menus" },
-            new Menu { Id = 4, ParentId = 1, Path = "/admin/permissions", Name = "权限管理", Component = "./Admin/Permissions" },
-            new Menu { Id = 5, ParentId = 1, Path = "/admin/roles", Name = "角色管理", Component = "./Admin/Roles" }
-            // new Menu { Id = 6, ParentId = 1, Path = "/admin/stations", Name = "站点管理", Component = "./Admin/Stations" },
-            // new Menu
-            // {
-            //     Id = 7,
-            //     Path = "/transport",
-            //     Name = "运输管理",
-            //     // Icon = "car",
-            // },
-            // new Menu { Id = 8, ParentId = 7, Path = "/transport/invoices", Name = "收货开票", Component = "./Transport/Invoices" }
+
+            new Menu
+            {
+                Id = 2,
+                ParentId = 1,
+                Name = "菜单管理",
+                Controller = "Menu",
+                Path = "/admin/menus",
+                Component = "./Admin/Menus"
+
+            },
+            new Menu
+            {
+                Id = 3,
+                ParentId = 1,
+                Name = "权限管理",
+                Controller = "Permission",
+                Path = "/admin/permissions",
+                Component = "./Admin/Permissions"
+            },
+            new Menu
+            {
+                Id = 4,
+                ParentId = 1,
+                Name = "角色管理",
+                Controller = "Role",
+                Path = "/admin/roles",
+                Component = "./Admin/Roles"
+            },
+             new Menu
+             {
+                 Id = 5,
+                 ParentId = 1,
+                 Name = "员工列表",
+                 Controller = "User",
+                 Path = "/admin/users",
+                 Component = "./Admin/Users"
+             }
         );
     }
 
     private static void SeedPermission(ModelBuilder builder)
     {
         builder.Entity<Permission>().HasData(
-            new Permission(null, "系统", null, null, null, null)
+            new Permission(null, "系统", null, null, null)
             {
                 Id = 1,
             },
-            new Permission(1, "菜单管理", "Menu", "", null, null)
+            new Permission(1, "菜单管理", "Menu", null, null)
             {
                 Id = 2,
             },
-            new Permission(2, "查看", "Menu", "api/auth/menu", null, "GET")
+            new Permission(2, "查看", "Menu", "menu:get", "GET")
             {
                 Id = 3,
             },
-            new Permission(2, "创建", "Menu", "api/auth/menu", null, "CREATE")
-
+            new Permission(2, "创建", "Menu", "menu:create", "CREATE")
             {
                 Id = 4,
-            }, new Permission(2, "修改", "Menu", "api/auth/menu/{id}", null, "UPDATE")
+            },
+            new Permission(2, "修改", "Menu", "menu:update", "UPDATE")
             {
                 Id = 5,
             },
-            new Permission(2, "删除", "Menu", "api/auth/menu/{id}", null, "DELETE")
+            new Permission(2, "删除", "Menu", "menu:delete", "DELETE")
             {
                 Id = 6,
             },
-            new Permission(1, "权限管理", "Permission", "", null, null)
+            new Permission(1, "权限管理", "Permission", null, null)
             {
                 Id = 7,
             },
-            new Permission(7, "查看", "Permission", "api/auth/permission", null, "GET")
+            new Permission(7, "查看", "Permission", "permission:get", "GET")
             {
                 Id = 8,
             },
-            new Permission(7, "创建", "Permission", "api/auth/permission", null, "CREATE")
+            new Permission(7, "创建", "Permission", "permission:create", "CREATE")
             {
                 Id = 9,
-            }, new Permission(7, "修改", "Permission", "api/auth/permission/{id}", null, "UPDATE")
+            }, new Permission(7, "修改", "Permission", "permission:update", "UPDATE")
             {
                 Id = 10,
             },
-            new Permission(7, "删除", "Permission", "api/auth/permission/{id}", null, "DELETE")
+            new Permission(7, "删除", "Permission", "permission:delete", "DELETE")
             {
                 Id = 11,
             },
-            new Permission(1, "角色管理", "Role", "", null, null)
+            new Permission(1, "角色管理", "Role", null, null)
             {
                 Id = 12,
             },
-            new Permission(12, "查看", "Role", "api/auth/roles", null, "GET")
+            new Permission(12, "查看", "Role", "role:get", "GET")
             {
                 Id = 13,
             },
-            new Permission(12, "创建", "Role", "api/auth/role", null, "CREATE")
+            new Permission(12, "创建", "Role", "role:create", "CREATE")
             {
                 Id = 14,
-            }, new Permission(12, "修改", "Role", "api/auth/role/{id}", null, "UPDATE")
+            }, new Permission(12, "修改", "Role", "role:update", "UPDATE")
             {
                 Id = 15,
             },
-            new Permission(12, "删除", "Role", "api/auth/role/{id}", null, "DELETE")
+            new Permission(12, "删除", "Role", "role:delete", "DELETE")
             {
                 Id = 16,
             }

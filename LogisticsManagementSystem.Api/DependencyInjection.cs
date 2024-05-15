@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using Microsoft.OpenApi.Models;
+﻿using Microsoft.OpenApi.Models;
 
 namespace LogisticsManagementSystem.Api;
 
@@ -9,7 +8,6 @@ public static class DependencyInjection
     {
         services.AddControllers();
         services.AddEndpointsApiExplorer();
-        services.AddProblemDetails();
         services.AddSwaggerGen(options =>
         {
             options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -36,6 +34,7 @@ public static class DependencyInjection
                 }
             });
         });
+        services.AddProblemDetails();
 
         return services;
     }

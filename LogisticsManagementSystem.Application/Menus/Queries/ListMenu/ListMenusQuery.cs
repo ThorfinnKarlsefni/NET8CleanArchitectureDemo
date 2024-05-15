@@ -4,4 +4,5 @@ using MediatR;
 
 namespace LogisticsManagementSystem.Application;
 
-public record GetMenuTreeQuery() : IRequest<ErrorOr<List<Menu>>>;
+[Authorize(Permissions = Common.Security.Permissions.Permission.User.Get, Policies = Policy.SelfOrAdmin)]
+public record ListMenusQuery() : IRequest<ErrorOr<List<Menu>>>;

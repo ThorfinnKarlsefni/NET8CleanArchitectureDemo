@@ -4,31 +4,25 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LogisticsManagementSystem.Api;
 
-public class RoleController : ApiController
+[Authorize]
+public class RoleController(IMediator _mediator) : ApiController
 {
-    private readonly IMediator _mediator;
-
-    public RoleController(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
-
-    [HttpGet("roles/all")]
+    [HttpGet("roles")]
     public async Task<IActionResult> GetAllRoles()
     {
-        var result = await _mediator.Send(new AllRoleQuery());
+        var result = await _mediator.Send(new GetRolesQuery());
         return result.Match(
-            _ => Ok(result.Value),
+            roles => Ok(roles),
             Problem);
     }
 
     [HttpGet("roles/list")]
     public async Task<IActionResult> GetRoleList(int pageNumber, int pageSize, string? searchKeyword)
     {
-        var result = await _mediator.Send(new RoleListQuery
+        var result = await _mediator.Send(new ListRoleQuery
        (pageNumber, pageSize, searchKeyword));
         return result.Match(
-            _ => Ok(result.Value),
+            roleList => Ok(roleList),
             Problem);
     }
 
@@ -41,17 +35,20 @@ public class RoleController : ApiController
             Problem);
     }
 
-    [HttpDelete("role/{roleId}")]
-    public async Task<IActionResult> DeleteRole(string roleId)
+    [HttpPut("role/{id}")]
+    public async Task<IActionResult> UpdateRole(Guid id, UpdateRoleCommand command)
     {
-        if (!Guid.TryParse(roleId, out var id))
-        {
-            return Problem(
-                statusCode: StatusCodes.Status400BadRequest,
-                title: "无效Id格式"
-            );
-        }
-        var deleteCommand = new DeleteRoleCommand(roleId);
+        var updateCommand = command with { RoleId = id };
+        var result = await _mediator.Send(updateCommand);
+        return result.Match(
+            _ => NoContent(),
+            Problem);
+    }
+
+    [HttpDelete("role/{id}")]
+    public async Task<IActionResult> DeleteRole(Guid id)
+    {
+        var deleteCommand = new DeleteRoleCommand(id);
         var result = await _mediator.Send(deleteCommand);
         return result.Match(
             _ => NoContent(),

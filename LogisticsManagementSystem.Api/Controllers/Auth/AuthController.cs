@@ -1,4 +1,5 @@
-﻿using LogisticsManagementSystem.Application;
+﻿using ErrorOr;
+using LogisticsManagementSystem.Application;
 using LogisticsManagementSystem.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -6,15 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LogisticsManagementSystem.Api;
 
-public class AuthController : ApiController
+public class AuthController(ISender _sender) : ApiController
 {
-    private readonly ISender _sender;
-
-    public AuthController(ISender sender)
-    {
-        _sender = sender;
-    }
-
     [HttpPost("signUp")]
     public async Task<IActionResult> SignUp(CreateUserCommand command)
     {
@@ -37,14 +31,24 @@ public class AuthController : ApiController
     [HttpPost("logout")]
     public async Task<IActionResult> Logout()
     {
-        return NoContent();
+        var result = await _sender.Send(new LogoutCommand());
+        return result.Match(
+            _ => NoContent(),
+            Problem);
     }
 
     private async Task<IActionResult> GenerateTokens(User user)
     {
-        var result = await _sender.Send(new GenerateTokenCommand(user));
+        var result = await _sender.Send(new GenerateTokenCommand(
+            user.Id,
+            user.Name,
+            user.CompanyId,
+            user.UserRoles.Select(x => x.Role.Name).ToList(),
+            new List<string>(),
+            user.SecurityStamp
+        ));
         return result.Match(
-            _ => Ok(result.Value),
+            user => Ok(user),
             Problem);
     }
 

@@ -4,27 +4,40 @@ using MediatR;
 
 namespace LogisticsManagementSystem.Application;
 
-public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, ErrorOr<Created>>
+public class CreateUserCommandHandler(
+    IUserRepository _userRepository,
+    IRoleRepository _roleRepository
+) : IRequestHandler<CreateUserCommand, ErrorOr<Created>>
 {
-    private readonly IUserRepository _userRepository;
-
-    public CreateUserCommandHandler(IUserRepository userRepository)
-    {
-        _userRepository = userRepository;
-    }
-
     public async Task<ErrorOr<Created>> Handle(CreateUserCommand command, CancellationToken cancellationToken)
     {
         var user = new User(
             command.UserName,
             command.Name,
-            command.companyId,
+            command.CompanyId,
             command.PhoneNumber);
+
+        if (command.RoleId.HasValue && command.RoleId != Guid.Empty)
+        {
+            Console.WriteLine(user.Id);
+            var roles = await _roleRepository.GetAllRoleAsync(cancellationToken);
+
+            var setRoleResult = user.SetRole(roles, user.Id, command.RoleId.Value);
+            if (setRoleResult.IsError)
+            {
+                return setRoleResult.Errors;
+            }
+        }
+
         user.SetAvatar(command.Avatar);
 
-        var result = await _userRepository.CreateAsync(user, command.Password);
-        if (!result.Succeeded)
-            return Error.Conflict(description: result.Errors.First().Description.ToString());
+        user.PasswordHash = _userRepository.EncryptPassword(command.Password.Trim());
+
+        user.SecurityStamp = _userRepository.GenerateSecurityStamp();
+
+        await _userRepository.CreateAsync(user, cancellationToken);
+
+
 
         return Result.Created;
     }
