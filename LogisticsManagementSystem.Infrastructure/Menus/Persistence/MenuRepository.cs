@@ -14,7 +14,7 @@ public class MenuRepository(AppDbContext _dbContext) : IMenuRepository
 
     public async Task<bool> CheckControllerAsync(string Controller)
     {
-        return await _dbContext.Menus.AnyAsync(x => x.Controller == Controller);
+        return await _dbContext.Menus.AnyAsync(x => string.Equals(x.Controller, Controller.Trim()));
     }
 
     public async Task<List<Menu>> GetListMenuAsync(bool onlyVisible, CancellationToken cancellationToken)

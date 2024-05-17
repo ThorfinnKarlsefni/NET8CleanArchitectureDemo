@@ -1,6 +1,6 @@
 ﻿using ErrorOr;
-using MediatR;
 
 namespace LogisticsManagementSystem.Application;
 
-public record UpdateMenuCommand(int Id, int? ParentId, string Name, string? Controller, string Path, string? Icon, string? Component, int? Sort, bool Visibility) : IRequest<ErrorOr<Updated>>;
+[Authorize(Policies = Policy.SelfOrAdmin)]
+public record UpdateMenuCommand(int Id, int? ParentId, string Name, string? Controller, string Path, string? Icon, string? Component, int? Sort, bool Visibility) : IAuthorizeAbleRequest<ErrorOr<Updated>>;

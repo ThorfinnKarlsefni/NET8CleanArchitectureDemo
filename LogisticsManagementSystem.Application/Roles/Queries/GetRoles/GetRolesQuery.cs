@@ -1,6 +1,8 @@
 ﻿using ErrorOr;
-using MediatR;
+using LogisticsManagementSystem.Application.Common.Security.Permissions;
+
 
 namespace LogisticsManagementSystem.Application;
 
-public record GetRolesQuery() : IRequest<ErrorOr<List<GetRolesResult>>>;
+[Authorize(Permissions = Permission.Role.Get, Policies = Policy.SelfOrAdmin)]
+public record GetRolesQuery() : IAuthorizeAbleRequest<ErrorOr<List<GetRolesResult>>>;

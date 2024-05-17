@@ -17,7 +17,7 @@ public class AuthorizationService(
     {
         var currentUser = _currentUserProvider.GetCurrentUser();
 
-        if (!_userRepository.CheckSecurityStampAsync(currentUser.Id, currentUser.SecurityStamp))
+        if (!_userRepository.CheckSecurityStamp(currentUser.Id, currentUser.SecurityStamp))
         {
             return Error.Unauthorized(description: "用户已在其他设备登录");
         }

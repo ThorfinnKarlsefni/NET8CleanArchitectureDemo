@@ -8,10 +8,10 @@ public class PermissionController(
     ISender _sender
 ) : ApiController
 {
-    [HttpGet("permission/all")]
-    public async Task<IActionResult> GetAll()
+    [HttpGet("permission/list")]
+    public async Task<IActionResult> List()
     {
-        var result = await _sender.Send(new GetPermissionsQuery());
+        var result = await _sender.Send(new ListPermissionQuery());
         return result.Match(
             permissions => Ok(permissions),
             Problem);

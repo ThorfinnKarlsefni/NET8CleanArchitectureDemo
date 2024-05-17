@@ -9,8 +9,11 @@ public class Role : Entity
     public string NormalizedName { get; private set; }
     public List<UserRole> UserRoles { get; private set; } = [];
     public List<RoleMenus> RoleMenus { get; set; } = [];
+    public List<RolePermissions> RolePermissions { get; private set; } = [];
+
     public Role(string name)
     {
+        Id = Guid.NewGuid();
         Name = name;
         NormalizedName = name.ToUpper();
     }
@@ -22,12 +25,27 @@ public class Role : Entity
         SetUpdateAt();
     }
 
-    public ErrorOr<Success> SetMenuRoleRelation(Guid roleId, List<int> menuIds)
+    public ErrorOr<Success> SetRoleMenus(Guid roleId, List<int> menuIds)
     {
         var menuRoleRelations = menuIds.Select(menuId => new RoleMenus(menuId, roleId)).ToList();
 
-        _domainEvents.Add(new RoleSetMenusEvent(menuRoleRelations));
+        if (menuRoleRelations.Any())
+        {
+            _domainEvents.Add(new MenuSetEvent(menuRoleRelations));
+        }
 
+        return Result.Success;
+    }
+
+
+    public ErrorOr<Success> DeleteRoleMenus(Guid roleId)
+    {
+        if (roleId == Guid.Empty)
+        {
+            return Error.Validation(description: "事件参数错误");
+        }
+
+        _domainEvents.Add(new MenuDeleteEvent(roleId));
         return Result.Success;
     }
 }

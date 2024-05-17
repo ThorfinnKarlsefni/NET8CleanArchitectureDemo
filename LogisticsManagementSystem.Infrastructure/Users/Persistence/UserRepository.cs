@@ -17,32 +17,33 @@ public class UserRepository(AppDbContext _dbContext, IPasswordEncryption _passwo
         return await _dbContext.Users.AnyAsync(u => string.Equals(u.NormalizedUserName, username));
     }
 
-    public async Task<User?> FindByNameAsync(string username, CancellationToken cancellationToken)
+    public async Task<User?> GetUserByUsernameWithAllInfoAsync(string username, CancellationToken cancellationToken)
     {
-        return await _dbContext.Users
-            .Where(x => x.NormalizedUserName == username.Trim().ToUpper())
-            .Where(x => x.DeletedAt == null)
-            .Include(ur => ur.UserRoles)
-            .ThenInclude(x => x.Role)
+        var user = await _dbContext.Users
+            .Where(x => string.Equals(x.NormalizedUserName, username.Trim().ToUpper()))
+            .Include(x => x.Company)
             .FirstOrDefaultAsync(cancellationToken);
-    }
 
-    public async Task<List<string>> GetRolesAsync(User user, CancellationToken cancellationToken)
-    {
-        return await _dbContext.Users
-            .Where(u => u.Id == user.Id)
-            .SelectMany(u => u.UserRoles)
-            .Select(ur => ur.Role.Name)
-            .ToListAsync(cancellationToken);
+        if (user is not null)
+        {
+            await _dbContext.Entry(user)
+            .Collection(x => x.UserRoles)
+            .Query()
+            .Include(x => x.Role)
+                .ThenInclude(x => x.RolePermissions.Where(x => x.Permission.Action != null))
+            .LoadAsync();
+        }
+
+        return user;
     }
 
     public async Task<User?> FindByIdAsync(Guid userId, CancellationToken cancellationToken)
     {
         return await _dbContext.Users
-            .Where(u => u.Id == userId)
-            .Include(ur => ur.UserRoles)
-            .ThenInclude(r => r.Role)
-            .Include(u => u.Company)
+            .Where(x => x.DeletedAt == null)
+            .Where(x => x.Id == userId)
+            .Include(x => x.UserRoles)
+                .ThenInclude(x => x.Role)
             .FirstOrDefaultAsync(cancellationToken);
     }
 
@@ -79,12 +80,6 @@ public class UserRepository(AppDbContext _dbContext, IPasswordEncryption _passwo
         return (users, totalCount);
     }
 
-    // public async Task ResetUserPasswordAsync(User user, string password)
-    // {
-    //     var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-    //     return await _userManager.ResetPasswordAsync(user, token, password);
-    // }
-
     public async Task UpdateAsync(User user, CancellationToken cancellationToken)
     {
         _dbContext.Update(user);
@@ -98,7 +93,7 @@ public class UserRepository(AppDbContext _dbContext, IPasswordEncryption _passwo
 
     public string EncryptPassword(string password)
     {
-        return _passwordEncryption.HashPassword(password);
+        return _passwordEncryption.HashPassword(password.Trim());
     }
 
     public string GenerateSecurityStamp()
@@ -106,7 +101,7 @@ public class UserRepository(AppDbContext _dbContext, IPasswordEncryption _passwo
         return _passwordEncryption.GenerateSecurityStamp();
     }
 
-    public bool CheckSecurityStampAsync(Guid userId, string SecurityStamp)
+    public bool CheckSecurityStamp(Guid userId, string SecurityStamp)
     {
         var user = _dbContext.Users.Where(x => x.Id == userId && x.SecurityStamp == SecurityStamp).FirstOrDefault();
 

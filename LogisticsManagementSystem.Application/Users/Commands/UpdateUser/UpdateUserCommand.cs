@@ -1,8 +1,9 @@
 ﻿using ErrorOr;
-using MediatR;
+using LogisticsManagementSystem.Application.Common.Security.Permissions;
 
 namespace LogisticsManagementSystem.Application;
 
+[Authorize(Permissions = Permission.User.Update, Policies = Policy.SelfOrAdmin)]
 public record UpdateUserCommand(
     Guid UserId,
     Guid? CompanyId,
@@ -12,4 +13,4 @@ public record UpdateUserCommand(
     string? Password,
     string? ConfirmPassword,
     Guid? Role
-) : IRequest<ErrorOr<Updated>>;
+) : IAuthorizeAbleRequest<ErrorOr<Updated>>;

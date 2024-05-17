@@ -1,12 +1,12 @@
 ﻿using ErrorOr;
-using MediatR;
 
 namespace LogisticsManagementSystem.Application;
 
+[Authorize(Policies = Policy.SelfOrAdmin)]
 public record UpdateMenuSortCommand(
     List<MenuSortItem> Menus
 )
-: IRequest<ErrorOr<Updated>>;
+: IAuthorizeAbleRequest<ErrorOr<Updated>>;
 public record MenuSortItem(
     int Id,
     int? ParentId,

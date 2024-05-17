@@ -8,7 +8,7 @@ public class GetRolesQueryHandler(IRoleRepository _roleRepository) : IRequestHan
     public async Task<ErrorOr<List<GetRolesResult>>> Handle(GetRolesQuery request, CancellationToken cancellationToken)
     {
 
-        var roles = await _roleRepository.GetAllRoleAsync(cancellationToken);
+        var roles = await _roleRepository.GetRolesAsync(cancellationToken);
 
         var result = roles.Select(r => new GetRolesResult(
             r.Id,

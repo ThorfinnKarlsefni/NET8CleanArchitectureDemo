@@ -1,7 +1,8 @@
 ﻿using ErrorOr;
-using MediatR;
+using LogisticsManagementSystem.Application.Common.Security.Permissions;
 
 namespace LogisticsManagementSystem.Application;
 
-public record UpdateRoleCommand(Guid RoleId, string Name, List<int> Menus) : IRequest<ErrorOr<Updated>>;
+[Authorize(Permissions = Permission.Role.Update, Policies = Policy.SelfOrAdmin)]
+public record UpdateRoleCommand(Guid RoleId, string Name, List<int> Menus) : IAuthorizeAbleRequest<ErrorOr<Updated>>;
 

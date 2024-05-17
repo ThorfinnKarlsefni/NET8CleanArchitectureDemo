@@ -24,7 +24,7 @@ public class DeletePermissionCommandHandler(
         }
 
         permission.SetDeletedAt();
-        await _permissionRepository.DeleteAsync(permission);
+        await _permissionRepository.UpdateAsync(permission, cancellationToken);
 
         return Result.Deleted;
     }

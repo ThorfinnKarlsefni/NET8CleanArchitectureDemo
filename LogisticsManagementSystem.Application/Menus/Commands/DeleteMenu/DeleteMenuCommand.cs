@@ -1,6 +1,6 @@
 ﻿using ErrorOr;
-using MediatR;
 
 namespace LogisticsManagementSystem.Application;
 
-public record DeleteMenuCommand(int Id) : IRequest<ErrorOr<Deleted>>;
+[Authorize(Policies = Policy.SelfOrAdmin)]
+public record DeleteMenuCommand(int Id) : IAuthorizeAbleRequest<ErrorOr<Deleted>>;

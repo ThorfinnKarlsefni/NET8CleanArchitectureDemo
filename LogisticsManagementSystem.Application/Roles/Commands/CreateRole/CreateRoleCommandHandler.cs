@@ -13,19 +13,15 @@ public class CreateRoleCommandHandler(IRoleRepository _roleRepository) : IReques
 
         var role = new Role(request.Name);
 
-        await _roleRepository.CreateAsync(role, cancellationToken);
-        // if (!result.Succeeded)
-        //     return Error.Conflict(description: result.Errors.First().Description.ToString());
+        var setMenuRoleResult = role.SetRoleMenus(role.Id, request?.MenuIds);
 
-        if (request.MenuIds != null && request.MenuIds.Any())
+        if (setMenuRoleResult.IsError)
         {
-            var setMenuRoleResult = role.SetMenuRoleRelation(role.Id, request.MenuIds);
-
-            if (setMenuRoleResult.IsError)
-            {
-                return setMenuRoleResult.Errors;
-            }
+            return setMenuRoleResult.Errors;
         }
+
+        await _roleRepository.CreateAsync(role, cancellationToken);
+
         return Result.Created;
     }
 }

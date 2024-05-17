@@ -1,6 +1,7 @@
 ﻿using ErrorOr;
-using MediatR;
+using LogisticsManagementSystem.Application.Common.Security.Permissions;
 
 namespace LogisticsManagementSystem.Application;
 
-public record DeleteRoleCommand(Guid RoleId) : IRequest<ErrorOr<Deleted>>;
+[Authorize(Permissions = Permission.Role.Delete, Policies = Policy.SelfOrAdmin)]
+public record DeleteRoleCommand(Guid RoleId) : IAuthorizeAbleRequest<ErrorOr<Deleted>>;

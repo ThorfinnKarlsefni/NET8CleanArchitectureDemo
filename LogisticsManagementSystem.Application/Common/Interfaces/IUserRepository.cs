@@ -4,8 +4,7 @@ namespace LogisticsManagementSystem.Application;
 
 public interface IUserRepository
 {
-    Task<User?> FindByNameAsync(string username, CancellationToken cancellationToken);
-    Task<List<string>> GetRolesAsync(User user, CancellationToken cancellationToken);
+    Task<User?> GetUserByUsernameWithAllInfoAsync(string username, CancellationToken cancellationToken);
     Task CreateAsync(User user, CancellationToken CancellationToken);
     Task<bool> IsExistsAsync(string username);
     Task<User?> FindByIdAsync(Guid userId, CancellationToken cancellationToken);
@@ -14,5 +13,5 @@ public interface IUserRepository
     string EncryptPassword(string password);
     string GenerateSecurityStamp();
     bool CheckPassword(string hashedPassword, string providedPassword);
-    bool CheckSecurityStampAsync(Guid userId, string securityStamp);
+    bool CheckSecurityStamp(Guid userId, string securityStamp);
 }

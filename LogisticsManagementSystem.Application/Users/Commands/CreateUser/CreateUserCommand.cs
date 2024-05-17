@@ -1,8 +1,9 @@
 ﻿using ErrorOr;
-using MediatR;
+using LogisticsManagementSystem.Application.Common.Security.Permissions;
 
 namespace LogisticsManagementSystem.Application;
 
+[Authorize(Permissions = Permission.User.Create, Policies = Policy.SelfOrAdmin)]
 public record CreateUserCommand(
     string UserName,
     string Name,
@@ -11,4 +12,4 @@ public record CreateUserCommand(
     string? Avatar,
     string Password,
     string ConfirmPassword,
-    Guid? RoleId) : IRequest<ErrorOr<Created>>;
+    Guid? RoleId) : IAuthorizeAbleRequest<ErrorOr<Created>>;

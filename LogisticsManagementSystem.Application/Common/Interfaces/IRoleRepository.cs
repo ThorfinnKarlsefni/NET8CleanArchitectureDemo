@@ -9,5 +9,5 @@ public interface IRoleRepository
     Task UpdateAsync(Role role, CancellationToken cancellationToken);
     Task<Role?> FindByIdAsync(Guid roleId, CancellationToken cancellationToken);
     Task<(List<Role>, long)> GetListRoleAsync(int pageNumber, int pageSize, string? searchKeyword, CancellationToken cancellationToken);
-    Task<List<Role>> GetAllRoleAsync(CancellationToken cancellationToken);
+    Task<List<Role>> GetRolesAsync(CancellationToken cancellationToken);
 }

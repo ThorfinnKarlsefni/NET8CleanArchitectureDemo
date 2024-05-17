@@ -1,6 +1,7 @@
 ﻿using ErrorOr;
-using MediatR;
+using LogisticsManagementSystem.Application.Common.Security.Permissions;
 
 namespace LogisticsManagementSystem.Application;
 
-public record RecoverUserCommand(Guid UserId) : IRequest<ErrorOr<Updated>>;
+[Authorize(Permissions = Permission.User.Update, Policies = Policy.SelfOrAdmin)]
+public record RecoverUserCommand(Guid UserId) : IAuthorizeAbleRequest<ErrorOr<Updated>>;

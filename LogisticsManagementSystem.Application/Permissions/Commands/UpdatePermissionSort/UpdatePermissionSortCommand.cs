@@ -1,11 +1,11 @@
 ﻿using ErrorOr;
-using MediatR;
 
 namespace LogisticsManagementSystem.Application;
 
+[Authorize(Policies = Policy.SelfOrAdmin)]
 public record UpdatePermissionSortCommand(
     List<PermissionSortItem> Permissions
-) : IRequest<ErrorOr<Updated>>;
+) : IAuthorizeAbleRequest<ErrorOr<Updated>>;
 public record PermissionSortItem(
     int PermissionId,
     int? ParentId,

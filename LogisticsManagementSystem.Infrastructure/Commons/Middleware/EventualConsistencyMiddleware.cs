@@ -25,8 +25,9 @@ public class EventualConsistencyMiddleware(RequestDelegate _next)
 
                 await transaction.CommitAsync();
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                Console.WriteLine(exception.ToString());
             }
             finally
             {

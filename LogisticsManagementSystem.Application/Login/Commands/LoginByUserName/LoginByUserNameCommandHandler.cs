@@ -10,7 +10,7 @@ public class LoginByUserNameQueryHandler(
 {
     public async Task<ErrorOr<User>> Handle(LoginByUserNameCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.FindByNameAsync(request.Username, cancellationToken);
+        var user = await _userRepository.GetUserByUsernameWithAllInfoAsync(request.Username, cancellationToken);
 
         if (user is null)
             return Error.NotFound(description: "用户名或密码错误");

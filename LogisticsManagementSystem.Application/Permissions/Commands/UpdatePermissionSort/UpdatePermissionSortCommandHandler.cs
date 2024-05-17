@@ -7,7 +7,7 @@ public class UpdatePermissionSortCommandHandler(IPermissionRepository _permissio
 {
     public async Task<ErrorOr<Updated>> Handle(UpdatePermissionSortCommand request, CancellationToken cancellationToken)
     {
-        var permissions = await _permissionRepository.GetPermissionsAsync(cancellationToken);
+        var permissions = await _permissionRepository.GetListPermissionsAsync(cancellationToken);
         foreach (var permission in permissions)
         {
             var item = request.Permissions.Where(x => x.PermissionId == permission.Id).SingleOrDefault();

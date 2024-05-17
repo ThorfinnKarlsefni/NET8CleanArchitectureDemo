@@ -1,6 +1,7 @@
 ﻿using ErrorOr;
-using MediatR;
+using LogisticsManagementSystem.Application.Common.Security.Permissions;
 
 namespace LogisticsManagementSystem.Application;
 
-public record GetUserQuery(Guid Id) : IRequest<ErrorOr<GetUserResult>>;
+[Authorize(Permissions = Permission.User.Get, Policies = Policy.SelfOrAdmin)]
+public record GetUserQuery(Guid Id) : IAuthorizeAbleRequest<ErrorOr<GetUserResult>>;

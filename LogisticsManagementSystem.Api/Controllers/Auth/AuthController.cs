@@ -1,5 +1,4 @@
-﻿using ErrorOr;
-using LogisticsManagementSystem.Application;
+﻿using LogisticsManagementSystem.Application;
 using LogisticsManagementSystem.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -39,12 +38,16 @@ public class AuthController(ISender _sender) : ApiController
 
     private async Task<IActionResult> GenerateTokens(User user)
     {
+        var roles = user.UserRoles.Select(x => x.Role.Name).ToList();
+
+        var permissions = user.UserRoles.SelectMany(ur => ur.Role.RolePermissions.Select(rp => rp.Permission.Action)).ToList();
+
         var result = await _sender.Send(new GenerateTokenCommand(
             user.Id,
             user.Name,
             user.CompanyId,
-            user.UserRoles.Select(x => x.Role.Name).ToList(),
-            new List<string>(),
+            roles,
+            permissions,
             user.SecurityStamp
         ));
         return result.Match(

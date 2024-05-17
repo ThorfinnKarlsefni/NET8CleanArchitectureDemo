@@ -1,5 +1,4 @@
 ﻿
-using System.Security.Cryptography.X509Certificates;
 using LogisticsManagementSystem.Application;
 using LogisticsManagementSystem.Domain;
 using Microsoft.EntityFrameworkCore;
@@ -14,13 +13,13 @@ public class PermissionRepository(AppDbContext _dbContext) : IPermissionReposito
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task DeleteAsync(Permission permission)
-    {
-        _dbContext.Permissions.Remove(permission);
-        await _dbContext.SaveChangesAsync();
-    }
+    // public async Task DeleteAsync(Permission permission)
+    // {
+    //     _dbContext.Permissions.Update(permission);
+    //     await _dbContext.SaveChangesAsync();
+    // }
 
-    public async Task<List<Permission>> GetPermissionsAsync(CancellationToken cancellationToken)
+    public async Task<List<Permission>> GetListPermissionsAsync(CancellationToken cancellationToken)
     {
         return await _dbContext.Permissions
             .Where(x => x.DeletedAt == null)
@@ -51,8 +50,8 @@ public class PermissionRepository(AppDbContext _dbContext) : IPermissionReposito
     {
         return await _dbContext.Permissions
             .AnyAsync(
-                x => x.Controller == controller &&
-                x.Method == method && x.DeletedAt == null
+                x => x.Controller == controller.Trim() &&
+                x.Method == method.Trim() && x.DeletedAt == null
             );
     }
 }

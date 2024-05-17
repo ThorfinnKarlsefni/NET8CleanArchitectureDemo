@@ -10,7 +10,7 @@ public class UpdatePermissionCommandHandler(IPermissionRepository _permissionRep
     {
         if (command.Controller != null && command.Method != null)
         {
-            var permissionItem = await _permissionRepository.IsExistAsync(command.Controller.Trim(), command.Method.Trim(), cancellationToken);
+            var permissionItem = await _permissionRepository.IsExistAsync(command.Controller, command.Method, cancellationToken);
             if (permissionItem)
             {
                 return Error.Conflict(description: "权限已设置");

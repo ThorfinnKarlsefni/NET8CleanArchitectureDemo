@@ -3,9 +3,9 @@ using MediatR;
 
 namespace LogisticsManagementSystem.Application;
 
-public class RoleSetMenusEventHandler(IRoleMenusRepository _roleMenusRepository) : INotificationHandler<RoleSetMenusEvent>
+public class MenuSetEventHandler(IRoleMenusRepository _roleMenusRepository) : INotificationHandler<MenuSetEvent>
 {
-    public async Task Handle(RoleSetMenusEvent @event, CancellationToken cancellationToken)
+    public async Task Handle(MenuSetEvent @event, CancellationToken cancellationToken)
     {
         await _roleMenusRepository.AddRangeAsync(@event.RoleMenus, cancellationToken);
     }

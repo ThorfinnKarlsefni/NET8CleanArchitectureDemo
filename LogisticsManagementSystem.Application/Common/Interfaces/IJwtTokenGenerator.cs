@@ -7,7 +7,7 @@ public interface IJwtTokenGenerator
       string name,
       Guid? company,
       List<string> roles,
-      List<string> permissions,
+      List<string?> permissions,
       string securityStamp
     );
 }

@@ -19,8 +19,7 @@ public class CreateUserCommandHandler(
 
         if (command.RoleId.HasValue && command.RoleId != Guid.Empty)
         {
-            Console.WriteLine(user.Id);
-            var roles = await _roleRepository.GetAllRoleAsync(cancellationToken);
+            var roles = await _roleRepository.GetRolesAsync(cancellationToken);
 
             var setRoleResult = user.SetRole(roles, user.Id, command.RoleId.Value);
             if (setRoleResult.IsError)
@@ -31,7 +30,7 @@ public class CreateUserCommandHandler(
 
         user.SetAvatar(command.Avatar);
 
-        user.PasswordHash = _userRepository.EncryptPassword(command.Password.Trim());
+        user.PasswordHash = _userRepository.EncryptPassword(command.Password);
 
         user.SecurityStamp = _userRepository.GenerateSecurityStamp();
 

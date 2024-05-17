@@ -1,6 +1,7 @@
 ﻿using ErrorOr;
-using MediatR;
+using LogisticsManagementSystem.Application.Common.Security.Permissions;
 
 namespace LogisticsManagementSystem.Application;
 
-public record CreateRoleCommand(string Name, List<int>? MenuIds) : IRequest<ErrorOr<Created>>;
+[Authorize(Permissions = Permission.Role.Get, Policies = Policy.SelfOrAdmin)]
+public record CreateRoleCommand(string Name, List<int> MenuIds) : IAuthorizeAbleRequest<ErrorOr<Created>>;

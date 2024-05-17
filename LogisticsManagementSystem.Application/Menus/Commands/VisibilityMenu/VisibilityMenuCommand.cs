@@ -3,4 +3,5 @@ using MediatR;
 
 namespace LogisticsManagementSystem.Application;
 
-public record VisibilityMenuCommand(int Id) : IRequest<ErrorOr<Updated>>;
+[Authorize(Policies = Policy.SelfOrAdmin)]
+public record VisibilityMenuCommand(int Id) : IAuthorizeAbleRequest<ErrorOr<Updated>>;

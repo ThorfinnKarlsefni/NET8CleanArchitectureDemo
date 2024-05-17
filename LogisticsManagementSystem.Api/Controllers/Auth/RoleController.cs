@@ -8,7 +8,7 @@ namespace LogisticsManagementSystem.Api;
 public class RoleController(IMediator _mediator) : ApiController
 {
     [HttpGet("roles")]
-    public async Task<IActionResult> GetAllRoles()
+    public async Task<IActionResult> GetRoles()
     {
         var result = await _mediator.Send(new GetRolesQuery());
         return result.Match(

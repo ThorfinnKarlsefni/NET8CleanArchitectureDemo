@@ -1,6 +1,7 @@
 ﻿using ErrorOr;
-using MediatR;
+using LogisticsManagementSystem.Application.Common.Security.Permissions;
 
 namespace LogisticsManagementSystem.Application;
 
-public record DisableUserCommand(Guid UserId) : IRequest<ErrorOr<Updated>>;
+[Authorize(Permissions = Permission.User.Delete, Policies = Policy.SelfOrAdmin)]
+public record DisableUserCommand(Guid UserId) : IAuthorizeAbleRequest<ErrorOr<Updated>>;

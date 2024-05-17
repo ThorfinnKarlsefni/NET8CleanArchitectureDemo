@@ -1,5 +1,4 @@
-﻿
-using ErrorOr;
+﻿using ErrorOr;
 
 namespace LogisticsManagementSystem.Domain;
 
@@ -58,6 +57,17 @@ public class User : Entity
         var userRole = new UserRole(userId, roleId);
         _domainEvents.Add(new RoleSetEvent(userRole));
 
+        return Result.Success;
+    }
+
+    public ErrorOr<Success> DeleteRole(Guid userId, Guid roleId)
+    {
+        if (userId == Guid.Empty && roleId == Guid.Empty)
+        {
+            return Error.Validation(description: "事件参数为空");
+        }
+
+        _domainEvents.Add(new RoleDeleteEvent(new UserRole(userId, roleId)));
         return Result.Success;
     }
 

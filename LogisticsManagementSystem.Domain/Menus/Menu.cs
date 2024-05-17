@@ -16,10 +16,10 @@ public class Menu : Entity
     {
         ParentId = parentId;
         Name = name;
-        Controller = controller;
-        Path = path;
+        Controller = controller?.Trim();
+        Path = path.Trim();
         Icon = icon;
-        Component = component;
+        Component = component?.Trim();
         Visibility = visibility;
     }
     public void UpdateMenu(int? parentId, string name, string path, string? controller, string? component, string? icon, int? sort, bool? visibility)
