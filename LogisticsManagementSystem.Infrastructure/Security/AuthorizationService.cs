@@ -22,7 +22,16 @@ public class AuthorizationService(
             return Error.Unauthorized(description: "用户已在其他设备登录");
         }
 
-        if (requiredPermissions.Except(currentUser.Permissions).Any() && !requiredPolicies.Any())
+        bool hasRequiredRole = requiredRoles.Intersect(currentUser.Roles).Any();
+        bool hasRequiredPermission = requiredPermissions.Intersect(currentUser.Permissions).Any();
+        bool hasRequiredPolicy = requiredPolicies.Any(policy => !_policyEnforcer.Authorize(currentUser, policy).IsError);
+
+        if (hasRequiredRole || hasRequiredPermission || hasRequiredPolicy)
+        {
+            return Result.Success;
+        }
+
+        if (requiredPermissions.Except(currentUser.Permissions).Any())
         {
             return Error.Forbidden(description: "用户缺少执行此操作所需的权限");
         }
@@ -35,7 +44,6 @@ public class AuthorizationService(
         foreach (var policy in requiredPolicies)
         {
             var authorizationAgainstPolicyResult = _policyEnforcer.Authorize(currentUser, policy);
-
             if (authorizationAgainstPolicyResult.IsError)
             {
                 return authorizationAgainstPolicyResult.Errors;

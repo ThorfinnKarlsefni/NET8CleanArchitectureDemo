@@ -52,6 +52,8 @@ public class RoleRepository(AppDbContext _dbContext) : IRoleRepository
         var roles = await query
             .Include(r => r.RoleMenus)
                 .ThenInclude(r => r.Menu)
+            .Include(r => r.RolePermissions)
+                .ThenInclude(r => r.Permission)
             .Where(r => r.DeletedAt == null)
             .Where(r => r.NormalizedName != "ADMIN")
             .OrderBy(r => r.CreatedAt)
@@ -64,5 +66,12 @@ public class RoleRepository(AppDbContext _dbContext) : IRoleRepository
         return (roles, totalCount);
     }
 
-
+    public async Task<List<int>> GetPermissionsByRoleIdAsync(Guid roleId, CancellationToken cancellationToken)
+    {
+        return await _dbContext.Roles
+            .Where(x => x.Id == roleId)
+                .Include(x => x.RolePermissions)
+            .SelectMany(x => x.RolePermissions.Select(x => x.PermissionId))
+            .ToListAsync(cancellationToken);
+    }
 }

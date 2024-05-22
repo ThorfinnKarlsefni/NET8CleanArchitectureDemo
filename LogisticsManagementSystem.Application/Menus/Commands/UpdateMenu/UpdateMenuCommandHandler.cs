@@ -7,7 +7,7 @@ public class UpdateMenuCommandHandler(IMenuRepository _menuRepository) : IReques
 {
     public async Task<ErrorOr<Updated>> Handle(UpdateMenuCommand command, CancellationToken cancellationToken)
     {
-        var menu = await _menuRepository.GetByIdAsync(command.Id, cancellationToken);
+        var menu = await _menuRepository.GetByIdAsync(command.MenuId, cancellationToken);
 
         if (menu is null)
         {

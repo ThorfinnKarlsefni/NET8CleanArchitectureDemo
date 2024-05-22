@@ -4,9 +4,9 @@ public static partial class Permission
 {
     public static class Menu
     {
-        public const string Create = "create:menu";
-        public const string Delete = "delete:menu";
-        public const string Update = "update:menu";
-        public const string Get = "get:menu";
+        public const string Create = "menu:create";
+        public const string Delete = "menu:delete";
+        public const string Update = "menu:update";
+        public const string Get = "menu:get";
     }
 }

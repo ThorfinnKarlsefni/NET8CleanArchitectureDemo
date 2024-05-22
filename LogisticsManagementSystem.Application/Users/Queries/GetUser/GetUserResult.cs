@@ -4,4 +4,4 @@ public record GetUserResult(
     string? Company,
     string Name,
     string? Avatar,
-    List<string> Roles);
+    List<GetRolesResult> Roles);

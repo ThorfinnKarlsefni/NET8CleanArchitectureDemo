@@ -18,6 +18,7 @@ public class DeleteRoleCommandHandler(IRoleRepository _roleRepository, IUserRole
         {
             return Error.Conflict(description: "有用户设置当前的角色");
         }
+
         role.DeleteRoleMenus(role.Id);
         role.SetDeletedAt();
         await _roleRepository.DeleteAsync(role, cancellationToken);

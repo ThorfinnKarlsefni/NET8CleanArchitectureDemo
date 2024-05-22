@@ -11,6 +11,7 @@ public class CreateUserCommandHandler(
 {
     public async Task<ErrorOr<Created>> Handle(CreateUserCommand command, CancellationToken cancellationToken)
     {
+
         var user = new User(
             command.UserName,
             command.Name,
@@ -19,9 +20,15 @@ public class CreateUserCommandHandler(
 
         if (command.RoleId.HasValue && command.RoleId != Guid.Empty)
         {
-            var roles = await _roleRepository.GetRolesAsync(cancellationToken);
+            var role = await _roleRepository.FindByIdAsync(command.RoleId.Value, cancellationToken);
 
-            var setRoleResult = user.SetRole(roles, user.Id, command.RoleId.Value);
+            if (role is null)
+            {
+                return Error.NotFound("角色不存在");
+            }
+
+            var setRoleResult = user.SetRole(user.Id, command.RoleId.Value);
+
             if (setRoleResult.IsError)
             {
                 return setRoleResult.Errors;
@@ -35,8 +42,6 @@ public class CreateUserCommandHandler(
         user.SecurityStamp = _userRepository.GenerateSecurityStamp();
 
         await _userRepository.CreateAsync(user, cancellationToken);
-
-
 
         return Result.Created;
     }

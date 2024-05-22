@@ -38,7 +38,9 @@ public class AuthController(ISender _sender) : ApiController
 
     private async Task<IActionResult> GenerateTokens(User user)
     {
-        var roles = user.UserRoles.Select(x => x.Role.Name).ToList();
+        var roles = user.UserRoles.Select(x => (
+            x.Role.Name
+        )).ToList();
 
         var permissions = user.UserRoles.SelectMany(ur => ur.Role.RolePermissions.Select(rp => rp.Permission.Action)).ToList();
 

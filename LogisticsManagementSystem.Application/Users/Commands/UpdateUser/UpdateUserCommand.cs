@@ -12,5 +12,5 @@ public record UpdateUserCommand(
     string? Email,
     string? Password,
     string? ConfirmPassword,
-    Guid? Role
+    Guid? RoleId
 ) : IAuthorizeAbleRequest<ErrorOr<Updated>>;

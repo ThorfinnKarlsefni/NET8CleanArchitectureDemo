@@ -1,8 +1,9 @@
 ﻿using ErrorOr;
 using LogisticsManagementSystem.Domain;
+using MediatR;
 
 namespace LogisticsManagementSystem.Application;
 
-[Authorize(Policies = Policy.SelfOrAdmin)]
-public record ListPermissionQuery() : IAuthorizeAbleRequest<ErrorOr<List<Permission>>>;
+// role menu relations using
+public record ListPermissionQuery() : IRequest<ErrorOr<List<Permission>>>;
 

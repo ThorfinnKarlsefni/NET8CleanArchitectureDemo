@@ -13,8 +13,14 @@ public class ListRoleQueryHandler(IRoleRepository _roleRepository) : IRequestHan
                 r.Name,
                 r.NormalizedName,
                 r.CreatedAt,
-                r.RoleMenus.Select(ur => ur.Menu.Id).ToList()
+                r.RoleMenus.Select(x => x.Menu.Id).ToList(),
+                r.RolePermissions.Select(x => new ListRolePermissions(
+                    x.Permission.Id,
+                    x.Permission.ParentId,
+                    x.Permission.Name
+                )).ToList()
             ));
+
         return new ListRoleResult(
             totalCount,
             request.PageNumber,

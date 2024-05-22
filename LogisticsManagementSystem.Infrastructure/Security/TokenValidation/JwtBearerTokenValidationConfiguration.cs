@@ -1,14 +1,12 @@
 ﻿using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace LogisticsManagementSystem.Infrastructure;
 
 public sealed class JwtBearerTokenValidationConfiguration(
-    IOptions<JwtSettings> jwtSettings,
-    IServiceProvider _serviceProvider)
+    IOptions<JwtSettings> jwtSettings)
     : IConfigureNamedOptions<JwtBearerOptions>
 {
     private readonly JwtSettings _jwtSettings = jwtSettings.Value;

@@ -8,6 +8,6 @@ public class ListMenusQueryHandler(IMenuRepository _menuRepository) : IRequestHa
 {
     public async Task<ErrorOr<List<Menu>>> Handle(ListMenusQuery request, CancellationToken cancellationToken)
     {
-        return await _menuRepository.GetListMenuAsync(onlyVisible: false, cancellationToken);
+        return await _menuRepository.GetListMenuAsync(cancellationToken);
     }
 }

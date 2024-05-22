@@ -12,5 +12,12 @@ public record ListRole(
     string? Name,
     string? NormalizedName,
     DateTime CreatedAt,
-    List<int> Menus
+    List<int> Menus,
+    List<ListRolePermissions> Permissions
+);
+
+public record ListRolePermissions(
+    int Id,
+    int? ParentId,
+    string Name
 );

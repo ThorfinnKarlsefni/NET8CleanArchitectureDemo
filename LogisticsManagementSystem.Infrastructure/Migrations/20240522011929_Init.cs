@@ -197,11 +197,11 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                 columns: new[] { "Id", "Component", "Controller", "CreatedAt", "DeletedAt", "Icon", "Name", "ParentId", "Path", "Sort", "UpdatedAt", "Visibility" },
                 values: new object[,]
                 {
-                    { 1, "", "", new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6180), null, "", "系统", null, "/admin", 0, new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6180), true },
-                    { 2, "./Admin/Menus", "Menu", new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6180), null, "", "菜单管理", 1, "/admin/menus", 0, new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6180), true },
-                    { 3, "./Admin/Permissions", "Permission", new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6190), null, "", "权限管理", 1, "/admin/permissions", 0, new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6190), true },
-                    { 4, "./Admin/Roles", "Role", new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6190), null, "", "角色管理", 1, "/admin/roles", 0, new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6190), true },
-                    { 5, "./Admin/Users", "User", new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6190), null, "", "员工列表", 1, "/admin/users", 0, new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6190), true }
+                    { 1, "", "", new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2060), null, "", "系统", null, "/admin", 0, new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2060), true },
+                    { 2, "./Admin/Menus", "Menu", new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2060), null, "", "菜单管理", 1, "/admin/menus", 0, new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2060), true },
+                    { 3, "./Admin/Permissions", "Permission", new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2070), null, "", "权限管理", 1, "/admin/permissions", 0, new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2070), true },
+                    { 4, "./Admin/Roles", "Role", new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2070), null, "", "角色管理", 1, "/admin/roles", 0, new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2070), true },
+                    { 5, "./Admin/Users", "User", new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2070), null, "", "员工列表", 1, "/admin/users", 0, new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2070), true }
                 });
 
             migrationBuilder.InsertData(
@@ -209,38 +209,33 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                 columns: new[] { "Id", "Action", "Controller", "CreatedAt", "DeletedAt", "Method", "Name", "ParentId", "Sort", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, null, null, new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6210), null, null, "系统", null, 0, new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6210) },
-                    { 2, null, "Menu", new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6210), null, null, "菜单管理", 1, 0, new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6210) },
-                    { 3, "menu:get", "Menu", new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6210), null, "GET", "查看", 2, 0, new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6210) },
-                    { 4, "menu:create", "Menu", new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220), null, "CREATE", "创建", 2, 0, new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220) },
-                    { 5, "menu:update", "Menu", new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220), null, "UPDATE", "修改", 2, 0, new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220) },
-                    { 6, "menu:delete", "Menu", new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220), null, "DELETE", "删除", 2, 0, new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220) },
-                    { 7, null, "Permission", new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220), null, null, "权限管理", 1, 0, new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220) },
-                    { 8, "permission:get", "Permission", new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220), null, "GET", "查看", 7, 0, new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220) },
-                    { 9, "permission:create", "Permission", new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220), null, "CREATE", "创建", 7, 0, new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220) },
-                    { 10, "permission:update", "Permission", new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220), null, "UPDATE", "修改", 7, 0, new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220) },
-                    { 11, "permission:delete", "Permission", new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230), null, "DELETE", "删除", 7, 0, new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230) },
-                    { 12, null, "Role", new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230), null, null, "角色管理", 1, 0, new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230) },
-                    { 13, "role:get", "Role", new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230), null, "GET", "查看", 12, 0, new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230) },
-                    { 14, "role:create", "Role", new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230), null, "CREATE", "创建", 12, 0, new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230) },
-                    { 15, "role:update", "Role", new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230), null, "UPDATE", "修改", 12, 0, new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230) },
-                    { 16, "role:delete", "Role", new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230), null, "DELETE", "删除", 12, 0, new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230) }
+                    { 1, null, null, new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2090), null, null, "系统", null, 0, new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2090) },
+                    { 2, null, "Role", new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2090), null, null, "角色管理", 1, 0, new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2090) },
+                    { 3, "role:get", "Role", new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2090), null, "GET", "查看", 2, 0, new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2090) },
+                    { 4, "role:create", "Role", new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2100), null, "CREATE", "创建", 2, 0, new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2100) },
+                    { 5, "role:update", "Role", new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2100), null, "UPDATE", "修改", 2, 0, new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2100) },
+                    { 6, "role:delete", "Role", new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2100), null, "DELETE", "删除", 2, 0, new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2100) },
+                    { 7, null, "User", new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2100), null, null, "员工管理", 1, 0, new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2100) },
+                    { 8, "user:get", "Role", new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2100), null, "GET", "查看", 7, 0, new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2100) },
+                    { 9, "user:create", "Role", new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2100), null, "CREATE", "创建", 7, 0, new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2100) },
+                    { 10, "user:update", "Role", new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2100), null, "UPDATE", "修改", 7, 0, new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2100) },
+                    { 11, "user:delete", "Role", new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2110), null, "DELETE", "删除", 7, 0, new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2110) }
                 });
 
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "CreatedAt", "DeletedAt", "Name", "NormalizedName", "UpdatedAt" },
-                values: new object[] { new Guid("d083f2ee-b17a-488b-a26e-43931453f719"), new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6110), null, "Admin", "ADMIN", new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6110) });
+                values: new object[] { new Guid("762119d5-9d5e-4274-89e5-5f57e2d30505"), new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2000), null, "Admin", "ADMIN", new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2000) });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Avatar", "CompanyId", "CreatedAt", "DeletedAt", "Email", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "UpdatedAt", "UserName" },
-                values: new object[] { new Guid("43d9e2b7-12ba-436d-aa00-6ce2851a2f5d"), null, null, new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(5890), null, "402832626@qq.com", true, null, "Cheung", "CHEUNG", "AQAAAAIAAYagAAAAEMSuTV5vdkw0LBQICgUF2Rl25Yu9TiFhrhatAn9JCyrSnMe/tjJRRdXj/nkltAGwiQ==", "15563239095", false, "373BQTFYVCP7RJ3VEPFAOSDBMBDQIEH4", new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(5890), "Cheung" });
+                values: new object[] { new Guid("428e6c70-44cf-44e7-bffe-8bc1685beceb"), null, null, new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(1820), null, "402832626@qq.com", true, null, "Cheung", "CHEUNG", "AQAAAAIAAYagAAAAEMSuTV5vdkw0LBQICgUF2Rl25Yu9TiFhrhatAn9JCyrSnMe/tjJRRdXj/nkltAGwiQ==", "15563239095", false, "373BQTFYVCP7RJ3VEPFAOSDBMBDQIEH4", new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(1820), "Cheung" });
 
             migrationBuilder.InsertData(
                 table: "UserRole",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { new Guid("d083f2ee-b17a-488b-a26e-43931453f719"), new Guid("43d9e2b7-12ba-436d-aa00-6ce2851a2f5d") });
+                values: new object[] { new Guid("762119d5-9d5e-4274-89e5-5f57e2d30505"), new Guid("428e6c70-44cf-44e7-bffe-8bc1685beceb") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_RoleMenus_RoleId",

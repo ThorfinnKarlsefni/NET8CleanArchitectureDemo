@@ -108,63 +108,43 @@ public static class SeedData
             {
                 Id = 1,
             },
-            new Permission(1, "菜单管理", "Menu", null, null)
+            new Permission(1, "角色管理", "Role", null, null)
             {
                 Id = 2,
             },
-            new Permission(2, "查看", "Menu", "menu:get", "GET")
+            new Permission(2, "查看", "Role", "role:get", "GET")
             {
                 Id = 3,
             },
-            new Permission(2, "创建", "Menu", "menu:create", "CREATE")
+            new Permission(2, "创建", "Role", "role:create", "CREATE")
             {
                 Id = 4,
-            },
-            new Permission(2, "修改", "Menu", "menu:update", "UPDATE")
+            }, new Permission(2, "修改", "Role", "role:update", "UPDATE")
             {
                 Id = 5,
             },
-            new Permission(2, "删除", "Menu", "menu:delete", "DELETE")
+            new Permission(2, "删除", "Role", "role:delete", "DELETE")
             {
                 Id = 6,
             },
-            new Permission(1, "权限管理", "Permission", null, null)
+            new Permission(1, "员工管理", "User", null, null)
             {
                 Id = 7,
             },
-            new Permission(7, "查看", "Permission", "permission:get", "GET")
+            new Permission(7, "查看", "Role", "user:get", "GET")
             {
                 Id = 8,
             },
-            new Permission(7, "创建", "Permission", "permission:create", "CREATE")
+            new Permission(7, "创建", "Role", "user:create", "CREATE")
             {
                 Id = 9,
-            }, new Permission(7, "修改", "Permission", "permission:update", "UPDATE")
+            }, new Permission(7, "修改", "Role", "user:update", "UPDATE")
             {
                 Id = 10,
             },
-            new Permission(7, "删除", "Permission", "permission:delete", "DELETE")
+            new Permission(7, "删除", "Role", "user:delete", "DELETE")
             {
                 Id = 11,
-            },
-            new Permission(1, "角色管理", "Role", null, null)
-            {
-                Id = 12,
-            },
-            new Permission(12, "查看", "Role", "role:get", "GET")
-            {
-                Id = 13,
-            },
-            new Permission(12, "创建", "Role", "role:create", "CREATE")
-            {
-                Id = 14,
-            }, new Permission(12, "修改", "Role", "role:update", "UPDATE")
-            {
-                Id = 15,
-            },
-            new Permission(12, "删除", "Role", "role:delete", "DELETE")
-            {
-                Id = 16,
             }
         );
     }

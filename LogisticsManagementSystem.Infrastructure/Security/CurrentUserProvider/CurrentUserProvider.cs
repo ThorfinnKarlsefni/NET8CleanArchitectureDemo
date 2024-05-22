@@ -15,6 +15,7 @@ public class CurrentUserProvider(IHttpContextAccessor _httpContextAccessor) : IC
         var roles = GetClaimValues(ClaimTypes.Role);
         var permissions = GetClaimValues("permissions");
         var securityStamp = GetSingleClaimValue("securityStamp");
+
         return new CurrentUser(id, name, companyId, permissions, roles, securityStamp);
     }
 

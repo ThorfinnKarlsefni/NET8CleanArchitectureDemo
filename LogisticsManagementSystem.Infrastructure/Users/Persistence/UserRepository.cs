@@ -30,7 +30,8 @@ public class UserRepository(AppDbContext _dbContext, IPasswordEncryption _passwo
             .Collection(x => x.UserRoles)
             .Query()
             .Include(x => x.Role)
-                .ThenInclude(x => x.RolePermissions.Where(x => x.Permission.Action != null))
+                .ThenInclude(x => x.RolePermissions)
+                .ThenInclude(x => x.Permission)
             .LoadAsync();
         }
 

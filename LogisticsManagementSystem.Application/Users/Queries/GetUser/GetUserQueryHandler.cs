@@ -8,7 +8,7 @@ public class GetUserQueryHandler(
 {
     public async Task<ErrorOr<GetUserResult>> Handle(GetUserQuery request, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.FindByIdAsync(request.Id, cancellationToken);
+        var user = await _userRepository.FindByIdAsync(request.UserId, cancellationToken);
         if (user is null)
             return Error.NotFound(description: "用户不存在");
 
@@ -16,6 +16,10 @@ public class GetUserQueryHandler(
             user.Company?.Name,
             user.Name,
             user.Avatar,
-            user.UserRoles.Select(x => x.Role.Name).ToList());
+            user.UserRoles.Select(x => new GetRolesResult(
+               x.RoleId,
+               x.Role.Name,
+               x.Role.NormalizedName
+            )).ToList());
     }
 }

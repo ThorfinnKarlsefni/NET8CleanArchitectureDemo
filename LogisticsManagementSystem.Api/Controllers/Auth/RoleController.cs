@@ -13,7 +13,7 @@ public class RoleController(IMediator _mediator) : ApiController
         var result = await _mediator.Send(new GetRolesQuery());
         return result.Match(
             roles => Ok(roles),
-            Problem);
+        Problem);
     }
 
     [HttpGet("roles/list")]
@@ -23,7 +23,17 @@ public class RoleController(IMediator _mediator) : ApiController
        (pageNumber, pageSize, searchKeyword));
         return result.Match(
             roleList => Ok(roleList),
-            Problem);
+        Problem);
+    }
+
+    [HttpGet("role/{roleId}/permissions")]
+    public async Task<IActionResult> GetRolePermissions(Guid roleId)
+    {
+        var query = new GetRolePermissionsQuery(roleId);
+        var result = await _mediator.Send(query);
+        return result.Match(
+            permissions => Ok(permissions),
+        Problem);
     }
 
     [HttpPost("role")]
@@ -35,24 +45,34 @@ public class RoleController(IMediator _mediator) : ApiController
             Problem);
     }
 
-    [HttpPut("role/{id}")]
-    public async Task<IActionResult> UpdateRole(Guid id, UpdateRoleCommand command)
+    [HttpPut("role/{roleId}")]
+    public async Task<IActionResult> UpdateRole(Guid roleId, UpdateRoleCommand command)
     {
-        var updateCommand = command with { RoleId = id };
+        var updateCommand = command with { RoleId = roleId };
         var result = await _mediator.Send(updateCommand);
         return result.Match(
             _ => NoContent(),
-            Problem);
+        Problem);
     }
 
-    [HttpDelete("role/{id}")]
-    public async Task<IActionResult> DeleteRole(Guid id)
+    [HttpPut("role/{roleId}/permissions")]
+    public async Task<IActionResult> UpdateRoleWithPermissions(Guid roleId, UpdateRolePermissionsCommand command)
     {
-        var deleteCommand = new DeleteRoleCommand(id);
+        var updateRolePermissionsCommand = command with { RoleId = roleId };
+        var result = await _mediator.Send(updateRolePermissionsCommand);
+        return result.Match(
+            _ => NoContent(),
+        Problem);
+    }
+
+    [HttpDelete("role/{roleId}")]
+    public async Task<IActionResult> DeleteRole(Guid roleId)
+    {
+        var deleteCommand = new DeleteRoleCommand(roleId);
         var result = await _mediator.Send(deleteCommand);
         return result.Match(
             _ => NoContent(),
-            Problem);
+        Problem);
     }
 
 }

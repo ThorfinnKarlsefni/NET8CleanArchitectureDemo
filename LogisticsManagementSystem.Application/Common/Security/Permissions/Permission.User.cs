@@ -4,9 +4,9 @@ public static partial class Permission
 {
     public static class User
     {
-        public const string Create = "create:user";
-        public const string Delete = "delete:user";
-        public const string Update = "update:user";
-        public const string Get = "get:role";
+        public const string Create = "user:create";
+        public const string Delete = "user:delete";
+        public const string Update = "user:update";
+        public const string Get = "user:get";
     }
 }

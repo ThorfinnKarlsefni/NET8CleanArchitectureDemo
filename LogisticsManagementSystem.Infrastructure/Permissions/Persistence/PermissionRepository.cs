@@ -13,12 +13,6 @@ public class PermissionRepository(AppDbContext _dbContext) : IPermissionReposito
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    // public async Task DeleteAsync(Permission permission)
-    // {
-    //     _dbContext.Permissions.Update(permission);
-    //     await _dbContext.SaveChangesAsync();
-    // }
-
     public async Task<List<Permission>> GetListPermissionsAsync(CancellationToken cancellationToken)
     {
         return await _dbContext.Permissions
@@ -51,7 +45,6 @@ public class PermissionRepository(AppDbContext _dbContext) : IPermissionReposito
         return await _dbContext.Permissions
             .AnyAsync(
                 x => x.Controller == controller.Trim() &&
-                x.Method == method.Trim() && x.DeletedAt == null
-            );
+                x.Method == method.Trim() && x.DeletedAt == null);
     }
 }

@@ -9,7 +9,7 @@ public class DeletePermissionCommandHandler(
 {
     public async Task<ErrorOr<Deleted>> Handle(DeletePermissionCommand command, CancellationToken cancellationToken)
     {
-        var permissionItem = await _rolePermissionRepository.GetPermissionByPermissionIdAsync(command.PermissionId, cancellationToken);
+        var permissionItem = await _rolePermissionRepository.GetPermissionsByPermissionIdAsync(command.PermissionId, cancellationToken);
 
         if (permissionItem is not null)
         {

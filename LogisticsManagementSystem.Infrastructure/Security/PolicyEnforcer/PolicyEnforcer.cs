@@ -20,5 +20,5 @@ public class PolicyEnforcer : IPolicyEnforcer
     private static ErrorOr<Success> SelfOrAdminPolicy(CurrentUser currentUser) =>
        currentUser.Roles.Contains(Role.Admin)
            ? Result.Success
-           : Error.Forbidden(description: "用户请求失败,需要权限策略");
+           : Error.Forbidden(description: "用户无权限操作");
 }

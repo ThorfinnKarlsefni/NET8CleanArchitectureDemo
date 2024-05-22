@@ -24,4 +24,11 @@ public class UserRolesRepository(AppDbContext _dbContext) : IUserRolesRepository
             .Where(x => x.RoleId == roleId)
             .ToListAsync();
     }
+
+    public async Task<UserRole?> GetUserRoleByUserIdAsync(Guid userId, CancellationToken cancellationToken)
+    {
+        return await _dbContext.UserRoles
+            .Where(x => x.UserId == userId)
+            .FirstOrDefaultAsync();
+    }
 }

@@ -7,13 +7,16 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace LogisticsManagementSystem.Api;
 public class MenuController(
-    IMediator _mediator, IActionDescriptorCollectionProvider _actionDescriptorCollectionProvider) : ApiController
+    IMediator _mediator,
+    IActionDescriptorCollectionProvider _actionDescriptorCollectionProvider,
+    ICurrentUserProvider _currentUserProvider) : ApiController
 {
 
     [HttpGet("menus")]
     public async Task<IActionResult> GetMenus()
     {
-        var result = await _mediator.Send(new GetMenusQuery());
+        var user = _currentUserProvider.GetCurrentUser();
+        var result = await _mediator.Send(new GetMenusByRoleQuery(user.Id));
         // Actually, you don't have to convert it to a tree
         return await result.MatchAsync<IActionResult>(
             async menus => Ok(await ToDtoTree(menus)),
@@ -24,21 +27,23 @@ public class MenuController(
     public async Task<IActionResult> ListMenu()
     {
         var result = await _mediator.Send(new ListMenusQuery());
-        return await result.MatchAsync<IActionResult>(
-            async menus => Ok(await ToDtoTree(menus)),
-            errors => Task.FromResult<IActionResult>(Problem(errors)));
+        return result.Match(
+            menus => Ok(menus),
+        Problem);
+        // return await result.MatchAsync<IActionResult>(
+        //     async menus => Ok(await ToDtoTree(menus)),
+        //     errors => Task.FromResult<IActionResult>(Problem(errors)));
     }
 
-    [HttpGet("menu/{id}")]
-    public async Task<IActionResult> Get(int id)
+    [HttpGet("menu/{menuId}")]
+    public async Task<IActionResult> Get(int menuId)
     {
-        var query = new GetMenuQuery(id);
+        var query = new GetMenuQuery(menuId);
         var result = await _mediator.Send(query);
         return result.Match(
           menu => Ok(menu),
           Problem);
     }
-
 
     [HttpGet("menu/controllers")]
     public IActionResult GetControllers()
@@ -52,10 +57,10 @@ public class MenuController(
         return Ok(controllers);
     }
 
-    [HttpGet("menu/permissions")]
-    public async Task<IActionResult> GetPermissonMenu()
+    [HttpGet("menus/component")]
+    public async Task<IActionResult> GetComponentMenus()
     {
-        var result = await _mediator.Send(new GetPermissionMenuQuery());
+        var result = await _mediator.Send(new GetComponentMenusQuery());
         return result.Match(
             permissionMenus => Ok(permissionMenus),
             Problem);
@@ -70,10 +75,10 @@ public class MenuController(
             Problem);
     }
 
-    [HttpPut("menu/{id}")]
-    public async Task<IActionResult> Update(int id, UpdateMenuCommand command)
+    [HttpPut("menu/{menuId}")]
+    public async Task<IActionResult> Update(int menuId, UpdateMenuCommand command)
     {
-        var updateCommand = command with { Id = id };
+        var updateCommand = command with { MenuId = menuId };
         var result = await _mediator.Send(updateCommand);
         return result.Match(
         _ => NoContent(),
@@ -89,19 +94,19 @@ public class MenuController(
             Problem);
     }
 
-    [HttpPut("menu/{id}/visibility")]
-    public async Task<IActionResult> Visibility(int id)
+    [HttpPut("menu/{menuId}/visibility")]
+    public async Task<IActionResult> Visibility(int menuId)
     {
-        var result = await _mediator.Send(new VisibilityMenuCommand(id));
+        var result = await _mediator.Send(new VisibilityMenuCommand(menuId));
         return result.Match(
             _ => NoContent(),
             Problem);
     }
 
-    [HttpDelete("menu/{id}")]
-    public async Task<IActionResult> Delete(int id)
+    [HttpDelete("menu/{menuId}")]
+    public async Task<IActionResult> Delete(int menuId)
     {
-        var command = new DeleteMenuCommand(id);
+        var command = new DeleteMenuCommand(menuId);
         var result = await _mediator.Send(command);
         return result.Match(
            _ => NoContent(),

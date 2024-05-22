@@ -4,5 +4,4 @@ using MediatR;
 
 namespace LogisticsManagementSystem.Application;
 
-public record GetMenusQuery() : IRequest<ErrorOr<List<Menu>>>;
-
+public record GetMenusByRoleQuery(Guid UserId) : IRequest<ErrorOr<List<Menu>>>;

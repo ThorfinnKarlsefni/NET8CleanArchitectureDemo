@@ -1,4 +1,6 @@
 ﻿
+using System.Reflection.Metadata.Ecma335;
+
 namespace LogisticsManagementSystem.Domain;
 
 public class Menu : Entity
@@ -12,6 +14,9 @@ public class Menu : Entity
     public string? Component { get; set; } = string.Empty;
     public int Sort { get; private set; }
     public bool Visibility { get; private set; } = true;
+
+    public List<RoleMenus> RoleMenus { get; private set; } = [];
+
     public Menu(int? parentId, string name, string? controller, string path, string? icon, string? component, bool visibility)
     {
         ParentId = parentId;

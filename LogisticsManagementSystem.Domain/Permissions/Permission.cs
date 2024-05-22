@@ -6,7 +6,6 @@ public class Permission : Entity
     public int Id { get; set; }
     public int? ParentId { get; private set; }
     public string Name { get; private set; } = string.Empty;
-
     public string? Controller { get; private set; }
     public string? Action { get; private set; }
     public string? Method { get; private set; }

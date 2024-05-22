@@ -8,13 +8,15 @@ public class UpdateMenuSortCommandHandler(IMenuRepository _menuRepository) : IRe
     public async Task<ErrorOr<Updated>> Handle(UpdateMenuSortCommand command, CancellationToken cancellationToken)
     {
 
-        var allMenus = await _menuRepository.GetListMenuAsync(onlyVisible: false, cancellationToken);
+        var allMenus = await _menuRepository.GetListMenuAsync(cancellationToken);
 
         foreach (var item in allMenus)
         {
             var updateItem = command.Menus.FirstOrDefault(x => x.Id == item.Id);
             if (updateItem is not null)
+            {
                 item.UpdateSort(updateItem.ParentId, updateItem.Sort);
+            }
         }
 
         await _menuRepository.UpdateRangeAsync(allMenus, cancellationToken);

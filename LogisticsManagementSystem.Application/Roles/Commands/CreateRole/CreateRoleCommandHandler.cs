@@ -13,7 +13,7 @@ public class CreateRoleCommandHandler(IRoleRepository _roleRepository) : IReques
 
         var role = new Role(request.Name);
 
-        var setMenuRoleResult = role.SetRoleMenus(role.Id, request?.MenuIds);
+        var setMenuRoleResult = role.SetRoleMenus(role.Id, request.MenuIds);
 
         if (setMenuRoleResult.IsError)
         {

@@ -10,14 +10,14 @@ public class CreateMenuCommandHandler(IMenuRepository _menuRepository) : IReques
     {
         if (command.Controller is not null)
         {
-            var controller = await _menuRepository.CheckControllerAsync(command.Controller);
+            var controller = await _menuRepository.IsMenuControllerExists(command.Controller);
             if (controller)
                 return Error.Conflict(description: "控制器已存在");
         }
 
         var menu = new Menu(command.ParentId, command.Name, command.Controller, command.Path, command.Icon, command.Component, command.Visibility);
 
-        await _menuRepository.AddAsync(menu, cancellationToken);
+        await _menuRepository.CreateAsync(menu, cancellationToken);
 
         return Result.Created;
     }

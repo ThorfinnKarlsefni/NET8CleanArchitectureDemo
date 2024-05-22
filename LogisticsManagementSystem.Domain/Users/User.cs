@@ -36,22 +36,20 @@ public class User : Entity
         Name = name;
         PhoneNumber = phoneNumber;
         Email = email;
+
     }
 
-    public void UpdateRole(Guid userId, Guid? roleId)
+    public ErrorOr<Success> UpdateRole(Guid userId, Guid? currentRoleId)
     {
-        UserRoles.Clear();
-        if (roleId.HasValue)
-        {
-            // UserRoles.Add(new UserRole { UserId = userId, RoleId = roleId.Value });
-        }
+        _domainEvents.Add(new RoleUpdateEvent(userId, currentRoleId));
+        return Result.Success;
     }
 
-    public ErrorOr<Success> SetRole(List<Role> roles, Guid userId, Guid roleId)
+    public ErrorOr<Success> SetRole(Guid userId, Guid roleId)
     {
-        if (!roles.Any(x => x.Id == roleId))
+        if (userId == Guid.Empty && roleId == Guid.Empty)
         {
-            return Error.Validation(description: "角色不存在");
+            return Error.Validation(description: "事件参数为空");
         }
 
         var userRole = new UserRole(userId, roleId);

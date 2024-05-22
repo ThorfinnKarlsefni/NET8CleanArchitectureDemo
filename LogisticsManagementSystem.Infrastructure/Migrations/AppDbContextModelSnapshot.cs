@@ -99,12 +99,12 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                             Id = 1,
                             Component = "",
                             Controller = "",
-                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6180),
+                            CreatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2060),
                             Icon = "",
                             Name = "系统",
                             Path = "/admin",
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6180),
+                            UpdatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2060),
                             Visibility = true
                         },
                         new
@@ -112,13 +112,13 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                             Id = 2,
                             Component = "./Admin/Menus",
                             Controller = "Menu",
-                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6180),
+                            CreatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2060),
                             Icon = "",
                             Name = "菜单管理",
                             ParentId = 1,
                             Path = "/admin/menus",
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6180),
+                            UpdatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2060),
                             Visibility = true
                         },
                         new
@@ -126,13 +126,13 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                             Id = 3,
                             Component = "./Admin/Permissions",
                             Controller = "Permission",
-                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6190),
+                            CreatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2070),
                             Icon = "",
                             Name = "权限管理",
                             ParentId = 1,
                             Path = "/admin/permissions",
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6190),
+                            UpdatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2070),
                             Visibility = true
                         },
                         new
@@ -140,13 +140,13 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                             Id = 4,
                             Component = "./Admin/Roles",
                             Controller = "Role",
-                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6190),
+                            CreatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2070),
                             Icon = "",
                             Name = "角色管理",
                             ParentId = 1,
                             Path = "/admin/roles",
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6190),
+                            UpdatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2070),
                             Visibility = true
                         },
                         new
@@ -154,13 +154,13 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                             Id = 5,
                             Component = "./Admin/Users",
                             Controller = "User",
-                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6190),
+                            CreatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2070),
                             Icon = "",
                             Name = "员工列表",
                             ParentId = 1,
                             Path = "/admin/users",
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6190),
+                            UpdatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2070),
                             Visibility = true
                         });
                 });
@@ -209,184 +209,126 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6210),
+                            CreatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2090),
                             Name = "系统",
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6210)
+                            UpdatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2090)
                         },
                         new
                         {
                             Id = 2,
-                            Controller = "Menu",
-                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6210),
-                            Name = "菜单管理",
+                            Controller = "Role",
+                            CreatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2090),
+                            Name = "角色管理",
                             ParentId = 1,
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6210)
+                            UpdatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2090)
                         },
                         new
                         {
                             Id = 3,
-                            Action = "menu:get",
-                            Controller = "Menu",
-                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6210),
+                            Action = "role:get",
+                            Controller = "Role",
+                            CreatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2090),
                             Method = "GET",
                             Name = "查看",
                             ParentId = 2,
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6210)
+                            UpdatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2090)
                         },
                         new
                         {
                             Id = 4,
-                            Action = "menu:create",
-                            Controller = "Menu",
-                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220),
+                            Action = "role:create",
+                            Controller = "Role",
+                            CreatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2100),
                             Method = "CREATE",
                             Name = "创建",
                             ParentId = 2,
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220)
+                            UpdatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2100)
                         },
                         new
                         {
                             Id = 5,
-                            Action = "menu:update",
-                            Controller = "Menu",
-                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220),
+                            Action = "role:update",
+                            Controller = "Role",
+                            CreatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2100),
                             Method = "UPDATE",
                             Name = "修改",
                             ParentId = 2,
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220)
+                            UpdatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2100)
                         },
                         new
                         {
                             Id = 6,
-                            Action = "menu:delete",
-                            Controller = "Menu",
-                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220),
+                            Action = "role:delete",
+                            Controller = "Role",
+                            CreatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2100),
                             Method = "DELETE",
                             Name = "删除",
                             ParentId = 2,
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220)
+                            UpdatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2100)
                         },
                         new
                         {
                             Id = 7,
-                            Controller = "Permission",
-                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220),
-                            Name = "权限管理",
+                            Controller = "User",
+                            CreatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2100),
+                            Name = "员工管理",
                             ParentId = 1,
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220)
+                            UpdatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2100)
                         },
                         new
                         {
                             Id = 8,
-                            Action = "permission:get",
-                            Controller = "Permission",
-                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220),
+                            Action = "user:get",
+                            Controller = "Role",
+                            CreatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2100),
                             Method = "GET",
                             Name = "查看",
                             ParentId = 7,
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220)
+                            UpdatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2100)
                         },
                         new
                         {
                             Id = 9,
-                            Action = "permission:create",
-                            Controller = "Permission",
-                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220),
+                            Action = "user:create",
+                            Controller = "Role",
+                            CreatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2100),
                             Method = "CREATE",
                             Name = "创建",
                             ParentId = 7,
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220)
+                            UpdatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2100)
                         },
                         new
                         {
                             Id = 10,
-                            Action = "permission:update",
-                            Controller = "Permission",
-                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220),
+                            Action = "user:update",
+                            Controller = "Role",
+                            CreatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2100),
                             Method = "UPDATE",
                             Name = "修改",
                             ParentId = 7,
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6220)
+                            UpdatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2100)
                         },
                         new
                         {
                             Id = 11,
-                            Action = "permission:delete",
-                            Controller = "Permission",
-                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230),
+                            Action = "user:delete",
+                            Controller = "Role",
+                            CreatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2110),
                             Method = "DELETE",
                             Name = "删除",
                             ParentId = 7,
                             Sort = 0,
-                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230)
-                        },
-                        new
-                        {
-                            Id = 12,
-                            Controller = "Role",
-                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230),
-                            Name = "角色管理",
-                            ParentId = 1,
-                            Sort = 0,
-                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230)
-                        },
-                        new
-                        {
-                            Id = 13,
-                            Action = "role:get",
-                            Controller = "Role",
-                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230),
-                            Method = "GET",
-                            Name = "查看",
-                            ParentId = 12,
-                            Sort = 0,
-                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230)
-                        },
-                        new
-                        {
-                            Id = 14,
-                            Action = "role:create",
-                            Controller = "Role",
-                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230),
-                            Method = "CREATE",
-                            Name = "创建",
-                            ParentId = 12,
-                            Sort = 0,
-                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230)
-                        },
-                        new
-                        {
-                            Id = 15,
-                            Action = "role:update",
-                            Controller = "Role",
-                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230),
-                            Method = "UPDATE",
-                            Name = "修改",
-                            ParentId = 12,
-                            Sort = 0,
-                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230)
-                        },
-                        new
-                        {
-                            Id = 16,
-                            Action = "role:delete",
-                            Controller = "Role",
-                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230),
-                            Method = "DELETE",
-                            Name = "删除",
-                            ParentId = 12,
-                            Sort = 0,
-                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6230)
+                            UpdatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2110)
                         });
                 });
 
@@ -420,11 +362,11 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d083f2ee-b17a-488b-a26e-43931453f719"),
-                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6110),
+                            Id = new Guid("762119d5-9d5e-4274-89e5-5f57e2d30505"),
+                            CreatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2000),
                             Name = "Admin",
                             NormalizedName = "ADMIN",
-                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(6110)
+                            UpdatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(2000)
                         });
                 });
 
@@ -524,8 +466,8 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("43d9e2b7-12ba-436d-aa00-6ce2851a2f5d"),
-                            CreatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(5890),
+                            Id = new Guid("428e6c70-44cf-44e7-bffe-8bc1685beceb"),
+                            CreatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(1820),
                             Email = "402832626@qq.com",
                             LockoutEnabled = true,
                             Name = "Cheung",
@@ -534,7 +476,7 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                             PhoneNumber = "15563239095",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "373BQTFYVCP7RJ3VEPFAOSDBMBDQIEH4",
-                            UpdatedAt = new DateTime(2024, 5, 15, 15, 9, 41, 343, DateTimeKind.Local).AddTicks(5890),
+                            UpdatedAt = new DateTime(2024, 5, 22, 9, 19, 29, 715, DateTimeKind.Local).AddTicks(1820),
                             UserName = "Cheung"
                         });
                 });
@@ -556,15 +498,15 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("43d9e2b7-12ba-436d-aa00-6ce2851a2f5d"),
-                            RoleId = new Guid("d083f2ee-b17a-488b-a26e-43931453f719")
+                            UserId = new Guid("428e6c70-44cf-44e7-bffe-8bc1685beceb"),
+                            RoleId = new Guid("762119d5-9d5e-4274-89e5-5f57e2d30505")
                         });
                 });
 
             modelBuilder.Entity("LogisticsManagementSystem.Domain.RoleMenus", b =>
                 {
                     b.HasOne("LogisticsManagementSystem.Domain.Menu", "Menu")
-                        .WithMany()
+                        .WithMany("RoleMenus")
                         .HasForeignKey("MenuId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -589,7 +531,7 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("LogisticsManagementSystem.Domain.Role", "Role")
-                        .WithMany()
+                        .WithMany("RolePermissions")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -632,9 +574,16 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("LogisticsManagementSystem.Domain.Menu", b =>
+                {
+                    b.Navigation("RoleMenus");
+                });
+
             modelBuilder.Entity("LogisticsManagementSystem.Domain.Role", b =>
                 {
                     b.Navigation("RoleMenus");
+
+                    b.Navigation("RolePermissions");
 
                     b.Navigation("UserRoles");
                 });

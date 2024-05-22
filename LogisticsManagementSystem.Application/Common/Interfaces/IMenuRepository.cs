@@ -4,11 +4,12 @@ namespace LogisticsManagementSystem.Application;
 
 public interface IMenuRepository
 {
-    Task AddAsync(Menu menu, CancellationToken cancellationToken);
     Task<Menu?> GetByIdAsync(int id, CancellationToken cancellationToken);
-    Task<List<Menu>> GetListMenuAsync(bool onlyVisible, CancellationToken cancellationToken);
-    Task<List<Menu>> GetPermissionMenuAsync(CancellationToken cancellationToken);
+    Task<List<Menu>> GetListMenuAsync(CancellationToken cancellationToken);
+    Task<List<Menu>> GetMenusByRoleIdAsync(Guid roleId, bool IsAdmin, CancellationToken cancellationToken);
+    Task<List<Menu>> GetComponentMenusAsync(CancellationToken cancellationToken);
+    Task CreateAsync(Menu menu, CancellationToken cancellationToken);
     Task UpdateAsync(Menu menu, CancellationToken cancellationToken);
     Task UpdateRangeAsync(List<Menu> menus, CancellationToken cancellationToken);
-    Task<bool> CheckControllerAsync(string Controller);
+    Task<bool> IsMenuControllerExists(string Controller);
 }

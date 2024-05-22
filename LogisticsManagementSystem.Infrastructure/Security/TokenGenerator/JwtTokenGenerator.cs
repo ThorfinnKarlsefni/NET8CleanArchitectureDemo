@@ -19,7 +19,7 @@ public class JwtTokenGenerator(IOptions<JwtSettings> jwtOptions) : IJwtTokenGene
         {
             new(JwtRegisteredClaimNames.Name,name),
             new("userId", id.ToString()),
-            new("companyId",companyId.ToString() ?? ""),
+            new("companyId",companyId.ToString() ?? string.Empty),
             new("securityStamp",securityStamp)
         };
 

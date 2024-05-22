@@ -8,7 +8,7 @@ public class GetMenuQueryHandler(IMenuRepository _menuRepository) : IRequestHand
 {
     public async Task<ErrorOr<Menu?>> Handle(GetMenuQuery request, CancellationToken cancellationToken)
     {
-        var menu = await _menuRepository.GetByIdAsync(request.Id, cancellationToken);
+        var menu = await _menuRepository.GetByIdAsync(request.MenuId, cancellationToken);
         if (menu is null)
             return Error.NotFound(description: "菜单未找到");
         return menu;

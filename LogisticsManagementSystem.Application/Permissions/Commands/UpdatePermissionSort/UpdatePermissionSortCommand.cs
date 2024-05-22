@@ -7,7 +7,7 @@ public record UpdatePermissionSortCommand(
     List<PermissionSortItem> Permissions
 ) : IAuthorizeAbleRequest<ErrorOr<Updated>>;
 public record PermissionSortItem(
-    int PermissionId,
+    int Id,
     int? ParentId,
     int Sort
 );
