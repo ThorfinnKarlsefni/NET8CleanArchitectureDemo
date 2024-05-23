@@ -14,7 +14,7 @@ public class RoleRepository(AppDbContext _dbContext) : IRoleRepository
 
     public async Task DeleteAsync(Role role, CancellationToken cancellationToken)
     {
-        _dbContext.Roles.Update(role);
+        _dbContext.Roles.Remove(role);
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
@@ -27,7 +27,7 @@ public class RoleRepository(AppDbContext _dbContext) : IRoleRepository
     public async Task<Role?> FindByIdAsync(Guid roleId, CancellationToken cancellationToken)
     {
         return await _dbContext.Roles
-            .Where(x => x.Id == roleId && x.DeletedAt == null)
+            .Where(x => x.Id == roleId)
             .FirstOrDefaultAsync(cancellationToken);
     }
 
@@ -35,7 +35,6 @@ public class RoleRepository(AppDbContext _dbContext) : IRoleRepository
     {
         return await _dbContext.Roles
             .Where(x => x.NormalizedName != "ADMIN")
-            .Where(x => x.DeletedAt == null)
             .ToListAsync(cancellationToken);
     }
 
@@ -54,7 +53,6 @@ public class RoleRepository(AppDbContext _dbContext) : IRoleRepository
                 .ThenInclude(r => r.Menu)
             .Include(r => r.RolePermissions)
                 .ThenInclude(r => r.Permission)
-            .Where(r => r.DeletedAt == null)
             .Where(r => r.NormalizedName != "ADMIN")
             .OrderBy(r => r.CreatedAt)
             .Skip((pageNumber - 1) * pageSize)

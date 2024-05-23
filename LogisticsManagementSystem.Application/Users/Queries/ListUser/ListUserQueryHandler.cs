@@ -4,7 +4,8 @@ using MediatR;
 namespace LogisticsManagementSystem.Application;
 
 public class ListUserQueryHandler(
-    IUserRepository _userRepository) : IRequestHandler<ListUserQuery, ErrorOr<ListUserResult>>
+    IUserRepository _userRepository
+    ) : IRequestHandler<ListUserQuery, ErrorOr<ListUserResult>>
 {
     public async Task<ErrorOr<ListUserResult>> Handle(ListUserQuery request, CancellationToken cancellationToken)
     {

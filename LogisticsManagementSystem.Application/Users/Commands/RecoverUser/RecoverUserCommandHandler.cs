@@ -8,9 +8,10 @@ public class RecoverUserCommandHandler(
 {
     public async Task<ErrorOr<Updated>> Handle(RecoverUserCommand command, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.FindByIdAsync(command.UserId, cancellationToken);
+        var user = await _userRepository.RecoverAsync(command.UserId, cancellationToken);
         if (user is null)
             return Error.NotFound(description: "用户不存在");
+
         user.Recover();
         await _userRepository.UpdateAsync(user, cancellationToken);
         return Result.Updated;

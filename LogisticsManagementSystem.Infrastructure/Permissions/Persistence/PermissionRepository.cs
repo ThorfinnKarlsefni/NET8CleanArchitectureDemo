@@ -16,7 +16,6 @@ public class PermissionRepository(AppDbContext _dbContext) : IPermissionReposito
     public async Task<List<Permission>> GetListPermissionsAsync(CancellationToken cancellationToken)
     {
         return await _dbContext.Permissions
-            .Where(x => x.DeletedAt == null)
             .OrderBy(x => x.Sort)
             .ToListAsync(cancellationToken);
     }
@@ -24,7 +23,7 @@ public class PermissionRepository(AppDbContext _dbContext) : IPermissionReposito
     public async Task<Permission?> GetByIdAsync(int permissionId, CancellationToken cancellationToken)
     {
         return await _dbContext.Permissions
-            .Where(x => x.Id == permissionId && x.DeletedAt == null)
+            .Where(x => x.Id == permissionId)
             .FirstOrDefaultAsync();
     }
 
@@ -43,8 +42,12 @@ public class PermissionRepository(AppDbContext _dbContext) : IPermissionReposito
     public async Task<bool> IsExistAsync(string controller, string method, CancellationToken cancellationToken)
     {
         return await _dbContext.Permissions
-            .AnyAsync(
-                x => x.Controller == controller.Trim() &&
-                x.Method == method.Trim() && x.DeletedAt == null);
+            .AnyAsync(x => x.Controller == controller.Trim() && x.Method == method.Trim());
+    }
+
+    public async Task DeleteAsync(Permission permission, CancellationToken cancellationToken)
+    {
+        _dbContext.Permissions.Remove(permission);
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }

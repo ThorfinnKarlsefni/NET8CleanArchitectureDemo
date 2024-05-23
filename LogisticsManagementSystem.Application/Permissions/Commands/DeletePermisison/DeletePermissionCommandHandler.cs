@@ -23,8 +23,7 @@ public class DeletePermissionCommandHandler(
             return Error.NotFound(description: "权限未找到");
         }
 
-        permission.SetDeletedAt();
-        await _permissionRepository.UpdateAsync(permission, cancellationToken);
+        await _permissionRepository.DeleteAsync(permission, cancellationToken);
 
         return Result.Deleted;
     }

@@ -33,6 +33,9 @@ public class AppDbContext(DbContextOptions options, IHttpContextAccessor _httpCo
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        builder.Entity<User>().HasQueryFilter(x => !x.IsDeleted);
+        builder.Entity<UserRole>().HasQueryFilter(ur => !ur.User.IsDeleted);
+
         base.OnModelCreating(builder);
         builder.ApplyConfigurationsFromAssembly(typeof(DependencyInjection).Assembly);
         SeedData.Seed(builder);

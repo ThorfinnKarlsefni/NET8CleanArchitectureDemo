@@ -16,9 +16,7 @@ public class DisableUserCommandHandler(
         if (user.UserRoles.Any(x => x.Role.NormalizedName == "ADMIN"))
             return Error.Validation(description: "管理员角色无法禁用");
 
-        user.SetDeletedAt();
-        await _userRepository.UpdateAsync(user, cancellationToken);
-
+        await _userRepository.DeleteAsync(user, cancellationToken);
         return Result.Updated;
     }
 }

@@ -34,21 +34,19 @@ public class MenuRepository(AppDbContext _dbContext) : IMenuRepository
         return await _dbContext.Menus
             .Where(x => x.Controller != string.Empty)
             .Where(x => x.Component != string.Empty)
-            .Where(x => x.DeletedAt == null)
             .ToListAsync(cancellationToken);
     }
 
     public async Task<List<Menu>> GetListMenuAsync(CancellationToken cancellationToken)
     {
         return await _dbContext.Menus
-            .Where(x => x.DeletedAt == null)
             .ToListAsync(cancellationToken);
     }
 
     public async Task<Menu?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
         return await _dbContext.Menus
-            .Where(x => x.Id == id && x.DeletedAt == null)
+            .Where(x => x.Id == id)
             .FirstOrDefaultAsync(cancellationToken);
     }
 
@@ -56,7 +54,6 @@ public class MenuRepository(AppDbContext _dbContext) : IMenuRepository
     public async Task<List<Menu>> GetMenusByRoleIdAsync(Guid roleId, bool isAdmin, CancellationToken cancellationToken)
     {
         var allMenus = await _dbContext.Menus
-            .Where(x => x.DeletedAt == null)
             .Include(x => x.RoleMenus)
             .ToListAsync(cancellationToken);
 
@@ -90,4 +87,9 @@ public class MenuRepository(AppDbContext _dbContext) : IMenuRepository
         return result;
     }
 
+    public async Task DeleteAsync(Menu menu, CancellationToken cancellationToken)
+    {
+        _dbContext.Menus.Remove(menu);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+    }
 }

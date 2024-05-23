@@ -8,7 +8,8 @@ public class User : Entity
     public Company? Company { get; set; }
     public Guid? CompanyId { get; set; }
     public string UserName { get; set; } = string.Empty;
-    public string Name { get; set; } = string.Empty;
+    public string Name { get; set; }
+    = string.Empty;
     public string NormalizedUserName { get; set; } = string.Empty;
     public string? PhoneNumber { get; set; }
     public string? Email { get; set; }
@@ -38,6 +39,18 @@ public class User : Entity
         Email = email;
 
     }
+    public void Recover()
+    {
+        UpdatedAt = DateTime.Now;
+        IsDeleted = false;
+        DeletedAt = null;
+    }
+
+    public void SetAvatar(string? avatar)
+    {
+        Avatar = avatar == null ? new RandomAvatar().GetRandomAvatar() : avatar;
+    }
+
 
     public ErrorOr<Success> UpdateRole(Guid userId, Guid? currentRoleId)
     {
@@ -67,16 +80,6 @@ public class User : Entity
 
         _domainEvents.Add(new RoleDeleteEvent(new UserRole(userId, roleId)));
         return Result.Success;
-    }
-
-    public void Recover()
-    {
-        DeletedAt = null;
-    }
-
-    public void SetAvatar(string? avatar)
-    {
-        Avatar = avatar == null ? new RandomAvatar().GetRandomAvatar() : avatar;
     }
 
     public User()

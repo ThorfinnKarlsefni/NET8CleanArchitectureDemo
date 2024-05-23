@@ -12,4 +12,5 @@ public interface IMenuRepository
     Task UpdateAsync(Menu menu, CancellationToken cancellationToken);
     Task UpdateRangeAsync(List<Menu> menus, CancellationToken cancellationToken);
     Task<bool> IsMenuControllerExists(string Controller);
+    Task DeleteAsync(Menu menu, CancellationToken cancellationToken);
 }

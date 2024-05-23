@@ -29,7 +29,13 @@ public static class DependencyInjection
 
     private static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<AppDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("AppDbContext")));
+        services.AddSingleton<SoftDeleteInterceptor>();
+
+        services.AddDbContext<AppDbContext>(
+            (sp, options) => options
+                .UseNpgsql(configuration.GetConnectionString("AppDbContext"))
+                .AddInterceptors(sp.GetRequiredService<SoftDeleteInterceptor>())
+            );
 
         var passwordSettings = new PasswordSettings
         {
@@ -41,7 +47,8 @@ public static class DependencyInjection
             RequiredUniqueChars = 1
         };
 
-        services.AddSingleton<IPasswordSettings>(_ => passwordSettings);
+        services.AddSingleton<IPasswordSettings>(passwordSettings);
+
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserRolesRepository, UserRolesRepository>();

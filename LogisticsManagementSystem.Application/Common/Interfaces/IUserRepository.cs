@@ -8,8 +8,10 @@ public interface IUserRepository
     Task CreateAsync(User user, CancellationToken CancellationToken);
     Task<bool> IsExistsAsync(string username);
     Task<User?> FindByIdAsync(Guid userId, CancellationToken cancellationToken);
-    Task<(List<User>, long)> GetListUserAsync(int pageNumber, int pageSize, string? searchKeyword, bool? Disable, CancellationToken cancellationToken);
+    Task<(List<User>, long)> GetListUserAsync(int pageNumber, int pageSize, string? searchKeyword, bool Disable, CancellationToken cancellationToken);
     Task UpdateAsync(User user, CancellationToken cancellationToken);
+    Task DeleteAsync(User user, CancellationToken cancellationToken);
+    Task<User?> RecoverAsync(Guid userId, CancellationToken cancellationToken);
     string EncryptPassword(string password);
     string GenerateSecurityStamp();
     bool CheckPassword(string hashedPassword, string providedPassword);

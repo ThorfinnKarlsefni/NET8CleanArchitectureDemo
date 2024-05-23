@@ -9,5 +9,5 @@ public record ListUserQuery(
     int PageNumber,
     int PageSize,
     string? SearchKeyword,
-    bool? Disable
+    bool Disable
     ) : IAuthorizeAbleRequest<ErrorOr<ListUserResult>>;

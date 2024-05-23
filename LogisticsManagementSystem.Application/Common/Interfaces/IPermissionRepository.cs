@@ -10,4 +10,5 @@ public interface IPermissionRepository
     Task AddAsync(Permission permission, CancellationToken cancellationToken);
     Task UpdateAsync(Permission permission, CancellationToken cancellationToken);
     Task UpdateRangeAsync(List<Permission> permissions, CancellationToken cancellationToken);
+    Task DeleteAsync(Permission permission, CancellationToken cancellationToken);
 }

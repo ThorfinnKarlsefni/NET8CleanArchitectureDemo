@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using ErrorOr;
+﻿using ErrorOr;
 using MediatR;
 
 namespace LogisticsManagementSystem.Application;
@@ -20,7 +19,6 @@ public class DeleteRoleCommandHandler(IRoleRepository _roleRepository, IUserRole
         }
 
         role.DeleteRoleMenus(role.Id);
-        role.SetDeletedAt();
         await _roleRepository.DeleteAsync(role, cancellationToken);
 
         return Result.Deleted;

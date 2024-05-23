@@ -10,8 +10,8 @@ public class DeleteMenuCommandHandler(IMenuRepository _menuRepository) : IReques
         var menu = await _menuRepository.GetByIdAsync(command.Id, cancellationToken);
         if (menu is null)
             return Error.NotFound(description: "菜单不存在");
-        menu.SetDeletedAt();
-        await _menuRepository.UpdateAsync(menu, cancellationToken);
+
+        await _menuRepository.DeleteAsync(menu, cancellationToken);
         return Result.Deleted;
     }
 }

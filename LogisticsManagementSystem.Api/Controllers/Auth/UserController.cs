@@ -9,7 +9,7 @@ public class UserController(
     ICurrentUserProvider _currentUserProvider) : ApiController
 {
     [HttpGet("users/list")]
-    public async Task<IActionResult> GetUserList(int pageNumber, int pageSize, string? searchKeyword, bool? disable)
+    public async Task<IActionResult> GetUserList(int pageNumber, int pageSize, string? searchKeyword, bool disable)
     {
         var result = await _mediator.Send(new ListUserQuery(
             pageNumber,

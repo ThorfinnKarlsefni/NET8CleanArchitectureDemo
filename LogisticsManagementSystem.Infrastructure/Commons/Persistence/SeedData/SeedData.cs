@@ -60,7 +60,6 @@ public static class SeedData
                 Path = "/admin",
                 Name = "系统",
             },
-
             new Menu
             {
                 Id = 2,
@@ -131,18 +130,18 @@ public static class SeedData
             {
                 Id = 7,
             },
-            new Permission(7, "查看", "Role", "user:get", "GET")
+            new Permission(7, "查看", "User", "user:get", "GET")
             {
                 Id = 8,
             },
-            new Permission(7, "创建", "Role", "user:create", "CREATE")
+            new Permission(7, "创建", "User", "user:create", "CREATE")
             {
                 Id = 9,
-            }, new Permission(7, "修改", "Role", "user:update", "UPDATE")
+            }, new Permission(7, "修改", "User", "user:update", "UPDATE")
             {
                 Id = 10,
             },
-            new Permission(7, "删除", "Role", "user:delete", "DELETE")
+            new Permission(7, "删除", "User", "user:delete", "DELETE")
             {
                 Id = 11,
             }
