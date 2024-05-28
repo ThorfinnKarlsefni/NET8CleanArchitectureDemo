@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using LogisticsManagementSystem.Domain;
+﻿using LogisticsManagementSystem.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -22,7 +21,7 @@ public class UserConfigurations : IEntityTypeConfiguration<User>
         builder.Property(u => u.DeletedAt).HasColumnType("timestamp");
 
         builder.HasOne(u => u.Company)
-            .WithOne(c => c.User)
+            .WithOne()
             .HasForeignKey<User>(u => u.CompanyId);
     }
 }

@@ -34,11 +34,16 @@ public class AppDbContext(DbContextOptions options, IHttpContextAccessor _httpCo
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.Entity<User>().HasQueryFilter(x => !x.IsDeleted);
-        builder.Entity<UserRole>().HasQueryFilter(ur => !ur.User.IsDeleted);
+        builder.Entity<UserRole>().HasQueryFilter(ur => !ur.User.IsDeleted && !ur.Role.IsDeleted);
+        builder.Entity<Menu>().HasQueryFilter(x => !x.IsDeleted);
+        builder.Entity<Role>().HasQueryFilter(x => !x.IsDeleted);
+        builder.Entity<RoleMenus>().HasQueryFilter(mr => !mr.Role.IsDeleted && !mr.Menu.IsDeleted);
+        builder.Entity<RolePermissions>().HasQueryFilter(pr => !pr.Role.IsDeleted && !pr.Role.IsDeleted);
+        builder.Entity<Permission>().HasQueryFilter(x => !x.IsDeleted);
+        builder.Entity<Company>().HasQueryFilter(x => !x.IsDeleted);
 
         base.OnModelCreating(builder);
         builder.ApplyConfigurationsFromAssembly(typeof(DependencyInjection).Assembly);
-        SeedData.Seed(builder);
     }
 
     private bool IsUserWaitingOnline() => _httpContextAccessor.HttpContext is not null;
@@ -60,5 +65,4 @@ public class AppDbContext(DbContextOptions options, IHttpContextAccessor _httpCo
         domainEvents.ForEach(domainEventsQueue.Enqueue);
         _httpContextAccessor.HttpContext.Items[EventualConsistencyMiddleware.DomainEventsKey] = domainEventsQueue;
     }
-
 }

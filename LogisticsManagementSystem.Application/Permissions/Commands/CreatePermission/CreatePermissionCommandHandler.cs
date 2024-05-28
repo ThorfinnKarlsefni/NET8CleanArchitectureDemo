@@ -1,6 +1,6 @@
 ﻿using ErrorOr;
-using LogisticsManagementSystem.Domain;
 using MediatR;
+using LogisticsManagementSystem.Domain;
 
 namespace LogisticsManagementSystem.Application;
 

@@ -9,12 +9,20 @@ var builder = WebApplication.CreateBuilder(args);
         .AddPresentation()
         .AddApplication()
         .AddInfrastructure(builder.Configuration);
+
 }
 
 var app = builder.Build();
 {
     app.UseExceptionHandler();
     app.UseInfrastructure();
+
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        var seedDataInitializer = services.GetRequiredService<SeedDataInitializer>();
+        seedDataInitializer.Initialize();
+    }
 
     if (app.Environment.IsDevelopment())
     {

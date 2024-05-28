@@ -1,23 +1,32 @@
 ﻿using LogisticsManagementSystem.Domain;
-using Microsoft.EntityFrameworkCore;
 
 namespace LogisticsManagementSystem.Infrastructure;
 
-public static class SeedData
+public class SeedDataInitializer(AppDbContext _dbContext)
 {
-    public static void Seed(ModelBuilder builder)
+    public void Initialize()
+    {
+        if (!_dbContext.Users.Any())
+        {
+            SeedAdminUserRoles();
+        }
+
+        if (!_dbContext.Menus.Any())
+        {
+            SeedMenus();
+        }
+
+        if (!_dbContext.Permissions.Any())
+        {
+            SeedPermission();
+        }
+        _dbContext.SaveChanges();
+    }
+
+    private void SeedAdminUserRoles()
     {
         var userId = Guid.NewGuid();
         var roleId = Guid.NewGuid();
-        SeedUsers(builder, userId);
-        SeedRoles(builder, roleId);
-        SeedUserRoles(builder, userId, roleId);
-        SeedMenus(builder);
-        SeedPermission(builder);
-    }
-
-    private static void SeedUsers(ModelBuilder builder, Guid userId)
-    {
         var user = new User()
         {
             Id = userId,
@@ -31,29 +40,19 @@ public static class SeedData
             PhoneNumberConfirmed = false,
             LockoutEnabled = true,
         };
-
-        builder.Entity<User>().HasData(user);
-    }
-    private static void SeedRoles(ModelBuilder builder, Guid roleId)
-    {
-        var name = "Admin";
-        builder.Entity<Role>().HasData(
-          new Role(name)
-          {
-              Id = roleId,
-          });
+        var role = new Role("Admin")
+        {
+            Id = roleId
+        };
+        var userRole = new UserRole(userId, roleId);
+        _dbContext.Users.Add(user);
+        _dbContext.Roles.Add(role);
+        _dbContext.UserRoles.Add(userRole);
     }
 
-    private static void SeedUserRoles(ModelBuilder builder, Guid userId, Guid roleId)
+    private void SeedMenus()
     {
-        builder.Entity<UserRole>().HasData(
-           new UserRole(userId, roleId)
-        );
-    }
-
-    private static void SeedMenus(ModelBuilder builder)
-    {
-        builder.Entity<Menu>().HasData(
+        var menus = new List<Menu> {
             new Menu
             {
                 Id = 1,
@@ -88,22 +87,32 @@ public static class SeedData
                 Path = "/admin/roles",
                 Component = "./Admin/Roles"
             },
-             new Menu
-             {
-                 Id = 5,
-                 ParentId = 1,
-                 Name = "员工列表",
-                 Controller = "User",
-                 Path = "/admin/users",
-                 Component = "./Admin/Users"
-             }
-        );
+            new Menu
+            {
+                Id = 5,
+                ParentId = 1,
+                Name = "员工列表",
+                Controller = "User",
+                Path = "/admin/users",
+                Component = "./Admin/Users"
+            },
+            new Menu{
+                Id = 6,
+                ParentId = 1,
+                Name = "公司管理",
+                Controller = "Company",
+                Path = "/admin/companies",
+                Component = "./Admin/Companies"
+            }
+        };
+        _dbContext.Menus.AddRange(menus);
     }
 
-    private static void SeedPermission(ModelBuilder builder)
+    private void SeedPermission()
     {
-        builder.Entity<Permission>().HasData(
-            new Permission(null, "系统", null, null, null)
+        var permissions = new List<Permission>
+        {
+             new Permission(null, "系统", null, null, null)
             {
                 Id = 1,
             },
@@ -145,6 +154,8 @@ public static class SeedData
             {
                 Id = 11,
             }
-        );
+        };
+        _dbContext.Permissions.AddRange(permissions);
+
     }
 }

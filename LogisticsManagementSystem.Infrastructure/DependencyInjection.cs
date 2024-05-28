@@ -1,6 +1,7 @@
 ﻿
 using LogisticsManagementSystem.Application;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,6 +38,7 @@ public static class DependencyInjection
                 .AddInterceptors(sp.GetRequiredService<SoftDeleteInterceptor>())
             );
 
+        services.AddTransient<SeedDataInitializer>();
         var passwordSettings = new PasswordSettings
         {
             RequiredLength = 8,
@@ -57,7 +59,7 @@ public static class DependencyInjection
         services.AddScoped<IRolePermissionRepository, RolePermissionsRepository>();
         services.AddScoped<IMenuRepository, MenuRepository>();
         services.AddScoped<IPermissionRepository, PermissionRepository>();
-
+        services.AddScoped<ICompanyRepository, CompanyRepository>();
 
         return services;
     }

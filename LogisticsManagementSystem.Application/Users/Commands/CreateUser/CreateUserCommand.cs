@@ -1,9 +1,8 @@
 ﻿using ErrorOr;
-using LogisticsManagementSystem.Application.Common.Security.Permissions;
 
 namespace LogisticsManagementSystem.Application;
 
-[Authorize(Permissions = Permission.User.Create, Policies = Policy.SelfOrAdmin)]
+[Authorize(Permissions = Common.Security.Permissions.Permission.User.Create, Policies = Policy.SelfOrAdmin)]
 public record CreateUserCommand(
     string UserName,
     string Name,

@@ -3,17 +3,17 @@
 public class Company : Entity
 {
     public Guid Id { get; private set; }
-    public string Name { get; private set; } = string.Empty;
-    public User? User { get; private set; }
-    // public User? CreateUser { get; private set; }
-    // public Guid? CreateUserId { get; private set; }
-    // public User? UpdateUser { get; private set; }
-    // public Guid? UpdateUserId { get; private set; }
-    // public User? User { get; private set; }
+    public string Name { get; private set; }
+    public string? PhoneNumber { get; private set; }
+    public string? Address { get; private set; }
+    public bool IsDisable { get; private set; } = false;
 
-    public Company(string name)
+    public Company(string name, string? phoneNumber, string? address, bool isDisable)
     {
+        Id = Guid.NewGuid();
         Name = name;
+        PhoneNumber = phoneNumber;
+        Address = address;
+        IsDisable = isDisable;
     }
-
 }
