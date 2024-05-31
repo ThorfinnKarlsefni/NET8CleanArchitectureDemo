@@ -16,4 +16,17 @@ public class Company : Entity
         Address = address;
         IsDisable = isDisable;
     }
+
+    public void Update(string name, string? phoneNumber, string? address, bool isDisable)
+    {
+        Name = name;
+        PhoneNumber = phoneNumber;
+        Address = address;
+        IsDisable = isDisable;
+    }
+
+    public void Disable(bool isDisable)
+    {
+        IsDisable = isDisable;
+    }
 }

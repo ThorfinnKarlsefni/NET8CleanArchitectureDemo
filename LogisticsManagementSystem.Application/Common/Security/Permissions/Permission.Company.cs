@@ -7,5 +7,6 @@ public static partial class Permission
         public const string Delete = "company:delete";
         public const string Update = "company:update";
         public const string Get = "company:get";
+        public const string Disable = "company:disable";
     }
 }

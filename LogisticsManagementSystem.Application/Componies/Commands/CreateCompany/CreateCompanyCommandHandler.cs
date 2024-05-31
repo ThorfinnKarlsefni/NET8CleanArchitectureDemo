@@ -8,7 +8,7 @@ public class CreateCompanyCommandHandler(ICompanyRepository _companyRepository) 
 {
     public async Task<ErrorOr<Created>> Handle(CreateCompanyCommand command, CancellationToken cancellationToken)
     {
-        var company = new Company(command.CompanyName, command.CompanyPhone, command.CompanyAddress, command.IsDisable);
+        var company = new Company(command.Name, command.PhoneNumber, command.Address, command.IsDisable);
         await _companyRepository.CreateAsync(company, cancellationToken);
         return Result.Created;
     }

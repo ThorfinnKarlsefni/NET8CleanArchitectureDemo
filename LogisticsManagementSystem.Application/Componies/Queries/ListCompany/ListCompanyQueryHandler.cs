@@ -5,9 +5,16 @@ namespace LogisticsManagementSystem.Application;
 
 public class ListCompanyQueryHandler(ICompanyRepository _companyRepository) : IRequestHandler<ListCompanyQuery, ErrorOr<ListCompanyResult>>
 {
-    public async Task<ErrorOr<ListCompanyResult>> Handle(ListCompanyQuery request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<ListCompanyResult>> Handle(ListCompanyQuery query, CancellationToken cancellationToken)
     {
-        var (companies, totalCount) = await _companyRepository.GetListCompanyAsync(request.PageNumber, request.PageSize, request.SearchKeyword, request.IsDisable, cancellationToken);
+        var (companies, totalCount) = await _companyRepository.GetListCompanyAsync(
+            query.PageNumber,
+            query.PageSize,
+            query.SearchKeyword,
+            query.Sorters,
+            query.Filters,
+            cancellationToken
+        );
 
         return new ListCompanyResult(companies, totalCount);
     }

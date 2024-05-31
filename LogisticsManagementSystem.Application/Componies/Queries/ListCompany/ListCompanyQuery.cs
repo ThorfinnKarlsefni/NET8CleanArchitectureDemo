@@ -7,5 +7,6 @@ public record ListCompanyQuery(
     int PageNumber,
     int PageSize,
     string? SearchKeyword,
-    bool? IsDisable
+    Dictionary<string, string> Sorters,
+    Dictionary<string, List<string>> Filters
 ) : IAuthorizeAbleRequest<ErrorOr<ListCompanyResult>>;
