@@ -36,6 +36,16 @@ public class RoleController(IMediator _mediator) : ApiController
         Problem);
     }
 
+    [HttpGet("role/{roleId}/companies")]
+    public async Task<IActionResult> GetRoleCompanies(Guid roleId)
+    {
+        var query = new GetRoleCompaniesQuery(roleId);
+        var result = await _mediator.Send(query);
+        return result.Match(
+            permissions => Ok(permissions),
+        Problem);
+    }
+
     [HttpPost("role")]
     public async Task<IActionResult> CreateRole(CreateRoleCommand command)
     {
@@ -60,6 +70,16 @@ public class RoleController(IMediator _mediator) : ApiController
     {
         var updateRolePermissionsCommand = command with { RoleId = roleId };
         var result = await _mediator.Send(updateRolePermissionsCommand);
+        return result.Match(
+            _ => NoContent(),
+        Problem);
+    }
+
+    [HttpPut("role/{roleId}/companies")]
+    public async Task<IActionResult> UpdateRoleCompanies(Guid roleId, UpdateRoleCompaniesCommand command)
+    {
+        var updateCommand = command with { RoleId = roleId };
+        var result = await _mediator.Send(updateCommand);
         return result.Match(
             _ => NoContent(),
         Problem);

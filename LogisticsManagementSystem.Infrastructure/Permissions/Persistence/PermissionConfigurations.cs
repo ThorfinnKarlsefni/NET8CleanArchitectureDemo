@@ -10,6 +10,7 @@ public class PermissionConfigurations : IEntityTypeConfiguration<Permission>
     public void Configure(EntityTypeBuilder<Permission> builder)
     {
         builder.ToTable("Permissions");
+        builder.HasKey(x => x.Id);
         builder.Property(x => x.Name).HasColumnType("varchar(256)");
         builder.Property(x => x.Controller).HasColumnType("varchar(256)");
         builder.Property(x => x.Action).HasColumnType("varchar(256)");

@@ -10,7 +10,7 @@ namespace LogisticsManagementSystem.Infrastructure;
 public class JwtTokenGenerator(IOptions<JwtSettings> jwtOptions) : IJwtTokenGenerator
 {
     private readonly JwtSettings _jwtSettings = jwtOptions.Value;
-    public string GenerateToken(Guid id, string name, Guid? companyId, List<string> roles, List<string?> permissions, string securityStamp)
+    public string GenerateToken(Guid id, string name, List<Guid> companyIds, List<string> roles, List<string?> permissions, string securityStamp)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -19,11 +19,12 @@ public class JwtTokenGenerator(IOptions<JwtSettings> jwtOptions) : IJwtTokenGene
         {
             new(JwtRegisteredClaimNames.Name,name),
             new("userId", id.ToString()),
-            new("companyId",companyId.ToString() ?? string.Empty),
             new("securityStamp",securityStamp)
         };
 
         roles.ForEach(role => claims.Add(new(ClaimTypes.Role, role)));
+
+        companyIds.ForEach(companyId => claims.Add(new("companyIds", companyId.ToString())));
 
         permissions.ForEach(permission => claims.Add(new("permissions", permission ?? string.Empty)));
 

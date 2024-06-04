@@ -18,9 +18,9 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "varchar(256)", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "varchar(256)", nullable: false),
-                    Address = table.Column<string>(type: "varchar(256)", nullable: false),
-                    Status = table.Column<bool>(type: "boolean", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "varchar(256)", nullable: true),
+                    Address = table.Column<string>(type: "varchar(256)", nullable: true),
+                    IsDisable = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
@@ -127,6 +127,30 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RoleCompanies",
+                columns: table => new
+                {
+                    RoleId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CompanyId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RoleCompanies", x => new { x.RoleId, x.CompanyId });
+                    table.ForeignKey(
+                        name: "FK_RoleCompanies_Companies_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Companies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RoleCompanies_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RoleMenus",
                 columns: table => new
                 {
@@ -175,6 +199,49 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Customers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CompanyId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "varchar(256)", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "varchar(256)", nullable: false),
+                    Remark = table.Column<string>(type: "varchar(256)", nullable: false),
+                    AppName = table.Column<string>(type: "varchar(256)", nullable: false),
+                    ModuleName = table.Column<string>(type: "varchar(256)", nullable: false),
+                    AdvName = table.Column<string>(type: "varchar(256)", nullable: false),
+                    ClueConvertStatus = table.Column<string>(type: "varchar(256)", nullable: false),
+                    Channel = table.Column<int>(type: "integer", nullable: false),
+                    Item = table.Column<int>(type: "integer", nullable: false),
+                    AccessStatus = table.Column<int>(type: "integer", nullable: false),
+                    AccessResult = table.Column<int>(type: "integer", nullable: false),
+                    Url = table.Column<string>(type: "text", nullable: false),
+                    Content = table.Column<string>(type: "text", nullable: false),
+                    AllocatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Customers_Companies_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Companies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Customers_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserRole",
                 columns: table => new
                 {
@@ -197,6 +264,22 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Customers_CompanyId",
+                table: "Customers",
+                column: "CompanyId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Customers_UserId",
+                table: "Customers",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RoleCompanies_CompanyId",
+                table: "RoleCompanies",
+                column: "CompanyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RoleMenus_RoleId",
@@ -223,6 +306,12 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Customers");
+
+            migrationBuilder.DropTable(
+                name: "RoleCompanies");
+
             migrationBuilder.DropTable(
                 name: "RoleMenus");
 

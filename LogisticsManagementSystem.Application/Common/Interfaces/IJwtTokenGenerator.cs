@@ -5,7 +5,7 @@ public interface IJwtTokenGenerator
   string GenerateToken(
       Guid id,
       string name,
-      Guid? company,
+      List<Guid> companyIds,
       List<string> roles,
       List<string?> permissions,
       string securityStamp

@@ -20,8 +20,7 @@ public class ListUserQueryHandler(
                 u.PhoneNumber,
                 u.CreatedAt,
                 u.UserRoles
-                    .Select(x => new ListUserRoleResult(x.Role.Id, x.Role.Name)).ToList(),
-                new UserCompanyResult(u.Company?.Id, u.Company?.Name)
+                    .Select(x => new ListUserRoleResult(x.Role.Id, x.Role.Name)).ToList()
             ));
 
         return new ListUserResult(

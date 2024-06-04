@@ -55,13 +55,11 @@ public class SeedDataInitializer(AppDbContext _dbContext)
         var menus = new List<Menu> {
             new Menu
             {
-                Id = 1,
                 Path = "/admin",
                 Name = "系统",
             },
             new Menu
             {
-                Id = 2,
                 ParentId = 1,
                 Name = "菜单管理",
                 Controller = "Menu",
@@ -71,7 +69,6 @@ public class SeedDataInitializer(AppDbContext _dbContext)
             },
             new Menu
             {
-                Id = 3,
                 ParentId = 1,
                 Name = "权限管理",
                 Controller = "Permission",
@@ -80,7 +77,6 @@ public class SeedDataInitializer(AppDbContext _dbContext)
             },
             new Menu
             {
-                Id = 4,
                 ParentId = 1,
                 Name = "角色管理",
                 Controller = "Role",
@@ -89,7 +85,6 @@ public class SeedDataInitializer(AppDbContext _dbContext)
             },
             new Menu
             {
-                Id = 5,
                 ParentId = 1,
                 Name = "员工列表",
                 Controller = "User",
@@ -97,7 +92,6 @@ public class SeedDataInitializer(AppDbContext _dbContext)
                 Component = "./Admin/Users"
             },
             new Menu{
-                Id = 6,
                 ParentId = 1,
                 Name = "公司管理",
                 Controller = "Company",
@@ -112,48 +106,17 @@ public class SeedDataInitializer(AppDbContext _dbContext)
     {
         var permissions = new List<Permission>
         {
-             new Permission(null, "系统", null, null, null)
-            {
-                Id = 1,
-            },
-            new Permission(1, "角色管理", "Role", null, null)
-            {
-                Id = 2,
-            },
-            new Permission(2, "查看", "Role", "role:get", "GET")
-            {
-                Id = 3,
-            },
-            new Permission(2, "创建", "Role", "role:create", "CREATE")
-            {
-                Id = 4,
-            }, new Permission(2, "修改", "Role", "role:update", "UPDATE")
-            {
-                Id = 5,
-            },
-            new Permission(2, "删除", "Role", "role:delete", "DELETE")
-            {
-                Id = 6,
-            },
-            new Permission(1, "员工管理", "User", null, null)
-            {
-                Id = 7,
-            },
-            new Permission(7, "查看", "User", "user:get", "GET")
-            {
-                Id = 8,
-            },
-            new Permission(7, "创建", "User", "user:create", "CREATE")
-            {
-                Id = 9,
-            }, new Permission(7, "修改", "User", "user:update", "UPDATE")
-            {
-                Id = 10,
-            },
-            new Permission(7, "删除", "User", "user:delete", "DELETE")
-            {
-                Id = 11,
-            }
+             new Permission(null, "系统", null, null, null),
+            new Permission(1, "角色管理", "Role", null, null),
+            new Permission(2, "查看", "Role", "role:get", "GET"),
+            new Permission(2, "创建", "Role", "role:create", "CREATE"),
+            new Permission(2, "修改", "Role", "role:update", "UPDATE"),
+            new Permission(2, "删除", "Role", "role:delete", "DELETE"),
+            new Permission(1, "员工管理", "User", null, null),
+            new Permission(7, "查看", "User", "user:get", "GET"),
+            new Permission(7, "创建", "User", "user:create", "CREATE"),
+            new Permission(7, "修改", "User", "user:update", "UPDATE"),
+            new Permission(7, "删除", "User", "user:delete", "DELETE"),
         };
         _dbContext.Permissions.AddRange(permissions);
 

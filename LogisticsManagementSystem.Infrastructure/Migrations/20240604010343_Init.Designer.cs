@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LogisticsManagementSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240527065408_Init")]
+    [Migration("20240604010343_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -32,7 +32,6 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("varchar(256)");
 
                     b.Property<DateTime>("CreatedAt")
@@ -44,6 +43,79 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("IsDisable")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Companies", (string)null);
+                });
+
+            modelBuilder.Entity("LogisticsManagementSystem.Domain.Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AccessResult")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("AccessStatus")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("AdvName")
+                        .IsRequired()
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<DateTime?>("AllocatedAt")
+                        .HasColumnType("timestamp");
+
+                    b.Property<string>("AppName")
+                        .IsRequired()
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<int>("Channel")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ClueConvertStatus")
+                        .IsRequired()
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Item")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ModuleName")
+                        .IsRequired()
+                        .HasColumnType("varchar(256)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(256)");
@@ -52,15 +124,28 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(256)");
 
-                    b.Property<bool>("Status")
-                        .HasColumnType("boolean");
+                    b.Property<string>("Remark")
+                        .IsRequired()
+                        .HasColumnType("varchar(256)");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp");
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Companies", (string)null);
+                    b.HasIndex("CompanyId")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("LogisticsManagementSystem.Domain.Menu", b =>
@@ -189,6 +274,21 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                     b.ToTable("Roles", (string)null);
                 });
 
+            modelBuilder.Entity("LogisticsManagementSystem.Domain.RoleCompanies", b =>
+                {
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("RoleId", "CompanyId");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("RoleCompanies", (string)null);
+                });
+
             modelBuilder.Entity("LogisticsManagementSystem.Domain.RoleMenus", b =>
                 {
                     b.Property<int>("MenuId")
@@ -301,6 +401,42 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                     b.ToTable("UserRole", (string)null);
                 });
 
+            modelBuilder.Entity("LogisticsManagementSystem.Domain.Customer", b =>
+                {
+                    b.HasOne("LogisticsManagementSystem.Domain.Company", "Company")
+                        .WithOne()
+                        .HasForeignKey("LogisticsManagementSystem.Domain.Customer", "CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LogisticsManagementSystem.Domain.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Company");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("LogisticsManagementSystem.Domain.RoleCompanies", b =>
+                {
+                    b.HasOne("LogisticsManagementSystem.Domain.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LogisticsManagementSystem.Domain.Role", "Role")
+                        .WithMany("RoleCompanies")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("LogisticsManagementSystem.Domain.RoleMenus", b =>
                 {
                     b.HasOne("LogisticsManagementSystem.Domain.Menu", "Menu")
@@ -342,7 +478,7 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
             modelBuilder.Entity("LogisticsManagementSystem.Domain.User", b =>
                 {
                     b.HasOne("LogisticsManagementSystem.Domain.Company", "Company")
-                        .WithOne("User")
+                        .WithOne()
                         .HasForeignKey("LogisticsManagementSystem.Domain.User", "CompanyId");
 
                     b.Navigation("Company");
@@ -367,11 +503,6 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("LogisticsManagementSystem.Domain.Company", b =>
-                {
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("LogisticsManagementSystem.Domain.Menu", b =>
                 {
                     b.Navigation("RoleMenus");
@@ -379,6 +510,8 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
 
             modelBuilder.Entity("LogisticsManagementSystem.Domain.Role", b =>
                 {
+                    b.Navigation("RoleCompanies");
+
                     b.Navigation("RoleMenus");
 
                     b.Navigation("RolePermissions");

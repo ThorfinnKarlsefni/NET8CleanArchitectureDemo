@@ -7,7 +7,7 @@ public class GenerateTokenQueryHandler(IJwtTokenGenerator _jwtTokenGenerator) : 
 {
     public Task<ErrorOr<GenerateTokenResult>> Handle(GenerateTokenCommand command, CancellationToken cancellationToken)
     {
-        var token = _jwtTokenGenerator.GenerateToken(command.UserId, command.Name, command.CompanyId, command.Roles, command.Permissions, command.SecurityStamp);
+        var token = _jwtTokenGenerator.GenerateToken(command.UserId, command.Name, command.CompanyIds, command.Roles, command.Permissions, command.SecurityStamp);
 
         return Task.FromResult(ErrorOrFactory.From(new GenerateTokenResult(token)));
     }

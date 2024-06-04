@@ -3,7 +3,7 @@
 public record CurrentUser(
     Guid Id,
     string Name,
-    string? CompanyId,
+    List<Guid> CompanyIds,
     IReadOnlyList<string> Permissions,
     IReadOnlyList<string> Roles,
     string SecurityStamp

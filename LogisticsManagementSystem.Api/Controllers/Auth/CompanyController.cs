@@ -1,5 +1,4 @@
-﻿using System.Net.Quic;
-using LogisticsManagementSystem.Application;
+﻿using LogisticsManagementSystem.Application;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,7 +6,17 @@ namespace LogisticsManagementSystem.Api;
 
 public class CompanyController(ISender _sender) : ApiController
 {
-    [HttpPost("companies")]
+    [HttpGet("companies")]
+    public async Task<IActionResult> GetCompanies()
+    {
+        var result = await _sender.Send(new GetCompaniesQuery());
+
+        return result.Match(
+            companies => Ok(companies),
+        Problem);
+    }
+
+    [HttpPost("company/list")]
     public async Task<IActionResult> GetCompanyList(ListCompanyQuery query)
     {
         var result = await _sender.Send(query);

@@ -44,10 +44,12 @@ public class AuthController(ISender _sender) : ApiController
 
         var permissions = user.UserRoles.SelectMany(ur => ur.Role.RolePermissions.Select(rp => rp.Permission.Action)).ToList();
 
+        var companyIds = user.UserRoles.SelectMany(ur => ur.Role.RoleCompanies.Select(rc => rc.CompanyId)).ToList();
+
         var result = await _sender.Send(new GenerateTokenCommand(
             user.Id,
             user.Name,
-            user.CompanyId,
+            companyIds,
             roles,
             permissions,
             user.SecurityStamp

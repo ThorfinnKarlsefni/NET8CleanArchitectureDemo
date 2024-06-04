@@ -54,12 +54,17 @@ public static class DependencyInjection
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserRolesRepository, UserRolesRepository>();
+        services.AddScoped<IMenuRepository, MenuRepository>();
+        services.AddScoped<ICustomerRepository, CustomersRepository>();
+        services.AddScoped<IPermissionRepository, PermissionRepository>();
+        services.AddScoped<ICompanyRepository, CompanyRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IRoleMenusRepository, RoleMenusRepository>();
         services.AddScoped<IRolePermissionRepository, RolePermissionsRepository>();
-        services.AddScoped<IMenuRepository, MenuRepository>();
-        services.AddScoped<IPermissionRepository, PermissionRepository>();
-        services.AddScoped<ICompanyRepository, CompanyRepository>();
+        services.AddScoped<IRoleCompaniesRepository, RoleCompaniesRepository>();
+
+
+
 
         return services;
     }

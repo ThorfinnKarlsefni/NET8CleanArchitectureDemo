@@ -2,18 +2,22 @@
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.Logging;
 
 namespace LogisticsManagementSystem.Infrastructure;
 public class AppDbContext(DbContextOptions options, IHttpContextAccessor _httpContextAccessor, IPublisher _publisher) : DbContext(options)
 {
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
-    public DbSet<UserRole> UserRoles { get; set; }
-    public DbSet<Menu> Menus { get; set; }
-    public DbSet<RoleMenus> RoleMenus { get; set; }
-    public DbSet<RolePermissions> RolePermissions { get; set; }
     public DbSet<Permission> Permissions { get; set; }
     public DbSet<Company> Companies { get; set; }
+    public DbSet<Customer> Customers { get; set; }
+    public DbSet<Menu> Menus { get; set; }
+    public DbSet<UserRole> UserRoles { get; set; }
+    public DbSet<RoleMenus> RoleMenus { get; set; }
+    public DbSet<RolePermissions> RolePermissions { get; set; }
+    public DbSet<RoleCompanies> RoleCompanies { get; set; }
 
     public async override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
@@ -37,12 +41,15 @@ public class AppDbContext(DbContextOptions options, IHttpContextAccessor _httpCo
         builder.Entity<UserRole>().HasQueryFilter(ur => !ur.User.IsDeleted && !ur.Role.IsDeleted);
         builder.Entity<Menu>().HasQueryFilter(x => !x.IsDeleted);
         builder.Entity<Role>().HasQueryFilter(x => !x.IsDeleted);
+        builder.Entity<Company>().HasQueryFilter(x => !x.IsDeleted);
+        builder.Entity<Permission>().HasQueryFilter(x => !x.IsDeleted);
+        builder.Entity<Customer>().HasQueryFilter(x => !x.IsDeleted);
         builder.Entity<RoleMenus>().HasQueryFilter(mr => !mr.Role.IsDeleted && !mr.Menu.IsDeleted);
         builder.Entity<RolePermissions>().HasQueryFilter(pr => !pr.Role.IsDeleted && !pr.Role.IsDeleted);
-        builder.Entity<Permission>().HasQueryFilter(x => !x.IsDeleted);
-        builder.Entity<Company>().HasQueryFilter(x => !x.IsDeleted);
+        builder.Entity<RoleCompanies>().HasQueryFilter(x => !x.Company.IsDeleted);
 
         base.OnModelCreating(builder);
+
         builder.ApplyConfigurationsFromAssembly(typeof(DependencyInjection).Assembly);
     }
 

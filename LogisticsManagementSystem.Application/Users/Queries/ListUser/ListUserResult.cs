@@ -15,10 +15,8 @@ public record ListUser(
     string? Avatar,
     string? PhoneNumber,
     DateTime CreatedAt,
-    List<ListUserRoleResult> Roles,
-    UserCompanyResult? Company
+    List<ListUserRoleResult> Roles
   );
 
 public record ListUserRoleResult(Guid Id, string Name);
 
-public record UserCompanyResult(Guid? Id, string? CompanyName);

@@ -11,12 +11,21 @@ public class CurrentUserProvider(IHttpContextAccessor _httpContextAccessor) : IC
     {
         var id = Guid.Parse(GetSingleClaimValue("userId"));
         var name = GetSingleClaimValue(JwtRegisteredClaimNames.Name);
-        var companyId = GetSingleClaimValue("companyId");
+        var companyIds = GetClaimValues("companyIds");
         var roles = GetClaimValues(ClaimTypes.Role);
         var permissions = GetClaimValues("permissions");
         var securityStamp = GetSingleClaimValue("securityStamp");
+        List<Guid> validGuids = new List<Guid>();
 
-        return new CurrentUser(id, name, companyId, permissions, roles, securityStamp);
+        foreach (var companyId in companyIds)
+        {
+            if (Guid.TryParse(companyId, out Guid parsedGuid))
+            {
+                validGuids.Add(parsedGuid);
+            }
+        }
+
+        return new CurrentUser(id, name, validGuids, permissions, roles, securityStamp);
     }
 
     private List<string> GetClaimValues(string claimType) =>

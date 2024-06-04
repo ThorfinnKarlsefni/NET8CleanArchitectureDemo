@@ -13,7 +13,6 @@ public class GetUserQueryHandler(
             return Error.NotFound(description: "用户不存在");
 
         return new GetUserResult(
-            user.Company?.Name,
             user.Name,
             user.Avatar,
             user.UserRoles.Select(x => new GetRolesResult(

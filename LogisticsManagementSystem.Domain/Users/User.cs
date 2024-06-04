@@ -5,8 +5,8 @@ namespace LogisticsManagementSystem.Domain;
 public class User : Entity
 {
     public Guid Id { get; set; }
-    public Company? Company { get; set; }
     public Guid? CompanyId { get; set; }
+    public Company Company { get; set; }
     public string UserName { get; set; } = string.Empty;
     public string Name { get; set; }
     = string.Empty;
