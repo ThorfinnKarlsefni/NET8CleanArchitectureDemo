@@ -19,24 +19,18 @@ public class UserRepository(AppDbContext _dbContext, IPasswordEncryption _passwo
 
     public async Task<User?> GetUserByUsernameWithAllInfoAsync(string username, CancellationToken cancellationToken)
     {
-        var user = await _dbContext.Users
+        return await _dbContext.Users
             .Where(x => string.Equals(x.NormalizedUserName, username.Trim().ToUpper()))
-            .Include(x => x.Company)
+            .Include(x => x.UserRoles)
+                .ThenInclude(ur => ur.Role)
+                    .ThenInclude(r => r.RolePermissions)
+                        .ThenInclude(rp => rp.Permission)
+            .Include(x => x.UserRoles)
+                .ThenInclude(ur => ur.Role)
+                    .ThenInclude(r => r.RoleCompanies)
             .FirstOrDefaultAsync(cancellationToken);
-
-        if (user is not null)
-        {
-            await _dbContext.Entry(user)
-            .Collection(x => x.UserRoles)
-            .Query()
-            .Include(x => x.Role)
-                .ThenInclude(x => x.RolePermissions)
-                .ThenInclude(x => x.Permission)
-            .LoadAsync();
-        }
-
-        return user;
     }
+
 
     public async Task<User?> FindByIdAsync(Guid userId, CancellationToken cancellationToken)
     {
@@ -68,7 +62,6 @@ public class UserRepository(AppDbContext _dbContext, IPasswordEncryption _passwo
             .Where(u => !u.UserRoles.Any(x => x.Role.NormalizedName == "ADMIN"))
             .Include(ur => ur.UserRoles)
                 .ThenInclude(x => x.Role)
-            // .ThenInclude(x => x.RoleCompanies)
             // .Include(x => x.Company)
             .OrderBy(u => u.CreatedAt)
             .Skip((pageNumber - 1) * pageSize)

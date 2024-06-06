@@ -4,7 +4,8 @@ using LogisticsManagementSystem.Domain;
 namespace LogisticsManagementSystem.Application;
 
 public record GetCustomersQuery(
+    Guid? RequestCompanyId,
     Guid UserId,
-    Guid RequestCompanyId,
+    IReadOnlyList<string> Roles,
     List<Guid> CompanyIds
 ) : IAuthorizeAbleRequest<ErrorOr<List<Customer>>>;

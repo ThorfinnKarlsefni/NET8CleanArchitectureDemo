@@ -5,21 +5,29 @@ using MediatR;
 namespace LogisticsManagementSystem.Application;
 
 public class GetCustomersQueryHandler(
-    ICustomerRepository _customerRepository
+    ICustomerRepository _customerRepository,
+    ICompanyRepository _companyRepository
 ) : IRequestHandler<GetCustomersQuery, ErrorOr<List<Customer>>>
 {
     public async Task<ErrorOr<List<Customer>>> Handle(GetCustomersQuery query, CancellationToken cancellationToken)
     {
-
-        if (query.CompanyIds.Any())
+        if (query.Roles.Contains(CleanArchitecture.Application.Common.Security.Roles.Role.Admin))
         {
-            if (query.CompanyIds.Contains(query.RequestCompanyId))
+            var companyId = query?.RequestCompanyId;
+            if (!companyId.HasValue)
             {
-                return await _customerRepository.GetCustomersByUserListAndCompanyIdsAsync(query.UserId, query.RequestCompanyId, cancellationToken);
+                var companyIds = await _companyRepository.GetCompanies(cancellationToken);
+                companyId = companyIds.Select(x => x.Id).FirstOrDefault();
             }
-            else
+
+            return await _customerRepository.GetCustomersByUserListAndCompanyIdsAsync(Guid.Empty, companyId.Value, cancellationToken);
+        }
+
+        if (query.CompanyIds.Any() && query.RequestCompanyId.HasValue)
+        {
+            if (query.CompanyIds.Contains(query.RequestCompanyId.Value))
             {
-                return Error.Forbidden(description: "没有数据权限");
+                return await _customerRepository.GetCustomersByUserListAndCompanyIdsAsync(query.UserId, query.RequestCompanyId.Value, cancellationToken);
             }
         }
 

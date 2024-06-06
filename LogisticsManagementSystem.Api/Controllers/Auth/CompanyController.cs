@@ -4,12 +4,26 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LogisticsManagementSystem.Api;
 
-public class CompanyController(ISender _sender) : ApiController
+public class CompanyController(
+    ISender _sender,
+    ICurrentUserProvider _currentUserProvider
+    ) : ApiController
 {
     [HttpGet("companies")]
     public async Task<IActionResult> GetCompanies()
     {
         var result = await _sender.Send(new GetCompaniesQuery());
+
+        return result.Match(
+            companies => Ok(companies),
+        Problem);
+    }
+
+    [HttpGet("companies/role")]
+    public async Task<IActionResult> GetCompaniesByRole()
+    {
+        var currentUser = _currentUserProvider.GetCurrentUser();
+        var result = await _sender.Send(new GetCompaniesByRoleQuery(currentUser.Roles, currentUser.CompanyIds));
 
         return result.Match(
             companies => Ok(companies),

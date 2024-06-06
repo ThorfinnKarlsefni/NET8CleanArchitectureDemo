@@ -25,6 +25,7 @@ public class CustomerConfigurations : IEntityTypeConfiguration<Customer>
         builder.Property(x => x.ClueConvertStatus).HasColumnType("varchar(256)");
         builder.Property(x => x.AllocatedAt).HasColumnType("timestamp");
         builder.Property(x => x.CreatedAt).HasColumnType("timestamp");
+        builder.Property(x => x.UpdatedAt).HasColumnType("timestamp");
         builder.Property(x => x.DeletedAt).HasColumnType("timestamp");
         builder.Property(x => x.DeletedAt).HasColumnType("timestamp");
 
@@ -33,7 +34,7 @@ public class CustomerConfigurations : IEntityTypeConfiguration<Customer>
             .HasForeignKey(x => x.UserId);
 
         builder.HasOne(x => x.Company)
-            .WithOne()
-            .HasForeignKey<Customer>(x => x.CompanyId);
+            .WithMany()
+            .HasForeignKey(x => x.CompanyId);
     }
 }

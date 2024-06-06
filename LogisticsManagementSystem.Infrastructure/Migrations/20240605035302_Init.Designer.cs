@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LogisticsManagementSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240604010343_Init")]
+    [Migration("20240605035302_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -76,28 +76,24 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("AdvName")
-                        .IsRequired()
                         .HasColumnType("varchar(256)");
 
                     b.Property<DateTime?>("AllocatedAt")
                         .HasColumnType("timestamp");
 
                     b.Property<string>("AppName")
-                        .IsRequired()
                         .HasColumnType("varchar(256)");
 
                     b.Property<int>("Channel")
                         .HasColumnType("integer");
 
                     b.Property<string>("ClueConvertStatus")
-                        .IsRequired()
                         .HasColumnType("varchar(256)");
 
-                    b.Property<Guid>("CompanyId")
+                    b.Property<Guid?>("CompanyId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Content")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
@@ -113,26 +109,21 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("ModuleName")
-                        .IsRequired()
                         .HasColumnType("varchar(256)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("varchar(256)");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("varchar(256)");
 
                     b.Property<string>("Remark")
-                        .IsRequired()
                         .HasColumnType("varchar(256)");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp");
 
                     b.Property<string>("Url")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<Guid?>("UserId")
@@ -140,8 +131,7 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyId")
-                        .IsUnique();
+                    b.HasIndex("CompanyId");
 
                     b.HasIndex("UserId");
 
@@ -404,10 +394,8 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
             modelBuilder.Entity("LogisticsManagementSystem.Domain.Customer", b =>
                 {
                     b.HasOne("LogisticsManagementSystem.Domain.Company", "Company")
-                        .WithOne()
-                        .HasForeignKey("LogisticsManagementSystem.Domain.Customer", "CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("CompanyId");
 
                     b.HasOne("LogisticsManagementSystem.Domain.User", "User")
                         .WithMany()

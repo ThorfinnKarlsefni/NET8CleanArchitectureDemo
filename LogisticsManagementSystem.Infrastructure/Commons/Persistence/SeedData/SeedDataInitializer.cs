@@ -117,6 +117,11 @@ public class SeedDataInitializer(AppDbContext _dbContext)
             new Permission(7, "创建", "User", "user:create", "CREATE"),
             new Permission(7, "修改", "User", "user:update", "UPDATE"),
             new Permission(7, "删除", "User", "user:delete", "DELETE"),
+            new Permission(1, "公司管理", "Company", null, null),
+            new Permission(12, "创建", "Company", "company:create", "CREATE"),
+            new Permission(12, "修改", "Company", "company:update", "UPDATE"),
+            new Permission(12, "删除", "Company", "company:delete", "DELETE"),
+            new Permission(12, "查看", "Company", "company:get", "GET"),
         };
         _dbContext.Permissions.AddRange(permissions);
 

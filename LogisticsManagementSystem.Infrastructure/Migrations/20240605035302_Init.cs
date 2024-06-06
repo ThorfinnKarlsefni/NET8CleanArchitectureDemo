@@ -205,23 +205,23 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserId = table.Column<Guid>(type: "uuid", nullable: true),
-                    CompanyId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "varchar(256)", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "varchar(256)", nullable: false),
-                    Remark = table.Column<string>(type: "varchar(256)", nullable: false),
-                    AppName = table.Column<string>(type: "varchar(256)", nullable: false),
-                    ModuleName = table.Column<string>(type: "varchar(256)", nullable: false),
-                    AdvName = table.Column<string>(type: "varchar(256)", nullable: false),
-                    ClueConvertStatus = table.Column<string>(type: "varchar(256)", nullable: false),
+                    CompanyId = table.Column<Guid>(type: "uuid", nullable: true),
+                    Name = table.Column<string>(type: "varchar(256)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "varchar(256)", nullable: true),
+                    Remark = table.Column<string>(type: "varchar(256)", nullable: true),
+                    AppName = table.Column<string>(type: "varchar(256)", nullable: true),
+                    ModuleName = table.Column<string>(type: "varchar(256)", nullable: true),
+                    AdvName = table.Column<string>(type: "varchar(256)", nullable: true),
+                    ClueConvertStatus = table.Column<string>(type: "varchar(256)", nullable: true),
                     Channel = table.Column<int>(type: "integer", nullable: false),
                     Item = table.Column<int>(type: "integer", nullable: false),
                     AccessStatus = table.Column<int>(type: "integer", nullable: false),
                     AccessResult = table.Column<int>(type: "integer", nullable: false),
-                    Url = table.Column<string>(type: "text", nullable: false),
-                    Content = table.Column<string>(type: "text", nullable: false),
+                    Url = table.Column<string>(type: "text", nullable: true),
+                    Content = table.Column<string>(type: "text", nullable: true),
                     AllocatedAt = table.Column<DateTime>(type: "timestamp", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
                     DeletedAt = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
@@ -232,8 +232,7 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
                         name: "FK_Customers_Companies_CompanyId",
                         column: x => x.CompanyId,
                         principalTable: "Companies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Customers_Users_UserId",
                         column: x => x.UserId,
@@ -268,8 +267,7 @@ namespace LogisticsManagementSystem.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Customers_CompanyId",
                 table: "Customers",
-                column: "CompanyId",
-                unique: true);
+                column: "CompanyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Customers_UserId",

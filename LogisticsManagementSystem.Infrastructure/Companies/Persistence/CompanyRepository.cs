@@ -26,6 +26,13 @@ public class CompanyRepository(AppDbContext _dbContext) : ICompanyRepository
             .ToListAsync();
     }
 
+    public async Task<List<Company>> GetCompaniesByRoleAsync(List<Guid> CompanyIds, CancellationToken cancellationToken)
+    {
+        return await _dbContext.Companies
+                .Where(x => CompanyIds.Contains(x.Id))
+                .ToListAsync();
+    }
+
     public async Task<(List<Company> companies, long totalCount)> GetListCompanyAsync(int pageNumber, int pageSize, string? searchKeyword, Dictionary<string, string> sorters, Dictionary<string, List<string>> filters, CancellationToken cancellationToken)
     {
         IQueryable<Company> query = _dbContext.Companies.AsQueryable();

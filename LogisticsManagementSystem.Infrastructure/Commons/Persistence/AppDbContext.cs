@@ -46,7 +46,7 @@ public class AppDbContext(DbContextOptions options, IHttpContextAccessor _httpCo
         builder.Entity<Customer>().HasQueryFilter(x => !x.IsDeleted);
         builder.Entity<RoleMenus>().HasQueryFilter(mr => !mr.Role.IsDeleted && !mr.Menu.IsDeleted);
         builder.Entity<RolePermissions>().HasQueryFilter(pr => !pr.Role.IsDeleted && !pr.Role.IsDeleted);
-        builder.Entity<RoleCompanies>().HasQueryFilter(x => !x.Company.IsDeleted);
+        builder.Entity<RoleCompanies>().HasQueryFilter(x => !x.Company.IsDeleted && !x.Role.IsDeleted);
 
         base.OnModelCreating(builder);
 

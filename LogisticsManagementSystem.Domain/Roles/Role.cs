@@ -10,7 +10,7 @@ public class Role : Entity
     public List<UserRole> UserRoles { get; private set; } = [];
     public List<RoleMenus> RoleMenus { get; set; } = [];
     public List<RolePermissions> RolePermissions { get; private set; } = [];
-    public List<RoleCompanies> RoleCompanies { get; private set; } = new List<RoleCompanies>();
+    public List<RoleCompanies> RoleCompanies { get; private set; } = [];
 
 
     public Role(string name)

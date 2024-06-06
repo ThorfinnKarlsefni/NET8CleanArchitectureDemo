@@ -12,6 +12,7 @@ public interface ICompanyRepository
         Dictionary<string, List<string>> Filters,
         CancellationToken cancellationToken);
     Task<List<Company>> GetCompanies(CancellationToken cancellationToken);
+    Task<List<Company>> GetCompaniesByRoleAsync(List<Guid> CompanyIds, CancellationToken cancellationToken);
     Task<Company?> FindByIdAsync(Guid CompanyId, CancellationToken cancellationToken);
     Task CreateAsync(Company company, CancellationToken cancellationToken);
     Task UpdateAsync(Company company, CancellationToken cancellationToken);
